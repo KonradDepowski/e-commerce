@@ -52,7 +52,7 @@ const HomePage = () => {
       </div>
       <div className=" p-10">
         <h2 className="text-[var(--h2)] [font-size:_clamp(15px,4vw,30px)]  pb-10 max-w-[1500px] m-auto   ">
-          This Weeks Highlights
+          This Weekss Highlights
         </h2>
         <div className="flex flex-row flex-wrap items-center justify-center lg:justify-start  gap-10 max-w-[1500px] m-auto">
           <Product />
