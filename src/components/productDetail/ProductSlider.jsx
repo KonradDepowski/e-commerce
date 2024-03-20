@@ -16,7 +16,7 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 export default function ProductSlider() {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState();
 
   const images = [
     { src: first, alt: "First" },
@@ -25,8 +25,8 @@ export default function ProductSlider() {
   ];
 
   return (
-    <section className="py-12 w-full md:w-[50%] md:py-5 md:flex md:flex-col md:justify-center md:h-[700px]">
-      <div className="">
+    <div className="py-12 w-full md:w-[50%] px-2 md:py-5 md:flex flex-col justify-center md:h-[700px]">
+      <div>
         <Swiper
           loop={true}
           spaceBetween={10}
@@ -60,11 +60,11 @@ export default function ProductSlider() {
           freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs]}
-          className="thumbs mt-3 h-32 w-[90%] rounded-lg"
+          className="thumbs mt-3 h-32 w-[90%] rounded-lg "
         >
           {images.map((image, index) => (
             <SwiperSlide
-              className={`border-2 border-dotted  border-slate-300`}
+              className="border border-dotted border-slate-300"
               key={index}
             >
               <button className="flex items-center justify-center w-full h-full">
@@ -78,6 +78,6 @@ export default function ProductSlider() {
           ))}
         </Swiper>
       </div>
-    </section>
+    </div>
   );
 }
