@@ -22,6 +22,11 @@ type Props = {
   mode: string;
 };
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   const params = useSearchParams();
   const mode = params.get("mode");
@@ -35,11 +40,11 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     handleSubmit,
     register,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<FormData>({
+  } = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
   });
 
-  const handleSubmitHandler = async (data: FormData) => {
+  const handleSubmitHandler = async (data: FormValues) => {
     const formData = {
       emailAddress: data.email,
       password: data.password,
@@ -98,12 +103,10 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   };
 
   // This verifies the user using email code that is delivered.
-  const onPressVerify = async (data: FormData) => {
+  const onPressVerify = async () => {
     if (!isLoaded) {
       return;
     }
-
-    console.log(data);
 
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({

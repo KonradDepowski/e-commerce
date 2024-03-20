@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import image from "../../../public/hero.jpg";
+
 import { SizeForm } from "./SizeForm";
 import ProductSlider from "./ProductSlider";
 
