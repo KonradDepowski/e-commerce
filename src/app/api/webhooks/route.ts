@@ -3,6 +3,8 @@ import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
 import User from "@/lib/models/User";
 import { log } from "console";
+import { connect } from "http2";
+import { connectToDatabase } from "@/lib/database";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -54,47 +56,54 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  if (eventType === "user.created") {
-    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+  try {
+    await connectToDatabase();
+    if (eventType === "user.created") {
+      const { id, email_addresses, image_url, first_name, last_name } =
+        evt.data;
 
-    try {
-      User.create({
-        clerkId: id,
-        email: email_addresses[0].email_address,
-        firstName: first_name,
-        lastName: last_name,
-        photo: image_url,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  if (eventType === "user.updated") {
-    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
-
-    try {
-      User.findOneAndUpdate(
-        { clerkId: id },
-        {
+      try {
+        await User.create({
           clerkId: id,
           email: email_addresses[0].email_address,
           firstName: first_name,
           lastName: last_name,
           photo: image_url,
-        }
-      );
-    } catch (error) {
-      console.log(error);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-  if (eventType === "user.deleted") {
-    const { id } = evt.data;
+    if (eventType === "user.updated") {
+      const { id, email_addresses, image_url, first_name, last_name } =
+        evt.data;
 
-    try {
-      User.findByIdAndDelete({ clerkId: id });
-    } catch (error) {
-      console.log(error);
+      try {
+        await User.findOneAndUpdate(
+          { clerkId: id },
+          {
+            clerkId: id,
+            email: email_addresses[0].email_address,
+            firstName: first_name,
+            lastName: last_name,
+            photo: image_url,
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
+    if (eventType === "user.deleted") {
+      const { id } = evt.data;
+
+      try {
+        await User.findByIdAndDelete({ clerkId: id });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
