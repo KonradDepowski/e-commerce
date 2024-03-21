@@ -25,6 +25,8 @@ type Props = {
 type FormValues = {
   email: string;
   password: string;
+  first_name: string;
+  last_name: string;
 };
 
 export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
@@ -138,7 +140,54 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
       {!pendingVerification && (
         <>
           <form onSubmit={handleSubmit(handleSubmitHandler)}>
-            <div className="grid gap-2">
+            <div className="grid gap-2 mt-2">
+              {mode === "signup" && (
+                <>
+                  <div className="grid gap-1 ">
+                    <Label className="sr-only" htmlFor="first_name">
+                      Fist Name
+                    </Label>
+                    <Input
+                      className="lg:p-6 lg:px-3"
+                      id="first_name"
+                      placeholder="First name"
+                      type="text"
+                      autoCapitalize="none"
+                      autoComplete="on"
+                      autoCorrect="off"
+                      disabled={isSubmitting}
+                      {...register("first_name" as const)}
+                    />
+                  </div>
+                  {errors.first_name && (
+                    <p className="text-red-500 text-[10px] md:text-[12px] px-2">
+                      {errors.first_name.message}
+                    </p>
+                  )}
+                  <div className="grid gap-1">
+                    <Label className="sr-only" htmlFor="last_name">
+                      Last Name
+                    </Label>
+                    <Input
+                      className="lg:p-6 lg:px-3"
+                      id="last_name"
+                      placeholder="Last name"
+                      type="text"
+                      autoCapitalize="none"
+                      autoComplete="password"
+                      autoCorrect="off"
+                      disabled={isSubmitting}
+                      {...register("last_name" as const)}
+                    />
+                  </div>
+                  {errors.last_name && (
+                    <p className="text-red-500 text-[10px] md:text-[12px] px-2">
+                      {errors.last_name.message}
+                    </p>
+                  )}
+                </>
+              )}
+
               <div className="grid gap-1 ">
                 <Label className="sr-only" htmlFor="email">
                   Email
