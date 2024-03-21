@@ -5,6 +5,8 @@ import User from "@/lib/models/User";
 import { log } from "console";
 import { connect } from "http2";
 import { connectToDatabase } from "@/lib/database";
+import { createUser } from "@/lib/actions/user";
+import { clerkClient } from "@clerk/nextjs";
 
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
@@ -56,54 +58,55 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
 
-  try {
-    await connectToDatabase();
-    if (eventType === "user.created") {
-      const { id, email_addresses, image_url, first_name, last_name } =
-        evt.data;
+  if (eventType === "user.created") {
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-      try {
-        await User.create({
+    const user = {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      firstName: first_name,
+      lastName: last_name,
+      photo: image_url,
+    };
+
+    const newUser = await createUser(user);
+
+    if (newUser) {
+      await clerkClient.users.updateUserMetadata(id, {
+        publicMetadata: {
+          userId: newUser._id,
+        },
+      });
+    }
+
+    return new Response("", { status: 200 });
+  }
+  if (eventType === "user.updated") {
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+
+    try {
+      await User.findOneAndUpdate(
+        { clerkId: id },
+        {
           clerkId: id,
           email: email_addresses[0].email_address,
           firstName: first_name,
           lastName: last_name,
           photo: image_url,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+        }
+      );
+    } catch (error) {
+      console.log(error);
     }
-    if (eventType === "user.updated") {
-      const { id, email_addresses, image_url, first_name, last_name } =
-        evt.data;
+  }
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
 
-      try {
-        await User.findOneAndUpdate(
-          { clerkId: id },
-          {
-            clerkId: id,
-            email: email_addresses[0].email_address,
-            firstName: first_name,
-            lastName: last_name,
-            photo: image_url,
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await User.findByIdAndDelete({ clerkId: id });
+    } catch (error) {
+      console.log(error);
     }
-    if (eventType === "user.deleted") {
-      const { id } = evt.data;
-
-      try {
-        await User.findByIdAndDelete({ clerkId: id });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  } catch (error) {
-    console.log(error);
   }
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
