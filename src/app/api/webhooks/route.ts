@@ -70,7 +70,13 @@ export async function POST(req: Request) {
     };
 
     try {
-      await createUser(user);
+      await createUser({
+        clerkId: "skdadjmaifja",
+        firstName: "dmaodfjaf",
+        lastName: "kdfaomfokamf",
+        email: "kornad@wp.pl",
+        photo: "moakfaoifm",
+      });
 
       return new Response("", { status: 200 });
     } catch (error) {
