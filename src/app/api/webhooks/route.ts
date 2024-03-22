@@ -55,23 +55,19 @@ export async function POST(req: Request) {
   }
 
   // Get the ID and type
-  const { id } = evt.data;
+
   const eventType = evt.type;
 
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    const user = {
+    await createUser({
       clerkId: id,
       email: email_addresses[0].email_address,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
-    };
-
-    await createUser(user);
-
-    return new Response("", { status: 200 });
+    });
   }
   // if (eventType === "user.updated") {
   //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
@@ -100,9 +96,6 @@ export async function POST(req: Request) {
   //     console.log(error);
   //   }
   // }
-
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log("Webhook body:", body);
 
   return new Response("", { status: 200 });
 }
