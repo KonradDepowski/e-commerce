@@ -61,27 +61,22 @@ export async function POST(req: Request) {
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    const user = {
+    const user = new User({
       clerkId: id,
       email: email_addresses[0].email_address,
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
-    };
+    });
 
-    try {
-      await createUser({
-        clerkId: "skdadjmaifja",
-        firstName: "dmaodfjaf",
-        lastName: "kdfaomfokamf",
-        email: "kornad@wp.pl",
-        photo: "moakfaoifm",
-      });
+    return user.save().then(() => {
+      console.log(
+        `Webhook with an ID of ${evt.data.id} and type of ${eventType}`
+      );
+      // Console log the full payload to view
+      console.log("Webhook body:", evt.data);
 
-      return new Response("", { status: 200 });
-    } catch (error) {
-      return new Response("error", { status: 422 });
-    }
+    });
   }
   // if (eventType === "user.updated") {
   //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
