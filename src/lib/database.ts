@@ -17,13 +17,7 @@ export const connectToDatabase = async () => {
       bufferCommands: false,
     });
 
-  await createUser({
-    clerkId: "fafainfma",
-    email: "konrad@wp.pl",
-    firstName: "jfoef",
-    lastName: "skmdfakofm",
-    photo: "fmafma",
-  });
+
 
   cached.conn = await cached.promise;
   return cached.conn;

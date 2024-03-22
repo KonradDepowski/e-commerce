@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { createUser } from "@/lib/actions/user";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
@@ -26,7 +27,14 @@ export function SizeForm() {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    await createUser({
+      clerkId: "fafainfma",
+      email: "konrad@wp.pl",
+      firstName: "jfoef",
+      lastName: "skmdfakofm",
+      photo: "fmafma",
+    });
     console.log(data);
   }
 
