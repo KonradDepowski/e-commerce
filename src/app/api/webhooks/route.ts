@@ -57,7 +57,7 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
-  console.log("dziala");
+
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
@@ -69,9 +69,13 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    await createUser({ ...user });
+    try {
+      await createUser(user);
 
-    return new Response("", { status: 200 });
+      return new Response("", { status: 200 });
+    } catch (error) {
+      return new Response("error", { status: 422 });
+    }
   }
   // if (eventType === "user.updated") {
   //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
