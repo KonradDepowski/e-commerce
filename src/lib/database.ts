@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { createUser } from "./actions/user";
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -13,7 +12,6 @@ export const connectToDatabase = async () => {
   cached.promise =
     cached.promise ||
     mongoose.connect(MONGO_URI, {
-      dbName: "e-commerce",
       bufferCommands: false,
     });
 
