@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { createUser } from "./actions/user";
 
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -15,6 +16,14 @@ export const connectToDatabase = async () => {
       dbName: "e-commerce",
       bufferCommands: false,
     });
+
+  await createUser({
+    clerkId: "fafainfma",
+    email: "konrad@wp.pl",
+    firstName: "jfoef",
+    lastName: "skmdfakofm",
+    photo: "fmafma",
+  });
 
   cached.conn = await cached.promise;
   return cached.conn;
