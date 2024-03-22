@@ -12,6 +12,7 @@ export const connectToDatabase = async () => {
   cached.promise =
     cached.promise ||
     mongoose.connect(MONGO_URI, {
+      dbName: "e-commerce",
       bufferCommands: false,
     });
 
