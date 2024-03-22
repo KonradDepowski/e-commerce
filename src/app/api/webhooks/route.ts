@@ -68,6 +68,13 @@ export async function POST(req: Request) {
       lastName: last_name,
       photo: image_url,
     });
+    await createUser({
+      clerkId: "dadadad",
+      email: "dadada@wp.pl",
+      firstName: "fasfafafafaf",
+      lastName: "dfafdafafafa",
+      photo: "fafafafafafaf",
+    });
   }
   // if (eventType === "user.updated") {
   //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
