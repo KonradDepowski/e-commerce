@@ -69,10 +69,6 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    const userr = new User({ ...user });
-
-    await userr.save();
-
     const newUser = await createUser(user);
 
     if (newUser) {
