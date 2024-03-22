@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       photo: image_url,
     });
     await createUser({
-      clerkId: "dadadad",
+      clerkId: "dadddddddddddddddddadad",
       email: "dadada@wp.pl",
       firstName: "fasfafafafaf",
       lastName: "dfafdafafafa",
