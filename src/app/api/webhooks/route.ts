@@ -57,7 +57,7 @@ export async function POST(req: Request) {
   // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
-
+  console.log("dziala");
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
@@ -68,6 +68,10 @@ export async function POST(req: Request) {
       lastName: last_name,
       photo: image_url,
     };
+
+    const userr = new User({ ...user });
+
+    await userr.save();
 
     const newUser = await createUser(user);
 
@@ -81,33 +85,33 @@ export async function POST(req: Request) {
 
     return new Response("", { status: 200 });
   }
-  if (eventType === "user.updated") {
-    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+  // if (eventType === "user.updated") {
+  //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
 
-    try {
-      await User.findOneAndUpdate(
-        { clerkId: id },
-        {
-          clerkId: id,
-          email: email_addresses[0].email_address,
-          firstName: first_name,
-          lastName: last_name,
-          photo: image_url,
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  if (eventType === "user.deleted") {
-    const { id } = evt.data;
+  //   try {
+  //     await User.findOneAndUpdate(
+  //       { clerkId: id },
+  //       {
+  //         clerkId: id,
+  //         email: email_addresses[0].email_address,
+  //         firstName: first_name,
+  //         lastName: last_name,
+  //         photo: image_url,
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  // if (eventType === "user.deleted") {
+  //   const { id } = evt.data;
 
-    try {
-      await User.findByIdAndDelete({ clerkId: id });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //   try {
+  //     await User.findByIdAndDelete({ clerkId: id });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
