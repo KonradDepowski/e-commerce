@@ -130,7 +130,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   const signInWith = (strategy: OAuthStrategy) => {
     return signIn!.authenticateWithRedirect({
       strategy,
-      redirectUrl: "/sso-callback",
+      redirectUrl: "/",
       redirectUrlComplete: "/",
     });
   };
