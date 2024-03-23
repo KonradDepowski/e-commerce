@@ -54,14 +54,6 @@ export async function POST(req: Request) {
     });
   }
 
-  await createUser({
-    clerkId: "dadddddddddddddddddadad",
-    email: "dadada@wp.pl",
-    firstName: "fasfafafafaf",
-    lastName: "dfafdafafafa",
-    photo: "fafafafafafaf",
-  });
-
   // Get the ID and type
 
   const eventType = evt.type;
@@ -75,13 +67,6 @@ export async function POST(req: Request) {
       firstName: first_name,
       lastName: last_name,
       photo: image_url,
-    });
-    await createUser({
-      clerkId: "dadddddddddddddddddadad",
-      email: "dadada@wp.pl",
-      firstName: "fasfafafafaf",
-      lastName: "dfafdafafafa",
-      photo: "fafafafafafaf",
     });
   }
   // if (eventType === "user.updated") {
