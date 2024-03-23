@@ -54,6 +54,14 @@ export async function POST(req: Request) {
     });
   }
 
+  await createUser({
+    clerkId: "dadddddddddddddddddadad",
+    email: "dadada@wp.pl",
+    firstName: "fasfafafafaf",
+    lastName: "dfafdafafafa",
+    photo: "fafafafafafaf",
+  });
+
   // Get the ID and type
 
   const eventType = evt.type;
