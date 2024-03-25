@@ -64,9 +64,9 @@ export async function POST(req: Request) {
     await createUser({
       clerkId: id,
       email: email_addresses[0].email_address,
-      firstName: first_name,
-      lastName: last_name,
-      photo: image_url,
+      firstName: "first_name",
+      lastName: "last_name",
+      photo: "image_url",
     });
   }
   // if (eventType === "user.updated") {
