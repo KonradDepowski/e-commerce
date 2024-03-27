@@ -25,8 +25,8 @@ type Props = {
 type FormValues = {
   email: string;
   password: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
 };
 
 export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
@@ -50,8 +50,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     const formData = {
       emailAddress: data.email,
       password: data.password,
-      firstName: data.first_name,
-      lastName: data.last_name,
+      firstName: data.firstName,
+      lastName: data.lastName,
     };
 
     if (!isLoaded) {
@@ -162,10 +162,10 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                       autoComplete="on"
                       autoCorrect="off"
                       disabled={isSubmitting}
-                      {...register("first_name" as const)}
+                      {...register("firstName" as const)}
                     />
                   </div>
-                  {errors.first_name && (
+                  {errors.firstName && (
                     <p className="text-red-500 text-[10px] md:text-[12px] px-2">
                       {errors.first_name.message}
                     </p>
@@ -183,10 +183,10 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                       autoComplete="password"
                       autoCorrect="off"
                       disabled={isSubmitting}
-                      {...register("last_name" as const)}
+                      {...register("lastName" as const)}
                     />
                   </div>
-                  {errors.last_name && (
+                  {errors.lastName && (
                     <p className="text-red-500 text-[10px] md:text-[12px] px-2">
                       {errors.last_name.message}
                     </p>
