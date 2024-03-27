@@ -167,7 +167,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                   </div>
                   {errors.firstName && (
                     <p className="text-red-500 text-[10px] md:text-[12px] px-2">
-                      {errors.first_name.message}
+                      {errors.firstName.message}
                     </p>
                   )}
                   <div className="grid gap-1">
@@ -188,7 +188,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                   </div>
                   {errors.lastName && (
                     <p className="text-red-500 text-[10px] md:text-[12px] px-2">
-                      {errors.last_name.message}
+                      {errors.lastName.message}
                     </p>
                   )}
                 </>
