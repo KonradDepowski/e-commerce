@@ -50,8 +50,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     const formData = {
       emailAddress: data.email,
       password: data.password,
-      first_name: data.first_name,
-      last_name: data.last_name,
+      firstName: data.first_name,
+      lastName: data.last_name,
     };
 
     if (!isLoaded) {
