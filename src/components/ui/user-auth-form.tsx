@@ -63,6 +63,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
         await signUp.create({
           emailAddress: formData.emailAddress,
           password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
         });
 
         // send the email.
