@@ -50,6 +50,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     const formData = {
       emailAddress: data.email,
       password: data.password,
+      first_name: data.first_name,
+      last_name: data.last_name,
     };
 
     if (!isLoaded) {
@@ -120,10 +122,12 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
         console.log("success");
+        toast("Success");
         router.push("/");
       }
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
+      toast(err.message);
     }
   };
 
