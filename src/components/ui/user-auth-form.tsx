@@ -17,7 +17,19 @@ import { loginSchema } from "@/lib/models/loginSchema";
 import { toast } from "sonner";
 import { OAuthStrategy } from "@clerk/types";
 
-export function UserAuthForm({ ...props }) {
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+type Props = {
+  mode: string;
+};
+
+type FormValues = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
+
+export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   const params = useSearchParams();
   const mode = params.get("mode");
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -30,17 +42,18 @@ export function UserAuthForm({ ...props }) {
     handleSubmit,
     register,
     formState: { errors, isSubmitting, isValid },
-  } = useForm({
+  } = useForm<FormValues>({
     resolver: zodResolver(loginSchema),
   });
 
-  const handleSubmitHandler = async (data) => {
+  const handleSubmitHandler = async (data: FormValues) => {
     const formData = {
       emailAddress: data.email,
       password: data.password,
       firstName: data.firstName,
       lastName: data.lastName,
     };
+    toast.success(`${formData.lastName} ${formData.firstName}`);
 
     if (!isLoaded) {
       return;
@@ -49,8 +62,8 @@ export function UserAuthForm({ ...props }) {
     if (mode === "signup") {
       try {
         await signUp.create({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           emailAddress: formData.emailAddress,
           password: formData.password,
         });
@@ -62,7 +75,7 @@ export function UserAuthForm({ ...props }) {
 
         // change the UI to our pending section.
         setPendingVerification(true);
-      } catch (err) {
+      } catch (err: any) {
         console.error(JSON.stringify(err, null, 2));
         console.log(err.errors[0].message);
 
@@ -70,7 +83,7 @@ export function UserAuthForm({ ...props }) {
       }
     } else {
       try {
-        const completeSignIn = await signIn.create({
+        const completeSignIn = await signIn!.create({
           identifier: data.email,
           password: data.password,
         });
@@ -87,7 +100,7 @@ export function UserAuthForm({ ...props }) {
           // Redirect the user to a post sign-in route
           router.push("/");
         }
-      } catch (err) {
+      } catch (err: any) {
         // This can return an array of errors.
         // See https://clerk.com/docs/custom-flows/error-handling to learn about error handling
         toast(err.message);
@@ -115,14 +128,14 @@ export function UserAuthForm({ ...props }) {
         toast("Success");
         router.push("/");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
       toast(err.message);
     }
   };
 
-  const signInWith = (strategy) => {
-    return signIn.authenticateWithRedirect({
+  const signInWith = (strategy: OAuthStrategy) => {
+    return signIn!.authenticateWithRedirect({
       strategy,
       redirectUrl: "/sso-callback",
       redirectUrlComplete: "/",
@@ -150,7 +163,7 @@ export function UserAuthForm({ ...props }) {
                       autoComplete="on"
                       autoCorrect="off"
                       disabled={isSubmitting}
-                      {...register("firstName")}
+                      {...register("firstName" as const)}
                     />
                   </div>
                   {errors.firstName && (
@@ -171,7 +184,7 @@ export function UserAuthForm({ ...props }) {
                       autoComplete="password"
                       autoCorrect="off"
                       disabled={isSubmitting}
-                      {...register("lastName")}
+                      {...register("lastName" as const)}
                     />
                   </div>
                   {errors.lastName && (
@@ -195,7 +208,7 @@ export function UserAuthForm({ ...props }) {
                   autoComplete="on"
                   autoCorrect="off"
                   disabled={isSubmitting}
-                  {...register("email")}
+                  {...register("email" as const)}
                 />
               </div>
               {errors.email && (
@@ -216,7 +229,7 @@ export function UserAuthForm({ ...props }) {
                   autoComplete="password"
                   autoCorrect="off"
                   disabled={isSubmitting}
-                  {...register("password")}
+                  {...register("password" as const)}
                 />
               </div>
               {errors.password && (
