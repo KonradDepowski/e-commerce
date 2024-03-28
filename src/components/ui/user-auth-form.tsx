@@ -53,7 +53,9 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
       firstName: data.firstName,
       lastName: data.lastName,
     };
-    toast.success(`${formData.lastName} ${formData.firstName}`);
+    toast.success(
+      `${formData.lastName} ${formData.firstName} ${formData.emailAddress} `
+    );
 
     if (!isLoaded) {
       return;
@@ -181,7 +183,6 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                       placeholder="Last name"
                       type="text"
                       autoCapitalize="none"
-                      autoComplete="password"
                       autoCorrect="off"
                       disabled={isSubmitting}
                       {...register("lastName" as const)}
