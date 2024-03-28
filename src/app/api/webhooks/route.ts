@@ -5,7 +5,7 @@ import User from "@/lib/models/User";
 import { log } from "console";
 import { connect } from "http2";
 import { connectToDatabase } from "@/lib/database";
-import { createUser } from "@/lib/actions/user";
+import { createUser, deleteUser, updateUser } from "@/lib/actions/user";
 import { clerkClient } from "@clerk/nextjs";
 
 export async function POST(req: Request) {
@@ -68,6 +68,22 @@ export async function POST(req: Request) {
       lastName: last_name ? last_name : "",
       photo: image_url ? image_url : "",
     });
+  }
+  if (eventType === "user.updated") {
+    const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+
+    await updateUser(id, {
+      clerkId: id,
+      email: email_addresses[0].email_address,
+      firstName: first_name,
+      lastName: last_name,
+      photo: image_url,
+    });
+  }
+  if (eventType === "user.deleted") {
+    const { id } = evt.data;
+
+    await deleteUser(id!);
   }
   // if (eventType === "user.updated") {
   //   const { id, email_addresses, image_url, first_name, last_name } = evt.data;
