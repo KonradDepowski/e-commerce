@@ -1,6 +1,14 @@
 import z from "zod";
 
 export const loginSchema = z.object({
+  firstName: z
+    .string()
+    .min(3, { message: "First name must have min 3 characters" })
+    .max(20, { message: "First name must have max 20 characters" }),
+  lastName: z
+    .string()
+    .min(3, { message: "Last name must have min 3 characters" })
+    .max(20, { message: "Last name must have max 20 characters" }),
   email: z.string().email({ message: "Please enter a correct email" }),
   password: z
     .string()
