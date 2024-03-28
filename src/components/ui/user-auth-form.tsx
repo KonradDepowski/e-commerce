@@ -150,12 +150,12 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
               {mode === "signup" && (
                 <>
                   <div className="grid gap-1 ">
-                    <Label className="sr-only" htmlFor="first_name">
+                    <Label className="sr-only" htmlFor="firstName">
                       Fist Name
                     </Label>
                     <Input
                       className="lg:p-6 lg:px-3"
-                      id="first_name"
+                      id="firstName"
                       placeholder="First name"
                       type="text"
                       autoCapitalize="none"
@@ -171,12 +171,12 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                     </p>
                   )}
                   <div className="grid gap-1">
-                    <Label className="sr-only" htmlFor="last_name">
+                    <Label className="sr-only" htmlFor="lastName">
                       Last Name
                     </Label>
                     <Input
                       className="lg:p-6 lg:px-3"
-                      id="last_name"
+                      id="lastName"
                       placeholder="Last name"
                       type="text"
                       autoCapitalize="none"
