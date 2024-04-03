@@ -27,7 +27,7 @@ export const updateUser = async (id: string, user: userSchemaType) => {
 export const deleteUser = async (id: string) => {
   try {
     await connectToDatabase();
-    const newUser = await User.findByIdAndDelete(id);
+    const newUser = await User.findOneAndDelete({ clerkId: id });
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     console.log(error);
