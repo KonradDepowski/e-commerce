@@ -17,7 +17,7 @@ export const createUser = async (user: userSchemaType) => {
 export const updateUser = async (id: string, user: userSchemaType) => {
   try {
     await connectToDatabase();
-    const newUser = await User.findByIdAndUpdate(id, { ...user });
+    const newUser = await User.findOneAndUpdate({ clerkId: id }, { ...user });
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     console.log(error);
