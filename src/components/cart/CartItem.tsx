@@ -20,7 +20,7 @@ const CartItem = () => {
       </div>
       <div className="w-3/5 ">
         <h4 className="text-lg">Nike Air Max</h4>
-        <p className="text-slate-500">Men's shoes</p>
+        <p className="text-slate-500">Mens shoes</p>
         <div className="flex flex-row items-center gap-4">
           <p className="text-slate-500">Size: 7.5</p>
           <Select>
