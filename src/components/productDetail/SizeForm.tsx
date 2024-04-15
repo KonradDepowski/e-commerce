@@ -28,13 +28,6 @@ export function SizeForm() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    await createUser({
-      clerkId: "fafadddinfma",
-      email: "konrad@wp.pl",
-      firstName: "jfoef",
-      lastName: "skmdfakofm",
-      photo: "fmafma",
-    });
     console.log(data);
   }
 

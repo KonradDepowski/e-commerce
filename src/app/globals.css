@@ -110,3 +110,7 @@
 .swiper-button-next {
   color: #59ab6e !important;
 }
+
+#scroll::-webkit-scrollbar {
+  display: none;
+}

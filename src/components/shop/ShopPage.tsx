@@ -23,8 +23,11 @@ import { filterTypeData } from "@/lib/data";
 import Filter from "./Filter";
 import Product from "../sneakers/Product";
 import { log } from "console";
+import { fetchAllProducts } from "@/lib/actions/product";
 
-const ShopPage = () => {
+const ShopPage = async () => {
+  const products = await fetchAllProducts();
+
   return (
     <section className="p-3 max-w-[1500px] m-auto ">
       <h1
@@ -98,18 +101,20 @@ const ShopPage = () => {
               </Button>
             </div>
           </aside>
-          <div className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start  flex-wrap gap-6 lg:pl-1">
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-            <Product />
-          </div>
+
+          <ul className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start  flex-wrap gap-6 lg:pl-1">
+            {products?.map((product) => (
+              <Product
+                key={product._id}
+                id={product._id}
+                sex={product.sex}
+                name={product.name}
+                category={product.category}
+                images={product.images}
+                price={product.price}
+              />
+            ))}
+          </ul>
         </main>
       </div>
     </section>

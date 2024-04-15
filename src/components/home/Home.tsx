@@ -13,8 +13,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { slides } from "@/lib/data";
+import { fetchLastWeekProducts } from "@/lib/actions/product";
 
-const HomePage = () => {
+const HomePage = async () => {
+  const products = await fetchLastWeekProducts();
   return (
     <section className="relative md:pt-3 ">
       <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-primary ">
@@ -54,13 +56,19 @@ const HomePage = () => {
         <h2 className="text-[var(--h2)] [font-size:_clamp(15px,4vw,30px)]  pb-10 max-w-[1500px] m-auto   ">
           This Weekss Highlights
         </h2>
-        <div className="flex flex-row flex-wrap items-center justify-center lg:justify-start  gap-10 max-w-[1500px] m-auto">
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-        </div>
+        <ul className="flex flex-row flex-wrap items-center justify-center lg:justify-start  gap-10 max-w-[1500px] m-auto">
+          {products?.map((product) => (
+            <Product
+              key={product._id}
+              id={product._id}
+              sex={product.sex}
+              name={product.name}
+              category={product.category}
+              images={product.images}
+              price={product.price}
+            />
+          ))}
+        </ul>
       </div>
       <Offer />
     </section>

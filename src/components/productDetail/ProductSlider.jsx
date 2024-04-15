@@ -15,13 +15,13 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
-export default function ProductSlider() {
+export default function ProductSlider({ images }) {
   const [thumbsSwiper, setThumbsSwiper] = useState();
 
-  const images = [
-    { src: first, alt: "First" },
-    { src: second, alt: "Second" },
-    { src: third, alt: "Third" },
+  const imagesSlides = [
+    { src: images[0], alt: "First" },
+    { src: images[1], alt: "Second" },
+    { src: images[2], alt: "Third" },
   ];
 
   return (
@@ -38,13 +38,14 @@ export default function ProductSlider() {
           modules={[FreeMode, Navigation, Thumbs]}
           className=" w-[90%] rounded-lg"
         >
-          {images.map((image, index) => (
+          {imagesSlides.map((image, index) => (
             <SwiperSlide key={index}>
-              <div className="flex  items-center justify-center">
+              <div className="flex items-center justify-center w-full h-[300px]  relative">
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  className="block h-full  w-full"
+                  fill
+                  className=" w-[500px] h-[100px] "
                 />
               </div>
             </SwiperSlide>
@@ -62,15 +63,17 @@ export default function ProductSlider() {
           modules={[FreeMode, Navigation, Thumbs]}
           className="thumbs mt-3 h-32 w-[90%] rounded-lg "
         >
-          {images.map((image, index) => (
+          {imagesSlides.map((image, index) => (
             <SwiperSlide
               className="border border-dotted border-slate-300"
               key={index}
             >
-              <button className="flex items-center justify-center w-full h-full">
+              <button className="flex items-center justify-center w-full h-full relative">
                 <Image
                   src={image.src}
                   alt={image.alt}
+                  width={200}
+                  height={100}
                   className="block w-[80%] object-cover"
                 />
               </button>

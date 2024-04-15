@@ -1,6 +1,5 @@
 "use server";
 
-import { FilterQuery } from "mongoose";
 import { connectToDatabase } from "../database";
 import User, { userSchemaType } from "../models/User";
 
