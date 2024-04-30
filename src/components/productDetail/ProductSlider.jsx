@@ -36,7 +36,7 @@ export default function ProductSlider({ images }) {
               thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
           }}
           modules={[FreeMode, Navigation, Thumbs]}
-          className=" w-[90%] rounded-lg"
+          className=" w-[90%] rounded-lg h-32"
         >
           {imagesSlides.map((image, index) => (
             <SwiperSlide key={index}>
@@ -44,8 +44,9 @@ export default function ProductSlider({ images }) {
                 <Image
                   src={image.src}
                   alt={image.alt}
-                  fill
-                  className=" w-[500px] h-[100px] "
+                  width={400}
+                  height={200}
+                  className=" w-[500px] h-[200px] "
                 />
               </div>
             </SwiperSlide>

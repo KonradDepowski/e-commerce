@@ -67,6 +67,7 @@ export async function POST(req: Request) {
       firstName: first_name ? first_name : "",
       lastName: last_name ? last_name : "",
       photo: image_url ? image_url : "",
+      userCart: [],
     });
   }
   if (eventType === "user.updated") {

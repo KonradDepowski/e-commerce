@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCart3 } from "react-icons/bs";
 import ThemeToggle from "../ui/ThemeToggle";
@@ -8,9 +8,26 @@ import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
 import { UserButton, auth, useAuth, useClerk } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { FaRegUser } from "react-icons/fa";
+import { CartContext, CartItemProps } from "@/lib/store/CartContext";
 
 const Navigation = () => {
+  const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const { userId } = useAuth();
+  const cartCtx = useContext(CartContext);
+  let cartLength = 0;
+  cartItems?.forEach((el) => {
+    cartLength += el.quantity!;
+    return cartLength;
+  });
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cart");
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    } else if (cartCtx?.items) {
+      setCartItems(cartCtx.items);
+    }
+  }, [cartCtx]);
 
   return (
     <nav className="py-3">
@@ -67,7 +84,7 @@ const Navigation = () => {
               className=" flex flex-row justify-center items-center gap-1"
               href="/cart"
             >
-              <span className="text-[15px]">0</span>
+              <span className="text-[15px]">{cartLength}</span>
               <BsCart3 />
             </Link>
           </li>

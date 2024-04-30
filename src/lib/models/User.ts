@@ -7,6 +7,7 @@ export type userSchemaType = {
   firstName: string;
   lastName: string;
   photo: string;
+  userCart?: Object;
 };
 
 const userSchema = new Schema({
@@ -30,6 +31,9 @@ const userSchema = new Schema({
   photo: {
     type: String,
     required: true,
+  },
+  userCart: {
+    type: Object,
   },
 });
 

@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import Footer from "@/components/footer/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import CartContextProvider from "@/lib/store/CartContext";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -27,21 +28,23 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={roboto.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Navigation />
-            {children}
-            <Toaster position="top-right" />
-            <Footer />
-          </ThemeProvider>
-        </body>
-      </html>
+      <CartContextProvider>
+        <html lang="en">
+          <body className={roboto.className}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Navigation />
+              {children}
+              <Toaster position="top-right" />
+              <Footer />
+            </ThemeProvider>
+          </body>
+        </html>
+      </CartContextProvider>
     </ClerkProvider>
   );
 }
