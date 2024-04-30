@@ -39,6 +39,7 @@ const CartPage = () => {
         >
           {cartItems.map((item) => (
             <CartItem
+              key={item.id}
               id={item.id}
               image={item.image}
               title={item.title}
