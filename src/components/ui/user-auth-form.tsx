@@ -47,6 +47,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   });
 
   const handleSubmitHandler = async (data: FormValues) => {
+    toast.error(mode);
     const formData = {
       emailAddress: data.email,
       password: data.password,
@@ -86,8 +87,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     } else {
       try {
         const completeSignIn = await signIn!.create({
-          identifier: data.email,
-          password: data.password,
+          identifier: "konrad6depowski@wp.pl",
+          password: "margonem",
         });
 
         if (completeSignIn.status !== "complete") {
@@ -121,6 +122,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code: code,
       });
+
       if (completeSignUp.status !== "complete") {
         console.log(JSON.stringify(completeSignUp, null, 2));
       }

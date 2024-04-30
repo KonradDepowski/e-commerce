@@ -18,6 +18,8 @@ import { useParams } from "next/navigation";
 import { fetchProduct } from "@/lib/actions/product";
 import { useContext } from "react";
 import { CartContext } from "@/lib/store/CartContext";
+import { useAuth } from "@clerk/nextjs";
+import { updateUserCart } from "@/lib/actions/cart";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
@@ -32,6 +34,7 @@ export function SizeForm() {
 
   const params = useParams();
   const cartCtx = useContext(CartContext);
+
   const prodId = params.id.slice(12, params.id.length) as string;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -45,6 +48,8 @@ export function SizeForm() {
       quantity: 1,
     };
     cartCtx?.addToCart(cartItem);
+
+
   }
 
   return (

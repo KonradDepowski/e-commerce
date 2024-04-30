@@ -34,6 +34,7 @@ const userSchema = new Schema({
   },
   userCart: {
     type: Object,
+    required: true,
   },
 });
 

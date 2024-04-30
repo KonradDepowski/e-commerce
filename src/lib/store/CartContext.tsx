@@ -4,6 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useState } from "react";
 import { updateUserCart } from "../actions/cart";
+import { log } from "console";
 
 export type CartItemProps = {
   id: string;
@@ -20,6 +21,7 @@ type CartContextType = {
   addToCart: (item: CartItemProps) => void;
   changeAmount: (item: CartItemProps, quantity: string) => void;
   removeFromCart: (id: string) => void;
+  mergeCart: (dbItems: CartItemProps[], localItems: CartItemProps[]) => void;
 };
 
 type ProviderType = {
@@ -66,8 +68,11 @@ const CartContextProvider = ({ children }: ProviderType) => {
       JSON.stringify(totalAmount + +item.price)
     );
 
-    if (userId) {
-      updateUserCart(userId, items);
+    if (userId !== null && userId !== undefined) {
+      const updateCartUserHandler = async () => {
+        await updateUserCart(userId, items);
+      };
+      updateCartUserHandler();
     }
 
     router.push("/cart");
@@ -134,12 +139,40 @@ const CartContextProvider = ({ children }: ProviderType) => {
     );
   };
 
+  const mergeCartHandler = (
+    dbItems: CartItemProps[],
+    localItems: CartItemProps[]
+  ) => {
+    // Iterate over localItems only if it's not empty
+    if (localItems.length > 0) {
+      // Iterate over each local item
+      localItems.forEach((localItem) => {
+        // Find the index of the corresponding item in dbItems
+        let itemIndex = dbItems.findIndex(
+          (dbItem) =>
+            dbItem.id === localItem.id && dbItem.size === localItem.size
+        );
+        // If item found in dbItems
+        if (itemIndex >= 0) {
+          // Increment the quantity of the corresponding item in dbItems
+          dbItems[itemIndex].quantity! += 1;
+        } else {
+          // If item not found in dbItems, add it to dbItems
+          dbItems.push({ ...localItem, quantity: 1 });
+        }
+      });
+      // Update the cart items after merging
+      // setCartItems([...dbItems]);
+      console.log(dbItems);
+    }
+  };
   const value: CartContextType = {
     items: cartItems,
     totalAmount: totalAmount,
     addToCart: addToCartHandler,
     changeAmount: changeAmountHandler,
     removeFromCart: removeFromCartHandler,
+    mergeCart: mergeCartHandler,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

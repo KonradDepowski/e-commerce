@@ -5,11 +5,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import CartItem from "./CartItem";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
+import { useAuth } from "@clerk/nextjs";
+import { fetchUserCart } from "@/lib/actions/cart";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
+  const { userId } = useAuth();
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cart");
@@ -26,6 +29,23 @@ const CartPage = () => {
       setTotalAmount(cartCtx?.totalAmount);
     }
   }, [cartCtx]);
+  useEffect(() => {
+    const fetchCartHandler = async () => {
+      const cart = await fetchUserCart(userId!);
+      return cart;
+    };
+
+    const loadCart = async () => {
+      if (userId) {
+        const cart = await fetchCartHandler();
+        if (cart) {
+          cartCtx?.mergeCart(cart, cartItems);
+        }
+      }
+    };
+
+    loadCart();
+  }, []);
 
   return (
     <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 max-w-[1400px] m-auto md:min-h-[60vh]  ">
