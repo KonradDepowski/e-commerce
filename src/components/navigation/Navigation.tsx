@@ -98,7 +98,7 @@ const Navigation = () => {
 
           {userId && (
             <li className="md:text-lg xl:text-xl text-center hover:text-[var(--link-hover)] focus:text-[var(--link-hover)]">
-              <UserButton afterSignOutUrl="/" />
+              <UserButton afterSignOutUrl="/signout" />
             </li>
           )}
         </ul>

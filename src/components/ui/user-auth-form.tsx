@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/models/loginSchema";
 import { toast } from "sonner";
 import { OAuthStrategy } from "@clerk/types";
+import { signupSchema } from "@/lib/models/signup";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 type Props = {
@@ -43,7 +44,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     register,
     formState: { errors, isSubmitting, isValid },
   } = useForm<FormValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(mode === "signup" ? signupSchema : loginSchema),
   });
 
   const handleSubmitHandler = async (data: FormValues) => {
@@ -87,8 +88,8 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
     } else {
       try {
         const completeSignIn = await signIn!.create({
-          identifier: "konrad6depowski@wp.pl",
-          password: "margonem",
+          identifier: data.email,
+          password: data.password,
         });
 
         if (completeSignIn.status !== "complete") {

@@ -37,7 +37,6 @@ const CartItem = ({
     cartCtx?.changeAmount(item, value);
   };
   const itemQuantity = cartCtx?.items.find((it) => it.id === id);
-  console.log(itemQuantity?.quantity);
 
   return (
     <li

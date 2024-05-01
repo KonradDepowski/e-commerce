@@ -12,6 +12,7 @@ const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
+
   const { userId } = useAuth();
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const CartPage = () => {
     } else {
       setTotalAmount(cartCtx?.totalAmount);
     }
-  }, [cartCtx]);
+  }, [cartCtx, userId]);
   useEffect(() => {
     const fetchCartHandler = async () => {
       const cart = await fetchUserCart(userId!);
@@ -39,13 +40,15 @@ const CartPage = () => {
       if (userId) {
         const cart = await fetchCartHandler();
         if (cart) {
-          cartCtx?.mergeCart(cart, cartItems);
+          console.log(cart);
+          console.log(cartItems);
+          cartCtx?.mergeCart([...cart], JSON.parse(localStorage.getItem("cart")!) || []);
         }
       }
     };
 
     loadCart();
-  }, []);
+  }, [userId]);
 
   return (
     <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 max-w-[1400px] m-auto md:min-h-[60vh]  ">

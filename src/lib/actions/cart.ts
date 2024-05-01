@@ -20,8 +20,8 @@ export const updateUserCart = async (id: string, cart: CartItemProps[]) => {
 export const fetchUserCart = async (id: string) => {
   try {
     await connectToDatabase();
-    const cart = await User.findOne({ clerkId: id });
-    return cart as CartItemProps[];
+    const user = await User.findOne({ clerkId: id });
+    return user.userCart as CartItemProps[];
   } catch (error) {
     console.log(error);
   }

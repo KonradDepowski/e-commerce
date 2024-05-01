@@ -32,6 +32,17 @@ export const CartContext = createContext<CartContextType | undefined>(
   undefined
 );
 
+const calculateTotalAmount = (items: CartItemProps[]) => {
+  let totalAmount = 0;
+
+  items.forEach((item) => {
+    // Multiply the quantity of each item by its price and add to the total amount
+    totalAmount += (item.quantity || 1) * item.price;
+  });
+
+  return totalAmount;
+};
+
 const CartContextProvider = ({ children }: ProviderType) => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [totalAmount, setTotalAmount] = useState(() => {
@@ -45,6 +56,7 @@ const CartContextProvider = ({ children }: ProviderType) => {
   const { userId } = useAuth();
 
   const addToCartHandler = (item: CartItemProps) => {
+    console.log("add");
     let items: CartItemProps[] = JSON.parse(localStorage.getItem("cart")!) || [
       ...cartItems,
     ];
@@ -79,6 +91,7 @@ const CartContextProvider = ({ children }: ProviderType) => {
   };
 
   const changeAmountHandler = (item: CartItemProps, quantity: string) => {
+    console.log("change");
     let items: CartItemProps[] = JSON.parse(localStorage.getItem("cart")!) || [
       ...cartItems,
     ];
@@ -102,8 +115,6 @@ const CartContextProvider = ({ children }: ProviderType) => {
       setCartItems(items);
     }
 
-    console.log(totalAmount);
-
     setTotalAmount((prev) => prev - +item.price * item.quantity!);
     setTotalAmount((prev) => prev + +item.price * newQunatity);
     localStorage.setItem("cart", JSON.stringify(items));
@@ -113,6 +124,13 @@ const CartContextProvider = ({ children }: ProviderType) => {
         totalAmount - +item.price * item.quantity! + +item.price * newQunatity!
       )
     );
+
+    if (userId !== null && userId !== undefined) {
+      const updateCartUserHandler = async () => {
+        await updateUserCart(userId, items);
+      };
+      updateCartUserHandler();
+    }
   };
   const removeFromCartHandler = (id: string) => {
     let items: CartItemProps[] = JSON.parse(localStorage.getItem("cart")!) || [
@@ -123,6 +141,8 @@ const CartContextProvider = ({ children }: ProviderType) => {
     let item: CartItemProps = items[itemIndex];
 
     if (item.quantity! > 1) {
+      console.log("jest");
+
       const newItem = { ...item, quantity: item?.quantity! - newQunatity };
       items[itemIndex] = newItem;
       setCartItems(items);
@@ -131,11 +151,25 @@ const CartContextProvider = ({ children }: ProviderType) => {
       items = items.filter((item) => item.id !== id);
       setCartItems((prev) => prev.filter((item) => item.id !== id));
       setTotalAmount((prev) => prev - item.price * item.quantity!);
+      if (userId !== null && userId !== undefined) {
+        const updateCartUserHandler = async () => {
+          await updateUserCart(userId, items);
+        };
+        updateCartUserHandler();
+      }
     }
+
+    if (userId !== null && userId !== undefined) {
+      const updateCartUserHandler = async () => {
+        await updateUserCart(userId, items);
+      };
+      updateCartUserHandler();
+    }
+
     localStorage.setItem("cart", JSON.stringify(items));
     localStorage.setItem(
       "totalAmount",
-      JSON.stringify(totalAmount + -item.price * item.quantity!)
+      JSON.stringify(totalAmount - +item.price * 1)
     );
   };
 
@@ -143,27 +177,44 @@ const CartContextProvider = ({ children }: ProviderType) => {
     dbItems: CartItemProps[],
     localItems: CartItemProps[]
   ) => {
+    console.log("merge");
+
     // Iterate over localItems only if it's not empty
     if (localItems.length > 0) {
+      console.log("local");
+
       // Iterate over each local item
       localItems.forEach((localItem) => {
         // Find the index of the corresponding item in dbItems
         let itemIndex = dbItems.findIndex(
           (dbItem) =>
-            dbItem.id === localItem.id && dbItem.size === localItem.size
+            dbItem.id === localItem.id &&
+            dbItem.size === localItem.size &&
+            dbItem.quantity === localItem.quantity
         );
         // If item found in dbItems
         if (itemIndex >= 0) {
           // Increment the quantity of the corresponding item in dbItems
-          dbItems[itemIndex].quantity! += 1;
+          dbItems[itemIndex].quantity! = dbItems[itemIndex].quantity!;
         } else {
           // If item not found in dbItems, add it to dbItems
           dbItems.push({ ...localItem, quantity: 1 });
         }
       });
-      // Update the cart items after merging
-      // setCartItems([...dbItems]);
-      console.log(dbItems);
+
+      setCartItems(dbItems);
+      const totalAmount = calculateTotalAmount(dbItems);
+      setTotalAmount(totalAmount);
+      localStorage.setItem("cart", JSON.stringify(dbItems));
+      localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
+      return;
+    } else if (dbItems.length > 0 && localItems.length <= 0) {
+      console.log("db");
+      setCartItems(dbItems);
+      const totalAmount = calculateTotalAmount(dbItems);
+      setTotalAmount(totalAmount);
+      localStorage.setItem("cart", JSON.stringify(dbItems));
+      localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
     }
   };
   const value: CartContextType = {
