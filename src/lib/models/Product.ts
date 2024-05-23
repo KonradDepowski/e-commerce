@@ -2,6 +2,7 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
 export type productSchemaType = {
+  _id?: string;
   id: string;
   name: string;
   category: "lifestyle" | "football" | "running" | "sneakers";
