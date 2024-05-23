@@ -35,18 +35,63 @@ const Navigation = () => {
     console.log("ez");
 
     addProduct({
-      name: "Nike Air Max",
+      name: "Air Jordan 1 Mid",
+      category: "sneakers",
+      sex: "men",
+      price: 200,
+      images: [
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/b1.jpg?alt=media&token=17383e85-a2e2-4e27-9a7f-e124bd8a6868",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/b2.jpg?alt=media&token=fa044a9c-54c4-4d6f-a5b5-140e9dfd14ee",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/b3.jpg?alt=media&token=60608c5a-205f-4f35-914b-340d89c00c28",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/b1.jpg?alt=media&token=17383e85-a2e2-4e27-9a7f-e124bd8a6868",
+      ],
+      offer: false,
+    });
+
+    addProduct({
+      name: "Nike Attack",
       category: "lifestyle",
       sex: "unisex",
-      price: 100,
+      price: 60,
       images: [
-        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/nike1%20(1).jpg?alt=media&token=56f14879-00fa-4f57-a7bc-f8633bb6392d",
-        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/nike1%20(3).jpg?alt=media&token=973c72e5-1926-4b36-af44-7316d63bb122",
-        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/nike2.jpg?alt=media&token=911aa908-d848-4e90-a297-8d4eb00a440c",
-        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/nike4.png?alt=media&token=ad002bb5-cd19-438f-bf8d-995099344a8f",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/o1.jpg?alt=media&token=8328fce4-9514-48f2-8e1e-b9b4e9c06052",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/o2.jpg?alt=media&token=3073cfa7-ca5d-40ce-aca5-dc9c1430ec5c",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/o3.jpg?alt=media&token=a5218f76-3ec6-4791-acb4-6f6876dde2eb",
+        "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/o4.png?alt=media&token=e4f32c49-a1b1-4507-a97f-40b82cf52451",
       ],
-      offer: true,
+      offer: false,
     });
+    setTimeout(() => {
+      addProduct({
+        name: "Air Jordan 1 Hi FlyEase",
+        category: "sneakers",
+        sex: "men",
+        price: 105,
+        images: [
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/p1.jpg?alt=media&token=2b53f303-5464-45f2-b7a8-cfcd6c2dd908",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/p2.jpg?alt=media&token=ad6d599b-7b04-441c-aefb-8fa91b43cff8",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/p3.jpg?alt=media&token=762089d6-8538-4d22-ab04-1d936307a522",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/p4.png?alt=media&token=a12c60fe-583f-40c3-9312-52df6e157aff",
+        ],
+        offer: false,
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      addProduct({
+        name: "Converse Chuck Taylor",
+        category: "lifestyle",
+        sex: "women",
+        price: 30,
+        images: [
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/q1.jpg?alt=media&token=57ac9fc3-08f1-451e-9735-044054609934",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/q2.jpg?alt=media&token=163c36b8-6c40-4f46-990a-4062da1705c8",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/q3.jpg?alt=media&token=ac971588-c514-4f8f-8a29-3d90f37368ad",
+          "https://firebasestorage.googleapis.com/v0/b/e-commerce-c1871.appspot.com/o/q4.png?alt=media&token=3a719240-a4a2-4fab-bc69-070e70818c78",
+        ],
+        offer: false,
+      });
+    }, 2000);
   };
 
   return (
