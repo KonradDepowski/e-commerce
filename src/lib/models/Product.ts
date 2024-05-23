@@ -8,6 +8,7 @@ export type productSchemaType = {
   sex: "men" | "women" | "unisex";
   price: number;
   images: Array<string>;
+  offer: boolean;
 };
 
 const productSchema = new Schema({
@@ -31,6 +32,11 @@ const productSchema = new Schema({
   images: {
     type: Array,
     required: true,
+  },
+  offer: {
+    type: Boolean,
+    required: true,
+    default: false,
   },
 });
 

@@ -1,6 +1,7 @@
 "use server";
 
 import { connectToDatabase } from "../database";
+import Discount from "../models/Discount";
 import User from "../models/User";
 import { CartItemProps } from "../store/CartContext";
 
@@ -22,6 +23,16 @@ export const fetchUserCart = async (id: string) => {
     await connectToDatabase();
     const user = await User.findOne({ clerkId: id });
     return user.userCart as CartItemProps[];
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const findDiscountCode = async (codeT: string) => {
+  try {
+    await connectToDatabase();
+    const discount = await Discount.findOne({ code: codeT });
+    return discount;
   } catch (error) {
     console.log(error);
   }
