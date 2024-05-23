@@ -105,6 +105,7 @@ const ShopPage = async () => {
           <ul className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start  flex-wrap gap-6 lg:pl-1">
             {products?.map((product) => (
               <Product
+                offer={product.offer}
                 key={product._id}
                 id={product._id}
                 sex={product.sex}
