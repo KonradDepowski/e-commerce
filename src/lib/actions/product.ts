@@ -2,7 +2,7 @@
 
 import mongoose from "mongoose";
 import { connectToDatabase } from "../database";
-import Product from "../models/Product";
+import Product, { productSchemaType } from "../models/Product";
 
 export const fetchAllProducts = async () => {
   try {
@@ -61,8 +61,6 @@ export const updateOfferProduct = async () => {
     const randomIndex = Math.floor(Math.random() * (maxIndex + 1));
     const randomProductId = products![randomIndex]._id;
 
-    console.log(randomProductId);
-
     await Product.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(randomProductId) },
       { offer: true }
@@ -71,5 +69,25 @@ export const updateOfferProduct = async () => {
     console.log("Product offer updated successfully");
   } catch (error) {
     console.error("Error updating product offer:", error);
+  }
+};
+
+export const sortProducts = async (sortName: string) => {
+  try {
+    await connectToDatabase();
+    const sortOrder = sortName === "low" ? -1 : 1;
+    const products = await Product.find().sort({ price: sortOrder });
+    return products;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addProduct = async (data: productSchemaType) => {
+  try {
+    await connectToDatabase();
+    await Product.create(data);
+  } catch (error) {
+    console.log(error);
   }
 };

@@ -39,17 +39,19 @@ export function SizeForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const product = await fetchProduct(prodId as string);
+    let price = product.price;
+    if (product.offer) {
+      price = product.price * 0.8;
+    }
     const cartItem = {
       id: prodId,
       title: product.name,
-      price: product.price,
+      price: price,
       size: data.type,
       image: product.images,
       quantity: 1,
     };
     cartCtx?.addToCart(cartItem);
-
-
   }
 
   return (

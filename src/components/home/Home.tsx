@@ -13,10 +13,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { slides } from "@/lib/data";
-import { fetchLastWeekProducts } from "@/lib/actions/product";
+import { addProduct, fetchLastWeekProducts } from "@/lib/actions/product";
 
 const HomePage = async () => {
   const products = await fetchLastWeekProducts();
+ 
   return (
     <section className="relative md:pt-3 ">
       <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-primary ">

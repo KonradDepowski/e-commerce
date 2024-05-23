@@ -12,6 +12,11 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
   const OPTIONS = {};
 
   const product = await fetchProduct(prodId);
+  let price = product.price;
+
+  if (product.offer) {
+    price = product.price * 0.8;
+  }
 
   return (
     <section className="max-w-[1500px] m-auto ">
@@ -23,7 +28,7 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
               {product?.name}
             </h2>
             <p className="font-bold text-2xl py-2 mb-2 md:text-3xl xl:text-4xl  md:pb-5 ">
-              ${product?.price}
+              ${price}
             </p>
             <SizeForm />
           </div>
