@@ -59,6 +59,7 @@ const HomePage = async () => {
         <ul className="flex flex-row flex-wrap items-center justify-center lg:justify-start  gap-10 max-w-[1500px] m-auto">
           {products?.map((product) => (
             <Product
+              offer={product.offer}
               key={product._id}
               id={product._id}
               sex={product.sex}
