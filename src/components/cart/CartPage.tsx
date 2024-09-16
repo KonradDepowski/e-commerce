@@ -129,7 +129,7 @@ const CartPage = () => {
           Total Amount:
           <span className="text-[#59ab6e]">${totalAmount}</span>
         </p>
-        <CheckoutButton products={cartCtx?.items! || []} totalAmount={totalAmount} />
+        <CheckoutButton products={cartCtx?.items! || []} totalAmount={totalAmount!} />
       </div>
     </section>
   );
