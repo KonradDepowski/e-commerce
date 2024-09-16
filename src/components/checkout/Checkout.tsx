@@ -12,18 +12,18 @@ import { checkoutOrder } from "@/lib/actions/order";
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const Checkout = ({
-  products,
+  productsIds,
   userId,
   totalAmount,
 }: {
-  products: CartItemProps[];
+  productsIds: string[];
   userId: string;
   totalAmount: number;
 }) => {
   const onCheckout = async () => {
     console.log("es");
 
-    const order = { products: [...products], buyerId: userId, totalAmount };
+    const order = { productsIds: [...productsIds], buyerId: userId, totalAmount };
 
     await checkoutOrder(order)
   };

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 export type orderSchemaType = {
   id: string;
-  products: Object;
+  productsIds: Object;
   buyerId: string;
   createdAt: Date;
   totalAmount: number;
@@ -13,7 +13,7 @@ const orderSchema = new Schema({
   id: {
     type: String,
   },
-  products: {
+  productsIds: {
     type: Array,
     required: true,
     unique: true,

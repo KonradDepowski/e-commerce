@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
     const order = {
       id: id,
-      products: metadata?.products || [],
+      productsIds: metadata?.productsIds || [],
       buyerId: metadata?.buyerId || "",
       totalAmount: Number(metadata?.totalAmount) || 0,
       createdAt: new Date(),

@@ -4,13 +4,12 @@ import { useAuth } from "@clerk/nextjs";
 import Checkout from "./Checkout";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { CartItemProps } from "@/lib/store/CartContext";
 
 const CheckoutButton = ({
-  products,
+  productsIds,
   totalAmount,
 }: {
-  products: CartItemProps[];
+  productsIds: string[];
   totalAmount: number;
 }) => {
   const { userId } = useAuth();
@@ -22,7 +21,7 @@ const CheckoutButton = ({
       <SignedIn>
         <Checkout
           userId={userId!}
-          products={products}
+          productsIds={productsIds}
           totalAmount={totalAmount}
         />
       </SignedIn>

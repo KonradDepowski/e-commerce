@@ -26,7 +26,7 @@ export const checkoutOrder = async (order: any) => {
       ],
 
       metadata: {
-        products: JSON.stringify(order.products),
+        productsIds: JSON.stringify(order.productsIds),
         buyerId: order.buyerId,
         totalAmount: JSON.stringify(totalAmount),
       },

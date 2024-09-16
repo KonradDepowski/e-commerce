@@ -74,6 +74,9 @@ const CartPage = () => {
     }
   };
 
+  const cartItemsIds: string[] = [];
+  cartCtx?.items.forEach((it) => cartItemsIds.push(it.id));
+
   return (
     <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 max-w-[1400px] m-auto md:min-h-[60vh]  ">
       <h2 className="text-center text-2xl md:text-3xl font-bold uppercase py-5 md:w-full">
@@ -129,7 +132,10 @@ const CartPage = () => {
           Total Amount:
           <span className="text-[#59ab6e]">${totalAmount}</span>
         </p>
-        <CheckoutButton products={cartCtx?.items! || []} totalAmount={totalAmount!} />
+        <CheckoutButton
+          productsIds={cartItemsIds}
+          totalAmount={totalAmount!}
+        />
       </div>
     </section>
   );
