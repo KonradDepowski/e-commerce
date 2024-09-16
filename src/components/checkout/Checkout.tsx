@@ -25,7 +25,7 @@ const Checkout = ({
 
     const order = { products: [...products], buyerId: userId, totalAmount };
 
-    await checkoutOrder(order);
+    await checkoutOrder(order)
   };
 
   useEffect(() => {

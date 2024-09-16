@@ -1,6 +1,5 @@
 "use server";
 
-import { metadata } from "@/app/layout";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import Order, { orderSchemaType } from "../models/Order";
@@ -27,7 +26,9 @@ export const checkoutOrder = async (order: any) => {
       ],
 
       metadata: {
+        products: order.products,
         buyerId: order.buyerId,
+        totalAmount,
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
