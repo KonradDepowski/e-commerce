@@ -26,9 +26,9 @@ export const checkoutOrder = async (order: any) => {
       ],
 
       metadata: {
-        products: order.products,
+        products: JSON.stringify(order.products),
         buyerId: order.buyerId,
-        totalAmount,
+        totalAmount: JSON.stringify(totalAmount),
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
