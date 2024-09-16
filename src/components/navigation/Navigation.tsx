@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import { FaRegUser } from "react-icons/fa";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
 import { productSchemaType } from "@/lib/models/Product";
-import { addProduct } from "@/lib/actions/product";
 
 const Navigation = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);

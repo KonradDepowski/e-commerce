@@ -51,7 +51,7 @@ const Filter = ({ title, items, cat }: filterDataType) => {
                     cat: cat,
                     item: item,
                   },
-                  checked
+                  checked as boolean
                 )
               }
             />
