@@ -2,14 +2,6 @@ import React from "react";
 import { Button } from "../ui/button";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -23,10 +15,21 @@ import { filterTypeData } from "@/lib/data";
 import Filter from "./Filter";
 import Product from "../sneakers/Product";
 import { log } from "console";
-import { fetchAllProducts } from "@/lib/actions/product";
+import { fetchSortProducts } from "@/lib/actions/product";
+import Sorting from "./Sorting";
 
-const ShopPage = async () => {
-  const products = await fetchAllProducts();
+const ShopPage = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) => {
+  let sortingMode = searchParams?.sorting || "";
+  let category = searchParams?.category || "";
+  let sex = searchParams?.sex || "";
+  let price = searchParams?.price || "";
+  let filterMode = { category, sex, price };
+
+  const products = await fetchSortProducts(sortingMode, filterMode);
 
   return (
     <section className="p-3 max-w-[1500px] m-auto ">
@@ -53,6 +56,7 @@ const ShopPage = async () => {
                 <SheetDescription>
                   {filterTypeData.map((item) => (
                     <Filter
+                      cat={item.cat}
                       key={item.title}
                       title={item.title}
                       items={item.items}
@@ -69,28 +73,14 @@ const ShopPage = async () => {
         </div>
 
         <div className="flex flex-row lg:w-full justify-end">
-          <Select>
-            <SelectTrigger className="w-[180px] text-[12px]">
-              <SelectValue placeholder="Sorting" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem className="text-[12px]" value="ascending">
-                Sort by price (low to high)
-              </SelectItem>
-              <SelectItem className="text-[12px]" value="descending">
-                Sort by price (high to low)
-              </SelectItem>
-              <SelectItem className="text-[12px]" value="latest">
-                Sort by latest
-              </SelectItem>
-            </SelectContent>
-          </Select>
+          <Sorting />
         </div>
         <main className=" lg:flex w-full flex-row gap-16 py-10">
           <aside className=" hidden lg:block basis-[30%] 2xl:basis-[20%]   pl-6 ">
             <div className="border-[1px]  border-[var(--h2)] rounded-lg flex flex-col  px-2">
               {filterTypeData.map((item) => (
                 <Filter
+                  cat={item.cat}
                   key={item.title}
                   title={item.title}
                   items={item.items}

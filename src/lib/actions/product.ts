@@ -1,8 +1,15 @@
 "use server";
 
-import mongoose from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
 import { connectToDatabase } from "../database";
 import Product, { productSchemaType } from "../models/Product";
+import { revalidatePath } from "next/cache";
+
+type FilterProps = {
+  category?: string | string[];
+  sex?: string | string[];
+  price?: string;
+};
 
 export const fetchAllProducts = async () => {
   try {
@@ -47,7 +54,6 @@ export const fetchOfferProduct = async () => {
 export const updateOfferProduct = async () => {
   try {
     await connectToDatabase();
-
     const currentOfferProduct = await fetchOfferProduct();
     if (currentOfferProduct) {
       await Product.findOneAndUpdate(
@@ -66,27 +72,60 @@ export const updateOfferProduct = async () => {
       { offer: true }
     );
 
+    revalidatePath("/");
     console.log("Product offer updated successfully");
   } catch (error) {
     console.error("Error updating product offer:", error);
   }
 };
 
-export const sortProducts = async (sortName: string) => {
+export const fetchSortProducts = async (
+  sortName: string,
+  filterName: FilterProps
+) => {
   try {
+    let sortCondition: any = {};
+    let findCondition: any = {};
     await connectToDatabase();
-    const sortOrder = sortName === "low" ? -1 : 1;
-    const products = await Product.find().sort({ price: sortOrder });
-    return products;
-  } catch (error) {
-    console.log(error);
-  }
-};
 
-export const addProduct = async (data: productSchemaType) => {
-  try {
-    await connectToDatabase();
-    await Product.create(data);
+    // Setting sortCondition based on sortName
+    if (sortName) {
+      if (sortName === "descending") {
+        sortCondition = { price: -1 };
+      } else if (sortName === "ascending") {
+        sortCondition = { price: 1 };
+      } else if (sortName === "latest") {
+        sortCondition = { createdAt: -1 };
+      }
+    }
+
+    // Dynamically building findCondition based on filterName
+    if (filterName) {
+      if (filterName.category) {
+        findCondition.category = filterName.category;
+      }
+      if (filterName.sex) {
+        findCondition.sex = filterName.sex;
+      }
+      if (filterName.price) {
+        console.log("price" + filterName.price);
+
+        if (filterName.price === "Below $50") {
+          findCondition.price = { $lt: 50 };
+        } else if (filterName.price === "$50-$75") {
+          findCondition.price = { $gte: 50, $lte: 75 };
+        } else if (filterName.price === "$75-$100") {
+          findCondition.price = { $gte:75, $lte: 100  };
+        }
+        else if (filterName.price === "Over $100") {
+          findCondition.price = { $gte:100,  };
+        }
+      }
+    }
+
+    const products = await Product.find(findCondition).sort(sortCondition);
+
+    return products;
   } catch (error) {
     console.log(error);
   }

@@ -7,6 +7,7 @@ import CartItem from "./CartItem";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
 import { useAuth } from "@clerk/nextjs";
 import { fetchUserCart, findDiscountCode } from "@/lib/actions/cart";
+import CheckoutButton from "../checkout/CheckoutButton";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
@@ -128,9 +129,7 @@ const CartPage = () => {
           Total Amount:
           <span className="text-[#59ab6e]">${totalAmount}</span>
         </p>
-        <Button className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end  xl:text-xl  text-white">
-          Go to Checkout
-        </Button>
+        <CheckoutButton products={cartCtx?.items! || []} totalAmount={totalAmount} />
       </div>
     </section>
   );

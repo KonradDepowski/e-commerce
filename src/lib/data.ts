@@ -5,6 +5,7 @@ import { StaticImageData } from "next/image";
 
 export type filterDataType = {
   title: string;
+  cat: string;
   items: string[] | number[];
 };
 
@@ -18,18 +19,18 @@ export type slidesType = {
 export const filterTypeData: filterDataType[] = [
   {
     title: "Filter by Categories",
-    items: ["Lifestyle", "Sneakers", "Football", "Running"],
+    cat: "category",
+    items: ["lifestyle", "sneakers", "football", "running"],
   },
-  {
-    title: "Filter by Size",
-    items: [6.5, 7, 7.5, 8, 8.5, 9, 9.5],
-  },
+
   {
     title: "Filter by Sex",
-    items: ["Men", "Women", "Unisex"],
+    cat: "sex",
+    items: ["men", "women", "unisex"],
   },
   {
     title: "Filter by Price",
+    cat: "price",
     items: ["Below $50", "$50-$75", "$75-$100", "Over $100"],
   },
 ];
