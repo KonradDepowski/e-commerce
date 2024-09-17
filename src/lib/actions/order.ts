@@ -46,7 +46,6 @@ export const createOrder = async (order: orderSchemaType) => {
 
     const newOrder = await Order.create({
       ...order,
-      buyerId: order.buyerId,
     });
 
     console.log(newOrder);
