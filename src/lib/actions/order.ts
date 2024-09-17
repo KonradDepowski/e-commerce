@@ -49,6 +49,8 @@ export const createOrder = async (order: orderSchemaType) => {
       buyerId: order.buyerId,
     });
 
+    console.log(newOrder);
+
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     throw error;

@@ -30,4 +30,4 @@ const orderSchema = new Schema({
   },
 });
 
-export default mongoose.models.user || mongoose.model("order", orderSchema);
+export default mongoose.models.orders || mongoose.model("order", orderSchema);
