@@ -4,7 +4,6 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useState } from "react";
 import { updateUserCart } from "../actions/cart";
-import { log } from "console";
 
 export type CartItemProps = {
   id: string;
@@ -22,6 +21,7 @@ type CartContextType = {
   changeAmount: (item: CartItemProps, quantity: string) => void;
   removeFromCart: (id: string) => void;
   mergeCart: (dbItems: CartItemProps[], localItems: CartItemProps[]) => void;
+  clearCart: (id: string) => void;
 };
 
 type ProviderType = {
@@ -217,6 +217,21 @@ const CartContextProvider = ({ children }: ProviderType) => {
       localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
     }
   };
+
+  const clearCartHandler = (id: string) => {
+    console.log(id);
+
+    const clearUserCart = async () => {
+      console.log(id);
+
+      await updateUserCart(id, []);
+    };
+    clearUserCart();
+    console.log("clear");
+
+    localStorage.removeItem("cart");
+    localStorage.removeItem("totalAmount");
+  };
   const value: CartContextType = {
     items: cartItems,
     totalAmount: totalAmount,
@@ -224,6 +239,7 @@ const CartContextProvider = ({ children }: ProviderType) => {
     changeAmount: changeAmountHandler,
     removeFromCart: removeFromCartHandler,
     mergeCart: mergeCartHandler,
+    clearCart: clearCartHandler,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };

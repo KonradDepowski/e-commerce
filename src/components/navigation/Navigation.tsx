@@ -1,19 +1,20 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsCart3 } from "react-icons/bs";
 import ThemeToggle from "../ui/ThemeToggle";
 import { SheetTrigger, Sheet, SheetContent } from "@/components/ui/sheet";
-import { UserButton, auth, useAuth, useClerk } from "@clerk/nextjs";
+import { UserButton, auth, useAuth, useClerk, useUser } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { FaRegUser } from "react-icons/fa";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
-import { productSchemaType } from "@/lib/models/Product";
+import Image from "next/image";
 
 const Navigation = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const { userId } = useAuth();
+  const { user } = useUser();
   const cartCtx = useContext(CartContext);
   let cartLength = 0;
   cartItems?.forEach((el) => {
@@ -98,10 +99,25 @@ const Navigation = () => {
               </Link>
             </li>
           )}
-
+          {/* 
           {userId && (
             <li className="md:text-lg xl:text-xl text-center hover:text-[var(--link-hover)] focus:text-[var(--link-hover)]">
               <UserButton afterSignOutUrl="/signout" />
+            </li>
+          )} */}
+          {userId && (
+            <li className="md:text-lg xl:text-xl text-center hover:text-[var(--link-hover)] focus:text-[var(--link-hover)]">
+              <Link href="/profile">
+                <Suspense fallback="Loading...">
+                  <Image
+                    className="rounded-full"
+                    src={user?.imageUrl!}
+                    width={30}
+                    height={30}
+                    alt="avatr"
+                  />
+                </Suspense>
+              </Link>
             </li>
           )}
         </ul>

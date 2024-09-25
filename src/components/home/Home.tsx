@@ -17,6 +17,7 @@ import { fetchLastWeekProducts } from "@/lib/actions/product";
 
 const HomePage = async () => {
   const products = await fetchLastWeekProducts();
+  
 
   return (
     <section className="relative md:pt-3 ">

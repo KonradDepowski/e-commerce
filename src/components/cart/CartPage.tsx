@@ -8,6 +8,7 @@ import { CartContext, CartItemProps } from "@/lib/store/CartContext";
 import { useAuth } from "@clerk/nextjs";
 import { fetchUserCart, findDiscountCode } from "@/lib/actions/cart";
 import CheckoutButton from "../checkout/CheckoutButton";
+import DeliveryForm from "./DeliveryForm";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
@@ -74,8 +75,10 @@ const CartPage = () => {
     }
   };
 
-  const cartItemsIds: string[] = [];
-  cartCtx?.items.forEach((it) => cartItemsIds.push(it.id));
+  const cartItemsIds: Object[] = [];
+  cartCtx?.items.forEach((it) =>
+    cartItemsIds.push({ id: it.id, size: it.size })
+  );
 
   return (
     <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 max-w-[1400px] m-auto md:min-h-[60vh]  ">
@@ -104,7 +107,7 @@ const CartPage = () => {
         </ul>
       </div>
       <div className="md:w-[45%] md:flex md:flex-col">
-        <form className="py-2">
+        <form className="py-6">
           <h3 className=" py-3 md:pt-0 text-lg">Discount code</h3>
           <div className="flex flex-row gap-3">
             <Input
@@ -127,15 +130,7 @@ const CartPage = () => {
             </Button>
           </div>
         </form>
-
-        <p className="self-end text-xl pr-2 py-6 font-bold xl:text-2xl">
-          Total Amount:
-          <span className="text-[#59ab6e]">${totalAmount}</span>
-        </p>
-        <CheckoutButton
-          productsIds={cartItemsIds}
-          totalAmount={totalAmount!}
-        />
+        <DeliveryForm totalAmount={totalAmount!} cartItemsIds={cartItemsIds!} />
       </div>
     </section>
   );

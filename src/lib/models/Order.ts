@@ -7,6 +7,7 @@ export type orderSchemaType = {
   buyerId: string;
   createdAt: Date;
   totalAmount: number;
+  deliveryData: Object;
 };
 
 const orderSchema = new Schema({
@@ -28,6 +29,9 @@ const orderSchema = new Schema({
   totalAmount: {
     type: Number,
   },
+  deliveryData: {
+    type: Object,
+  },
 });
 
-export default mongoose.models.orders || mongoose.model("order", orderSchema);
+export default mongoose.models.order || mongoose.model("order", orderSchema);
