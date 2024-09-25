@@ -35,7 +35,7 @@ const CheckoutButton = ({
 
       <SignedIn>
         <Button
-          type="submit" // Submit button when signed in
+          type="submit"
           className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
         >
           Get Products
