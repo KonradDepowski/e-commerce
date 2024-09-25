@@ -4,7 +4,7 @@ import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import Checkout from "./Checkout"; // Ensure Checkout is a properly defined component.
+import Checkout from "./Checkout";
 import { FormValues } from "../cart/DeliveryForm";
 
 const CheckoutButton = ({
@@ -25,7 +25,7 @@ const CheckoutButton = ({
       <SignedOut>
         <Link href="/login">
           <Button
-            type="button" // Non-submitting button when signed out
+            type="button"
             className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
           >
             Go to Checkout
