@@ -8,7 +8,7 @@ export type orderSchemaType = {
   buyerId: string;
   createdAt: Date;
   totalAmount: number;
-  deliveryData?: Object;
+  deliveryData: Object;
 };
 
 const orderSchema = new Schema({

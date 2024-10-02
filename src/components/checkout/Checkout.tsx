@@ -21,7 +21,7 @@ const Checkout = ({
   productsIds: Object[];
   userId: string;
   totalAmount: number;
-  deliveryData: any;
+  deliveryData: Object;
 }) => {
   const onCheckout = async () => {
     console.log("Checkout order", deliveryData);
@@ -30,7 +30,7 @@ const Checkout = ({
       productsIds: [...productsIds],
       buyerId: userId,
       totalAmount,
-      deliveryData: deliveryData,
+      deliveryData: [deliveryData],
     };
 
     await checkoutOrder(order);
