@@ -4,7 +4,6 @@ import { orderSchemaType } from "@/lib/models/Order";
 import { useAuth, UserProfile, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Button } from "../ui/button";
 import { SignOutButton } from "../buttons/SignOutButton";
 
 const Profile = () => {
