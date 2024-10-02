@@ -29,6 +29,8 @@ export async function POST(request: Request) {
   if (eventType === "checkout.session.completed") {
     const { id, metadata } = event.data.object;
 
+    console.log(metadata);
+
     const order = {
       id: id,
       productsIds: metadata?.productsIds || [],
