@@ -18,7 +18,6 @@ const orderSchema = new Schema({
   productsIds: {
     type: Array,
     required: true,
-    unique: true,
   },
   buyerId: {
     type: String,
