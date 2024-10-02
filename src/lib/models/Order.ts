@@ -2,12 +2,13 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
 export type orderSchemaType = {
+  _id?: string;
   id: string;
   productsIds: Object;
   buyerId: string;
   createdAt: Date;
   totalAmount: number;
-  deliveryData: Object;
+  deliveryData?: Object;
 };
 
 const orderSchema = new Schema({
@@ -31,6 +32,7 @@ const orderSchema = new Schema({
   },
   deliveryData: {
     type: Object,
+    required: true,
   },
 });
 

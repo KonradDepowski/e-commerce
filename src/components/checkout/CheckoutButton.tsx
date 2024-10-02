@@ -20,6 +20,8 @@ const CheckoutButton = ({
 }) => {
   const { userId } = useAuth();
 
+  console.log(deliveryData);
+
   let content = (
     <>
       <SignedOut>

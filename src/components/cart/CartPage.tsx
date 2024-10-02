@@ -9,6 +9,7 @@ import { useAuth } from "@clerk/nextjs";
 import { fetchUserCart, findDiscountCode } from "@/lib/actions/cart";
 import CheckoutButton from "../checkout/CheckoutButton";
 import DeliveryForm from "./DeliveryForm";
+import Image from "next/image";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
@@ -85,53 +86,63 @@ const CartPage = () => {
       <h2 className="text-center text-2xl md:text-3xl font-bold uppercase py-5 md:w-full">
         Your Cart
       </h2>
-      <div className="md:w-[45%]">
-        <ul
-          id="scroll"
-          className="list-none px-2 flex flex-col justify-center items-center gap-3 max-h-[400px] overflow-scroll "
-        >
-          {cartItems.map((item) => (
-            <CartItem
-              key={item.id}
-              id={item.id}
-              image={item.image}
-              title={item.title}
-              price={item.price}
-              quantity={item.quantity}
-              size={item.size}
-            />
-          ))}
-          {cartCtx!?.items.length === 0 && (
-            <p className="text-lg">Your cart is empty</p>
-          )}
-        </ul>
-      </div>
-      <div className="md:w-[45%] md:flex md:flex-col">
-        <form className="py-6">
-          <h3 className=" py-3 md:pt-0 text-lg">Discount code</h3>
-          <div className="flex flex-row gap-3">
-            <Input
-              className="w-1/2 lg:p-5"
-              type="text"
-              placeholder="Enter a code"
-              onChange={(e) => setDiscountCode(e.target.value)}
-              value={discountCode}
-            />
-            <Button
-              type="button"
-              onClick={checkDiscountCodeHandler}
-              className={` ${
-                bonusMode
-                  ? "dark:bg-red-800 dark:hover:bg-red-900"
-                  : "dark:bg-gray-800 dark:hover:bg-gray-900"
-              } transition-all p-3 px-6 lg:p-5 rounded-lg w-[30%] xl:text-xl text-[var(--color)]`}
-            >
-              {bonusMode ? "Remove" : "Add"}
-            </Button>
-          </div>
-        </form>
-        <DeliveryForm totalAmount={totalAmount!} cartItemsIds={cartItemsIds!} />
-      </div>
+
+      {cartCtx?.items.length === 0 && (
+        <>
+          <p className="text-3xl text-center w-full">Your Cart is Empty</p>
+        </>
+      )}
+      {cartCtx?.items.length! > 0 && (
+        <div className="md:w-[45%]">
+          <ul
+            id="scroll"
+            className="list-none px-2 flex flex-col justify-center items-center gap-3 max-h-[400px] overflow-scroll "
+          >
+            {cartItems.map((item) => (
+              <CartItem
+                key={item.id}
+                id={item.id}
+                image={item.image}
+                title={item.title}
+                price={item.price}
+                quantity={item.quantity}
+                size={item.size}
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+      {cartCtx!?.items.length > 0 && (
+        <div className="md:w-[45%] md:flex md:flex-col">
+          <form className="py-6">
+            <h3 className=" py-3 md:pt-0 text-lg">Discount code</h3>
+            <div className="flex flex-row gap-3">
+              <Input
+                className="w-1/2 lg:p-5"
+                type="text"
+                placeholder="Enter a code"
+                onChange={(e) => setDiscountCode(e.target.value)}
+                value={discountCode}
+              />
+              <Button
+                type="button"
+                onClick={checkDiscountCodeHandler}
+                className={` ${
+                  bonusMode
+                    ? "dark:bg-red-800 dark:hover:bg-red-900"
+                    : "dark:bg-gray-800 dark:hover:bg-gray-900"
+                } transition-all p-3 px-6 lg:p-5 rounded-lg w-[30%] xl:text-xl text-[var(--color)]`}
+              >
+                {bonusMode ? "Remove" : "Add"}
+              </Button>
+            </div>
+          </form>
+          <DeliveryForm
+            totalAmount={totalAmount!}
+            cartItemsIds={cartItemsIds!}
+          />
+        </div>
+      )}
     </section>
   );
 };

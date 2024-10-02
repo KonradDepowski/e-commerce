@@ -21,14 +21,16 @@ const Checkout = ({
   productsIds: Object[];
   userId: string;
   totalAmount: number;
-  deliveryData: FormValues;
+  deliveryData: any;
 }) => {
   const onCheckout = async () => {
+    console.log("Checkout order", deliveryData);
+
     const order = {
       productsIds: [...productsIds],
       buyerId: userId,
       totalAmount,
-      deliveryData,
+      deliveryData: deliveryData,
     };
 
     await checkoutOrder(order);

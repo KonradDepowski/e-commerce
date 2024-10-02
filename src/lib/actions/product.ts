@@ -15,6 +15,8 @@ export const fetchAllProducts = async () => {
   try {
     await connectToDatabase();
     const products = Product.find();
+    console.log(products);
+
     return products;
   } catch (error) {
     console.log(error);
@@ -115,10 +117,9 @@ export const fetchSortProducts = async (
         } else if (filterName.price === "$50-$75") {
           findCondition.price = { $gte: 50, $lte: 75 };
         } else if (filterName.price === "$75-$100") {
-          findCondition.price = { $gte:75, $lte: 100  };
-        }
-        else if (filterName.price === "Over $100") {
-          findCondition.price = { $gte:100,  };
+          findCondition.price = { $gte: 75, $lte: 100 };
+        } else if (filterName.price === "Over $100") {
+          findCondition.price = { $gte: 100 };
         }
       }
     }

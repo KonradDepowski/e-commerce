@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import Order, { orderSchemaType } from "../models/Order";
 import { connectToDatabase } from "../database";
+import Product from "../models/Product";
+import { fetchProduct } from "./product";
 
 export const checkoutOrder = async (order: any) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -28,7 +30,7 @@ export const checkoutOrder = async (order: any) => {
       metadata: {
         productsIds: JSON.stringify(order.productsIds),
         buyerId: order.buyerId,
-        totalAmount: JSON.stringify(totalAmount),
+        totalAmount: JSON.stringify(totalAmount / 100),
         deliveryData: JSON.stringify(order.deliveryData),
       },
       mode: "payment",
@@ -54,5 +56,54 @@ export const createOrder = async (order: orderSchemaType) => {
     return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     throw error;
+  }
+};
+
+export const fetchUserOrder = async (userId: string) => {
+  try {
+    await connectToDatabase();
+
+    const orders: orderSchemaType[] = await Order.find({
+      buyerId: userId,
+    });
+
+    return orders;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const fetchSingleOrder = async (orderId: string) => {
+  try {
+    await connectToDatabase();
+
+    // Assuming Order.findOne since we're fetching a single order by ID
+    const order: any = await Order.findOne({ _id: orderId });
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+
+    const productsIds = JSON.parse(order.productsIds as string);
+
+    // Using Promise.all to handle asynchronous operations inside map
+    const products = await Promise.all(
+      productsIds.map(async (obj: any) => {
+        const productData = await fetchProduct(obj.id);
+        return {
+          ...productData,
+          size: obj.size,
+          deliveryData: JSON.parse(order.deliveryData),
+          totalAmount: order.totalAmount,
+          date: order.createdAt,
+        };
+      })
+    );
+
+    return products;
+  } catch (error) {
+    console.error(error);
+    return [];
   }
 };
