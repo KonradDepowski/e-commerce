@@ -10,6 +10,8 @@ import { fetchProduct } from "./product";
 export const checkoutOrder = async (order: any) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
+  console.log("Order checkout ", order);
+
   const totalAmount = order.totalAmount * 100;
   try {
     const session = await stripe.checkout.sessions.create({
