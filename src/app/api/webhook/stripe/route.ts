@@ -29,14 +29,12 @@ export async function POST(request: Request) {
   if (eventType === "checkout.session.completed") {
     const { id, metadata } = event.data.object;
 
-    console.log(metadata);
-
     const order = {
       id: id,
-      productsIds: metadata?.productsIds || [],
+      productsIds: JSON.parse(metadata?.productsIds!) || [],
       buyerId: metadata?.buyerId || "",
       totalAmount: Number(metadata?.totalAmount) || 0,
-      deliveryData: metadata?.deliveryData || {},
+      deliveryData: JSON.parse(metadata?.deliveryData!) || {},
       createdAt: new Date(),
     };
 

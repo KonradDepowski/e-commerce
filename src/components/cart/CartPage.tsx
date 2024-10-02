@@ -78,7 +78,7 @@ const CartPage = () => {
 
   const cartItemsIds: Object[] = [];
   cartCtx?.items.forEach((it) =>
-    cartItemsIds.push({ id: it.id, size: it.size })
+    cartItemsIds.push({ id: it.id, size: it.size, quantity: it.quantity })
   );
 
   return (
@@ -140,6 +140,7 @@ const CartPage = () => {
           <DeliveryForm
             totalAmount={totalAmount!}
             cartItemsIds={cartItemsIds!}
+            userId={userId!}
           />
         </div>
       )}

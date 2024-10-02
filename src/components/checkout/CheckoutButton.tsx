@@ -1,28 +1,12 @@
 "use client";
 
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
-import { useAuth } from "@clerk/nextjs";
+
 import Link from "next/link";
 import { Button } from "../ui/button";
-import Checkout from "./Checkout";
-import { FormValues } from "../cart/DeliveryForm";
 
-const CheckoutButton = ({
-  productsIds,
-  totalAmount,
-  isValid,
-  deliveryData,
-}: {
-  productsIds: Object[];
-  totalAmount: number;
-  isValid: boolean;
-  deliveryData: FormValues;
-}) => {
-  const { userId } = useAuth();
-
-  console.log(deliveryData);
-
-  let content = (
+const CheckoutButton = () => {
+  return (
     <>
       <SignedOut>
         <Link href="/login">
@@ -45,19 +29,6 @@ const CheckoutButton = ({
       </SignedIn>
     </>
   );
-
-  if (isValid) {
-    content = (
-      <Checkout
-        userId={userId!}
-        productsIds={productsIds}
-        totalAmount={totalAmount}
-        deliveryData={deliveryData}
-      />
-    );
-  }
-
-  return content;
 };
 
 export default CheckoutButton;

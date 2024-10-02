@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deliveryDataSchema } from "@/lib/models/deliveryData";
 import { FormEvent, useState } from "react";
+import { checkoutOrder } from "@/lib/actions/order";
+import { loadStripe } from "@stripe/stripe-js";
 
 export type FormValues = {
   country: string;
@@ -23,9 +25,11 @@ export type FormValues = {
 const DeliveryForm = ({
   totalAmount,
   cartItemsIds,
+  userId,
 }: {
   totalAmount: number;
   cartItemsIds: Object[];
+  userId: string;
 }) => {
   const {
     handleSubmit,
@@ -35,11 +39,16 @@ const DeliveryForm = ({
     resolver: zodResolver(deliveryDataSchema),
   });
 
-  const [deliveryData, setDeliveryData] = useState<FormValues>();
-
   const submitFormHandler = async (data: FormValues) => {
-    console.log("Form submitted successfully:", data);
-    setDeliveryData(data);
+    loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+    const order = {
+      productsIds: [...cartItemsIds],
+      buyerId: userId,
+      totalAmount,
+      deliveryData: data,
+    };
+
+    checkoutOrder(order);
   };
   return (
     <form onSubmit={handleSubmit(submitFormHandler)}>
@@ -220,12 +229,7 @@ const DeliveryForm = ({
         Total Amount:
         <span className="text-[#59ab6e]">${totalAmount}</span>
       </p>
-      <CheckoutButton
-        isValid={isValid}
-        productsIds={cartItemsIds}
-        totalAmount={totalAmount!}
-        deliveryData={deliveryData!}
-      />
+      <CheckoutButton />
     </form>
   );
 };
