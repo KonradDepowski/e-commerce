@@ -8,15 +8,14 @@ export const SignOutButton = () => {
   const router = useRouter();
 
   return (
-    // Clicking this button signs out a user
-    // and redirects them to the home page "/".
     <button
+      className=" absolute bottom-3 right-3 px-4 py-2 bg-red-600 rounded-lg hover:bg-red-700 font-bold"
       onClick={() => {
-        signOut();
         router.push("/");
+        signOut();
       }}
     >
-      Sign out
+      Logout
     </button>
   );
 };

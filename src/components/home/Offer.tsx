@@ -108,7 +108,7 @@ const Offer = () => {
             style={{
               textShadow: "0.2px 0.2px 0.2px rgba(0,0,0,0.6)",
             }}
-            className="py-4 [font-size:_clamp(25px,4vw,55px)] font-bold capitalize text-[#59ab6e]"
+            className="py-4 [font-size:_clamp(25px,4vw,55px)] font-bold capitalize text-[var(--green-main)]"
           >
             {data?.name}
           </h3>
@@ -122,7 +122,7 @@ const Offer = () => {
           </div>
           <Link
             href={`productId=${data?._id}`}
-            className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all w-[150px] lg:w-[300px] p-3 lg:p-5 rounded-lg flex items-center justify-center gap-3 lg:gap-6"
+            className="bg-[var(--green-main)] hover:bg-[#2f6c3e] transition-all w-[150px] lg:w-[300px] p-3 lg:p-5 rounded-lg flex items-center justify-center gap-3 lg:gap-6"
           >
             <BsCart3 className="text-md lg:text-3xl text-white" />
             <p className="font-bold lg:text-2xl text-white">See Details</p>

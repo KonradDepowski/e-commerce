@@ -1,8 +1,13 @@
+import Loader from "@/components/Loader/Loader";
 import OrderDetail from "@/components/order/OrderDetail";
-import React from "react";
+import { Suspense } from "react";
 
 const OrderDetails = ({ params }: { params: { orderId: string } }) => {
-  return <OrderDetail params={params} />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <OrderDetail params={params} />
+    </Suspense>
+  );
 };
 
 export default OrderDetails;

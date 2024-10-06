@@ -87,7 +87,9 @@ export const fetchSingleOrder = async (orderId: string) => {
       throw new Error("Order not found");
     }
 
-    const productsIds = JSON.parse(order.productsIds as string);
+    const productsIds = order.productsIds;
+
+    const productsData = [];
 
     // Using Promise.all to handle asynchronous operations inside map
     const products = await Promise.all(
@@ -96,14 +98,19 @@ export const fetchSingleOrder = async (orderId: string) => {
         return {
           ...productData,
           size: obj.size,
-          deliveryData: JSON.parse(order.deliveryData),
-          totalAmount: order.totalAmount,
-          date: order.createdAt,
+          quantity: obj.quantity,
         };
       })
     );
 
-    return products;
+    productsData.push({
+      products,
+      deliveryData: order.deliveryData,
+      totalAmount: order.totalAmount,
+      date: order.createdAt,
+    });
+
+    return productsData;
   } catch (error) {
     console.error(error);
     return [];

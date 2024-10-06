@@ -7,12 +7,12 @@
     --background: linear-gradient(
       90deg,
       rgba(217, 244, 245, 0.3074404761904762) 0%,
-      rgba(174, 196, 235, 0.3550595238095238) 40%,
+      rgba(93, 101, 115, 0.355) 40%,
       rgba(234, 180, 180, 0.3477766106442577) 100%
     );
 
     --foreground: 224 71.4% 4.1%;
-    --link-hover: #475569;
+    --link-hover: #818587;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
 
@@ -34,18 +34,19 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 220 13% 91%;
+    --border: 0, 0%, 4%;
     --input: 220 13% 91%;
     --ring: 224 71.4% 4.1%;
     --image: 0.9;
     --h1: #4e31aa;
-    --h2: #64748b;
+    --h2: #222a36;
     --h3: #4e31aa;
     --secondary-200: #e5e7eb;
     --secondary-300: #d6d7e9;
-    --border: rgba(0, 0, 0, 0.2);
+    --border: ;
 
-    --color: hsl(0, 0%, 24%);
+    --color: 215, 28%, 17%;
+    --green-main: #249440;
     --radius: 0.5rem;
     --font-color: black;
     --blue-hover: rgba(119, 162, 247, 0.5);
@@ -94,6 +95,7 @@
     --font-color: white;
     --blue-hover: rgba(35, 59, 107, 0.8);
     --red-hover: rgba(171, 20, 6, 0.5);
+    --green-main: #59ab6e;
   }
 }
 
@@ -103,6 +105,14 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
 

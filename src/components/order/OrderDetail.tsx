@@ -1,17 +1,15 @@
 import { fetchSingleOrder } from "@/lib/actions/order";
-import Image from "next/image";
+import OrderItemDetails from "./OrderItemDetails";
 
 const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const orderId = params.orderId.slice(10, params.orderId.length);
 
   const order = await fetchSingleOrder(orderId);
 
-  // const orderProductInfo = order._doc;
+  const orderProductInfo = order[0].products;
 
-  console.log(order);
-
-  // const deliveryInfo = `${order.deliveryData.town} ${order.deliveryData.postalCode} ${order.deliveryData.street}`;
-  // const date = order.date;
+  const deliveryInfo = `${order[0].deliveryData.town} ${order[0].deliveryData.postalCode} ${order[0].deliveryData.street}`;
+  const date = order[0].date;
 
   return (
     <section className="p-3 max-w-[1500px] m-auto md:min-h-[60vh] ">
@@ -29,15 +27,20 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
           </p>
           <p className="flex  gap-2">
             <span className="text-gray-300 md:text-lg">Total Amount:</span>
-            <span className="text-gray-600 md:text-lg"></span>
+            <span className="text-gray-600 md:text-lg">
+              ${order[0].totalAmount}
+            </span>
           </p>
           <p className="flex  gap-2">
             <span className="text-gray-300 md:text-lg">Delivery info:</span>
-            <span className="text-gray-600 md:text-lg"></span>
+            <span className="text-gray-600 md:text-lg">{deliveryInfo}</span>
           </p>
           <p className="flex  gap-2">
             <span className="text-gray-300 md:text-lg">Date:</span>
-            <span className="text-gray-600 md:text-lg"></span>
+            <span className="text-gray-600 md:text-lg">
+              {date.toLocaleDateString()} {""}
+              {date.toLocaleTimeString()}
+            </span>
           </p>
         </div>
         <div className="md:w-1/2">
@@ -45,72 +48,16 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
             Products Ordered
           </h3>
           <ul className="py-4 flex flex-col justify-center items-center gap-3">
-            <div className="w-[80%] border-dashed border-b-2 border-b-gray-700 ">
-              <div className="flex justify-center ">
-                <div className="w-[40%]">
-                  <Image
-                    src="https://i.ibb.co/Kzznjwp/reto.jpg"
-                    width={90}
-                    height={90}
-                    alt="img"
-                  />
-                </div>
-                <div className="flex flex-col justify-center items-center w-[60%]">
-                  <h5 className="text-md  text-[#59ab6e] text-center py-1">
-                    Air Jordan 1 Hi FlyEase
-                  </h5>
-                  <p>
-                    <span>Size:</span> <span className="text-gray-600">12</span>
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-around py-3">
-                <p>
-                  <span>Price:</span> <span className="text-gray-600">$50</span>
-                </p>
-                <p>
-                  <span>Qunatity:</span>{" "}
-                  <span className="text-gray-600">2</span>
-                </p>
-                <p>
-                  <span>Total:</span>{" "}
-                  <span className="text-gray-600">$100</span>
-                </p>
-              </div>
-            </div>
-            <div className="w-[80%] border-dashed border-b-2 border-b-gray-700 ">
-              <div className="flex ">
-                <div className="w-[40%]">
-                  <Image
-                    src="https://i.ibb.co/Kzznjwp/reto.jpg"
-                    width={90}
-                    height={90}
-                    alt="img"
-                  />
-                </div>
-                <div className="flex flex-col justify-center items-center w-[60%]">
-                  <h5 className="text-md  text-[#59ab6e] text-center py-1">
-                    Nike Air Max
-                  </h5>
-                  <p>
-                    <span>Size:</span> <span className="text-gray-600">12</span>
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-around py-3">
-                <p>
-                  <span>Price:</span> <span className="text-gray-600">$50</span>
-                </p>
-                <p>
-                  <span>Qunatity:</span>{" "}
-                  <span className="text-gray-600">2</span>
-                </p>
-                <p>
-                  <span>Total:</span>{" "}
-                  <span className="text-gray-600">$100</span>
-                </p>
-              </div>
-            </div>
+            {orderProductInfo.map((order) => (
+              <OrderItemDetails
+                id={order._doc._id}
+                name={order._doc.name}
+                image={order._doc.images[0]}
+                size={order.size}
+                price={order._doc.price}
+                quantity={order.quantity}
+              />
+            ))}
           </ul>
         </div>
       </div>

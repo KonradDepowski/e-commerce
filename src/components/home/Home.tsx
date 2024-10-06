@@ -17,7 +17,6 @@ import { fetchLastWeekProducts } from "@/lib/actions/product";
 
 const HomePage = async () => {
   const products = await fetchLastWeekProducts();
-  
 
   return (
     <section className="relative md:pt-3 ">
@@ -37,7 +36,7 @@ const HomePage = async () => {
                       style={{
                         textShadow: "0.2px 0.2px 0.2px rgba(0,0,0,0.6)",
                       }}
-                      className="text-[#59ab6e] font-bold text-2xl text-center py-3 md:text-3xl xl:text-5xl"
+                      className="text-[var(--green-main)] font-bold text-2xl text-center py-3 md:text-3xl xl:text-5xl"
                     >
                       {item.title}
                       <span className="block">{item.subtitle}</span>
@@ -55,8 +54,8 @@ const HomePage = async () => {
         </Carousel>
       </div>
       <div className=" p-10">
-        <h2 className="text-[var(--h2)] [font-size:_clamp(15px,4vw,30px)]  pb-10 max-w-[1500px] m-auto   ">
-          This Weekss Highlights
+        <h2 className="text-[var(--green-main)] [font-size:_clamp(15px,4vw,30px)] font-bold  pb-10 max-w-[1500px] m-auto   ">
+          {`This Week's Highlights`}
         </h2>
         <ul className="flex flex-row flex-wrap items-center justify-center lg:justify-start  gap-10 max-w-[1500px] m-auto">
           {products?.map((product) => (
