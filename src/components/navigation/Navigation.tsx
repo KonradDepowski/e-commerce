@@ -4,8 +4,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
 
-import WideNav from "./WIdeNav";
 import NarrowNav from "./NarrowNav";
+import WideNav from "./WideNav";
 
 const Navigation = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
