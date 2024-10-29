@@ -37,6 +37,7 @@ const CartPage = () => {
     } else {
       setTotalAmount(cartCtx?.totalAmount);
     }
+    setIsLoading(false);
   }, [cartCtx, userId]);
   useEffect(() => {
     const fetchCartHandler = async () => {
