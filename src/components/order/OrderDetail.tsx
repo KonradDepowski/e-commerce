@@ -1,5 +1,6 @@
 import { fetchSingleOrder } from "@/lib/actions/order";
 import OrderItemDetails from "./OrderItemDetails";
+import GoBackButton from "../buttons/GoBackButton";
 
 const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const orderId = params.orderId.slice(10, params.orderId.length);
@@ -16,27 +17,36 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
       <h2 className="text-xl py-2 font-bold md:text-2xl text-center xl:text-3xl xl:pb-8 ">
         Order Details
       </h2>
+      <GoBackButton />
       <div className=" flex flex-col md:flex-row md:flex-wrap ">
         <div className="py-2 md:w-1/2 md:py-0 ">
-          <h3 className="text-md font-bold py-1 md:text-lg text-[#59ab6e] md:w-full xl:text-xl">
+          <h3 className="text-lg font-bold py-1  text-[var(--green-main)] md:w-full xl:text-2xl">
             Order Info
           </h3>
-          <p className="flex gap-2 pt-4">
-            <span className="text-gray-300 md:text-lg ">Order Id:</span>
+          <p className="flex gap-2 pt-2">
+            <span className="text-[var(--dark-600)] md:text-lg font-bold">
+              Order Id:
+            </span>
             <span className="text-gray-600 md:text-lg">{orderId}</span>
           </p>
           <p className="flex  gap-2">
-            <span className="text-gray-300 md:text-lg">Total Amount:</span>
+            <span className="text-[var(--dark-600)] md:text-lg font-bold">
+              Total Amount:
+            </span>
             <span className="text-gray-600 md:text-lg">
               ${order[0].totalAmount}
             </span>
           </p>
           <p className="flex  gap-2">
-            <span className="text-gray-300 md:text-lg">Delivery info:</span>
+            <span className="text-[var(--dark-600)]  md:text-lg font-bold">
+              Delivery info:
+            </span>
             <span className="text-gray-600 md:text-lg">{deliveryInfo}</span>
           </p>
           <p className="flex  gap-2">
-            <span className="text-gray-300 md:text-lg">Date:</span>
+            <span className="text-[var(--dark-600)]  md:text-lg font-bold">
+              Date:
+            </span>
             <span className="text-gray-600 md:text-lg">
               {date.toLocaleDateString()} {""}
               {date.toLocaleTimeString()}
@@ -44,7 +54,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
           </p>
         </div>
         <div className="md:w-1/2">
-          <h3 className="text-md font-bold py-1 md:text-lg text-[#59ab6e] xl:text-xl">
+          <h3 className="text-lg font-bold py-1  text-[var(--green-main)] xl:text-2xl">
             Products Ordered
           </h3>
           <ul className="py-4 flex flex-col justify-center items-center gap-3">

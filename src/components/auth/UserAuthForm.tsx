@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { useSignIn, useSignUp } from "@clerk/nextjs";
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/lib/models/loginSchema";
@@ -42,22 +42,18 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(mode === "signup" ? signupSchema : loginSchema),
   });
 
   const handleSubmitHandler = async (data: FormValues) => {
-    toast.error(mode);
     const formData = {
       emailAddress: data.email,
       password: data.password,
       firstName: data.firstName,
       lastName: data.lastName,
     };
-    toast.success(
-      `${formData.lastName} ${formData.firstName} ${formData.emailAddress} `
-    );
 
     if (!isLoaded) {
       return;
@@ -72,17 +68,12 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
           password: formData.password,
         });
 
-        // send the email.
         await signUp.prepareEmailAddressVerification({
           strategy: "email_code",
         });
 
-        // change the UI to our pending section.
         setPendingVerification(true);
       } catch (err: any) {
-        console.error(JSON.stringify(err, null, 2));
-        console.log(err.errors[0].message);
-
         toast.error(err.errors[0].message);
       }
     } else {
@@ -92,28 +83,17 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
           password: data.password,
         });
 
-        if (completeSignIn.status !== "complete") {
-          // The status can also be `needs_factor_on', 'needs_factor_two', or 'needs_identifier'
-          // Please see https://clerk.com/docs/references/react/use-sign-in#result-status for  more information
-          console.log(JSON.stringify(completeSignIn, null, 2));
-        }
-
         if (completeSignIn.status === "complete") {
-          // If complete, user exists and provided password match -- set session active
           await setActive({ session: completeSignIn.createdSessionId });
-          // Redirect the user to a post sign-in route
           router.push("/");
+          toast.success("Success. You logged in!");
         }
       } catch (err: any) {
-        // This can return an array of errors.
-        // See https://clerk.com/docs/custom-flows/error-handling to learn about error handling
-        toast(err.message);
-        console.error(JSON.stringify(err, null, 2));
+        toast.error(err.errors[0].message);
       }
     }
   };
 
-  // This verifies the user using email code that is delivered.
   const onPressVerify = async () => {
     if (!isLoaded) {
       return;
@@ -124,18 +104,14 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
         code: code,
       });
 
-      if (completeSignUp.status !== "complete") {
-        console.log(JSON.stringify(completeSignUp, null, 2));
-      }
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        console.log("success");
-        toast("Success");
+
         router.push("/");
+        toast.success("Success. You logged in!");
       }
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-      toast(err.message);
+      toast.error(err.errors[0].message);
     }
   };
 
@@ -160,7 +136,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                       Fist Name
                     </Label>
                     <Input
-                      className="lg:p-6 lg:px-3"
+                      className="lg:p-6 lg:px-3  border-[var(--dark-300)]"
                       id="firstName"
                       placeholder="First name"
                       type="text"
@@ -181,7 +157,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                       Last Name
                     </Label>
                     <Input
-                      className="lg:p-6 lg:px-3"
+                      className="lg:p-6 lg:px-3  border-[var(--dark-300)]"
                       id="lastName"
                       placeholder="Last name"
                       type="text"
@@ -204,7 +180,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                   Email
                 </Label>
                 <Input
-                  className="lg:p-6 lg:px-3"
+                  className="lg:p-6 lg:px-3  border-[var(--dark-300)]"
                   id="email"
                   placeholder="name@example.com"
                   type="email"
@@ -225,7 +201,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                   Password
                 </Label>
                 <Input
-                  className="lg:p-6 lg:px-3"
+                  className="lg:p-6 lg:px-3 border-[var(--dark-300)]"
                   id="password"
                   placeholder="********"
                   type="password"
@@ -242,11 +218,11 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
                 </p>
               )}
               <Button
-                className="lg:p-6 lg:px-3 text-white bg-[var(--h3)] hover:bg-[#5a3dbb] focus:bg-[#5a3dbb]]"
+                className="lg:p-6 lg:px-3 text-white bg-[var(--purple)] hover:bg-[var(--purple-hover)] focus:bg-[var(--purple-hover)]"
                 disabled={isSubmitting}
               >
-                {isSubmitting && <p>Loading</p>}
-                {mode === "signup" ? "Sign Up" : "Sign In"}
+                {isSubmitting && <p>Submitting</p>}
+                {!isSubmitting && (mode === "signup" ? "Sign Up" : "Sign In")}
               </Button>
             </div>
           </form>
@@ -258,22 +234,22 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
             </div>
           </div>
           <Button
-            className="lg:p-6 lg:px-3 border-[1px] border-dashed  border-[#DD5144] hover:bg-[var(--red-hover)] "
+            className="lg:p-6 lg:px-3 border-[1px] border-dashed  border-[#DD5144] bg-[var(--googleBtn)] hover:bg-[var(--red-hover)] hover:text-white text-white "
             variant="outline"
             type="button"
             disabled={isSubmitting}
             onClick={() => signInWith("oauth_google")}
           >
-            {isSubmitting ? <p>Loading</p> : <p>Google</p>}
+            {isSubmitting ? <p>Submitting</p> : <p>Google</p>}
           </Button>
           <Button
-            className="lg:p-6 lg:px-3 border-[1px] border-dashed border-[#4267B2] hover:bg-[var(--blue-hover)] "
+            className="lg:p-6 lg:px-3 border-[1px] border-dashed border-[#4267B2] hover:bg-[var(--blue-hover)] bg-[var(--fbBtn)] text-white hover:text-white "
             variant="outline"
             type="button"
             disabled={isSubmitting}
             onClick={() => signInWith("oauth_facebook")}
           >
-            {isSubmitting ? <p>Loading</p> : <p> Facebook</p>}
+            {isSubmitting ? <p>Submitting</p> : <p> Facebook</p>}
           </Button>
         </>
       )}
@@ -290,7 +266,7 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
             onChange={(e) => setCode(e.target.value)}
           />
           <Button
-            className="lg:p-6 lg:px-3 mt-4 bg-[var(--h3)] hover:bg-[#5a3dbb] "
+            className="lg:p-6 lg:px-3 text-white mt-4 bg-[var(--purple)] hover:bg-[var(--purple-hover)] focus:bg-[var(--purple-hover)] "
             variant="secondary"
             disabled={isSubmitting}
             onClick={onPressVerify}

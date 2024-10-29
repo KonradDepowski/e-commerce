@@ -18,12 +18,10 @@ import { useParams } from "next/navigation";
 import { fetchProduct } from "@/lib/actions/product";
 import { useContext } from "react";
 import { CartContext } from "@/lib/store/CartContext";
-import { useAuth } from "@clerk/nextjs";
-import { updateUserCart } from "@/lib/actions/cart";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
-    required_error: "You need to select a size",
+    required_error: "You need to select size",
   }),
 });
 
@@ -131,7 +129,7 @@ export function SizeForm() {
         />
         <Button
           style={{ marginTop: "50px !important" }}
-          className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg xl:w-[200px] xl:h-[60px] xl:text-xl mt-10 text-white"
+          className="bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] transition-all p-3 px-6 lg:p-5 rounded-lg xl:w-[200px] xl:h-[60px] xl:text-xl mt-10 text-white"
           type="submit"
         >
           Add to Cart

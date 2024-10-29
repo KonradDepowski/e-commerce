@@ -24,7 +24,7 @@ const Sorting: React.FC = () => {
       <SelectTrigger className="w-[180px] text-[12px]">
         <SelectValue placeholder="Sorting" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="bg-primary">
         <SelectItem className="text-[12px]" value="ascending">
           Sort by price (low to high)
         </SelectItem>

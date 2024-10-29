@@ -57,12 +57,16 @@ const NarrowNav = ({ userId }: NarrowNavProps) => {
             </h2>
             <div className="flex justify-center gap-5">
               <div className="flex flex-row gap-2 py-1 items-center ">
-                <FaPhoneAlt className="text-[var(--h2)]  text-sm " />
-                <span className="text-[var(--h2)] text-sm">834352525</span>
+                <FaPhoneAlt className="text-[var(--dark-500)]  text-sm " />
+                <span className="text-[var(--dark-500)] text-sm">
+                  834352525
+                </span>
               </div>
               <div className="flex flex-row gap-2 py-1 text-slate-300 items-center ">
-                <MdEmail className="text-sm text-[var(--h2)]  " />
-                <span className="text-[var(--h2)] text-sm">test@wp.pl</span>
+                <MdEmail className="text-sm text-[var(--dark-500)]  " />
+                <span className="text-[var(--dark-500)] text-sm">
+                  test@wp.pl
+                </span>
               </div>
             </div>
           </div>

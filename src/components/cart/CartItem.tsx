@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React, { useContext } from "react";
 
-import image from "../../../public/hero_3.png";
 import { ImBin } from "react-icons/im";
 
 import {
@@ -65,7 +64,7 @@ const CartItem = ({
                 aria-valuenow={itemQuantity?.quantity}
               />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-primary">
               <SelectItem className="text-[12px]" value="1">
                 1
               </SelectItem>
@@ -84,11 +83,11 @@ const CartItem = ({
             </SelectContent>
           </Select>
         </div>
-        <p className="text-xl text-[#59ab6e] font-bold">${price}</p>
+        <p className="text-xl text-[var(--green-main)] font-bold">${price}</p>
       </div>
       <ImBin
         onClick={() => cartCtx?.removeFromCart(id)}
-        className="text-xl mr-2 text-red-700 cursor-pointer"
+        className="text-xl mr-2 text-red-700 hover:text-red-800 cursor-pointer"
       />
     </li>
   );

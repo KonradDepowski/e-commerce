@@ -8,7 +8,6 @@ import Footer from "@/components/footer/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import CartContextProvider from "@/lib/store/CartContext";
-import { dark } from "@clerk/themes";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -28,11 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
+    <ClerkProvider>
       <CartContextProvider>
         <html lang="en">
           <body className={roboto.className}>

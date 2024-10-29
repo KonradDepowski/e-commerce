@@ -21,7 +21,7 @@ export const checkoutOrder = async (order: any) => {
             currency: "usd",
             unit_amount: totalAmount,
             product_data: {
-              name: "order",
+              name: "Order",
             },
           },
 

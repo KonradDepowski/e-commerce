@@ -1,12 +1,10 @@
 "use client";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import CheckoutButton from "../checkout/CheckoutButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { deliveryDataSchema } from "@/lib/models/deliveryData";
-import { FormEvent, useState } from "react";
 import { checkoutOrder } from "@/lib/actions/order";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -34,7 +32,7 @@ const DeliveryForm = ({
   const {
     handleSubmit,
     register,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(deliveryDataSchema),
   });
@@ -227,7 +225,7 @@ const DeliveryForm = ({
 
       <p className="self-end text-xl pr-2 py-6 font-bold xl:text-2xl">
         Total Amount:
-        <span className="text-[#59ab6e]">${totalAmount}</span>
+        <span className="text-[var(--green-main)]">${totalAmount}</span>
       </p>
       <CheckoutButton />
     </form>

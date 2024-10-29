@@ -6,10 +6,6 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
-import first from "../../../public/hero_1.png";
-import second from "../../../public/hero_2.png";
-import third from "../../../public/hero_3.png";
-
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
@@ -53,7 +49,7 @@ export default function ProductSlider({ images }) {
           ))}
         </Swiper>
 
-        {/* Thumbnail */}
+   
         <Swiper
           onSwiper={setThumbsSwiper}
           loop={true}

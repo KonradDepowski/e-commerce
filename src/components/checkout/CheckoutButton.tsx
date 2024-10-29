@@ -12,7 +12,7 @@ const CheckoutButton = () => {
         <Link href="/login">
           <Button
             type="button"
-            className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
+            className="bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
           >
             Go to Checkout
           </Button>
@@ -22,7 +22,7 @@ const CheckoutButton = () => {
       <SignedIn>
         <Button
           type="submit"
-          className="bg-[#59ab6e] hover:bg-[#2f6c3e] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
+          className="bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] transition-all p-3 px-6 lg:p-5 rounded-lg w-full md:w-[80%] max-w-[300px] md:py-5 xl:py-7 self-center md:self-end xl:text-xl text-white"
         >
           Get Products
         </Button>

@@ -6,7 +6,7 @@ import { StaticImageData } from "next/image";
 export type filterDataType = {
   title: string;
   cat: string;
-  items: string[] | number[];
+  items: string[];
 };
 
 export type slidesType = {
