@@ -7,6 +7,7 @@ import { SignOutButton } from "../buttons/SignOutButton";
 import OrderItem from "../order/OrderItem";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
+import type { Theme } from "@clerk/types";
 
 const Profile = () => {
   const { userId } = useAuth();
@@ -28,9 +29,12 @@ const Profile = () => {
     fetchUserOrders();
   }, [userId]);
 
+  const appearanceConfig: Theme | undefined =
+    theme === "dark" ? { baseTheme: dark } : undefined;
+
   return (
     <section className="flex flex-row flex-wrap justify-center py-4 gap-5  ">
-      <UserProfile appearance={theme === "dark" ? dark : undefined} />
+      <UserProfile appearance={appearanceConfig} />
       <div className="dark:bg-primary bg-white shadow-2xl w-[95%] min-h-[40vh] max-w-[40rem] p-4 xl:p-8 rounded-xl relative">
         <h2 className="text-2xl font-bold py-3 xl:text-3xl text-[var(--green-main)]">
           My Orders
