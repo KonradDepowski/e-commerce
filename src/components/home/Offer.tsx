@@ -17,15 +17,16 @@ const Offer = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const calculateTimeLeft = () => {
-    const now: any = new Date();
-    const tomorrow: any = new Date(
+    const now = new Date();
+    const targetTime = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate(),
-      now.getHours(),
-      now.getMinutes() + 5
+      now.getDate() + 1,
+      0,
+      0,
+      0
     );
-    const timeDifference = tomorrow - now;
+    const timeDifference = targetTime.getTime() - now.getTime();
 
     const hours = Math.floor(
       (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
