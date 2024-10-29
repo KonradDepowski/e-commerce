@@ -21,7 +21,9 @@ const Offer = () => {
     const tomorrow: any = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
+      now.getDate(),
+      now.getHours(),
+      now.getMinutes() + 5
     );
     const timeDifference = tomorrow - now;
 
