@@ -4,14 +4,10 @@ import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import Order, { orderSchemaType } from "../models/Order";
 import { connectToDatabase } from "../database";
-import Product from "../models/Product";
 import { fetchProduct } from "./product";
 
 export const checkoutOrder = async (order: any) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-  console.log("Order checkout ", order);
-
   const totalAmount = order.totalAmount * 100;
   try {
     const session = await stripe.checkout.sessions.create({
@@ -40,51 +36,66 @@ export const checkoutOrder = async (order: any) => {
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
     redirect(session.url!);
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const createOrder = async (order: orderSchemaType) => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database");
+    }
 
     const newOrder = await Order.create({
       ...order,
     });
 
-    console.log(newOrder);
+    if (!newOrder) {
+      throw new Error("Could not create new order");
+    }
 
     return JSON.parse(JSON.stringify(newOrder));
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const fetchUserOrder = async (userId: string) => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database");
+    }
 
     const orders: orderSchemaType[] = await Order.find({
       buyerId: userId,
     });
+    if (!orders) {
+      throw new Error("Could not fetch user orders");
+    }
 
     return orders;
-  } catch (error) {
-    console.log(error);
-    return [];
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const fetchSingleOrder = async (orderId: string) => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
 
-    // Assuming Order.findOne since we're fetching a single order by ID
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database");
+    }
+
     const order: any = await Order.findOne({ _id: orderId });
 
     if (!order) {
-      throw new Error("Order not found");
+      throw new Error("Could not fetch order");
     }
 
     const productsIds = order.productsIds;
@@ -102,6 +113,9 @@ export const fetchSingleOrder = async (orderId: string) => {
         };
       })
     );
+    if (!products) {
+      throw new Error("Could not fetch order");
+    }
 
     productsData.push({
       products,
@@ -111,8 +125,7 @@ export const fetchSingleOrder = async (orderId: string) => {
     });
 
     return productsData;
-  } catch (error) {
-    console.error(error);
-    return [];
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };

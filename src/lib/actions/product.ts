@@ -1,8 +1,8 @@
 "use server";
 
-import mongoose, { SortOrder } from "mongoose";
+import mongoose from "mongoose";
 import { connectToDatabase } from "../database";
-import Product, { productSchemaType } from "../models/Product";
+import Product from "../models/Product";
 import { revalidatePath } from "next/cache";
 
 type FilterProps = {
@@ -13,49 +13,80 @@ type FilterProps = {
 
 export const fetchAllProducts = async () => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database");
+    }
     const products = Product.find();
-    console.log(products);
+    if (!products) {
+      throw new Error("Could not fetch all products");
+    }
 
     return products;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const fetchLastWeekProducts = async () => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database");
+    }
     const products = Product.find().sort({ createdAt: -1 });
+    if (!products) {
+      throw new Error("Could not fetch last week prodcuts");
+    }
     return products;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const fetchProduct = async (id: string) => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
     const product = Product.findOne({ _id: new mongoose.Types.ObjectId(id) });
+    if (!product) {
+      throw new Error("Could not fetch product");
+    }
     return product;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const fetchOfferProduct = async () => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
     const product = Product.findOne({ offer: true });
+    if (!product) {
+      throw new Error("Could not fetch offer product");
+    }
     return product;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
 export const updateOfferProduct = async () => {
   try {
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
     const currentOfferProduct = await fetchOfferProduct();
     if (currentOfferProduct) {
       await Product.findOneAndUpdate(
@@ -75,9 +106,10 @@ export const updateOfferProduct = async () => {
     );
 
     revalidatePath("/");
-    console.log("Product offer updated successfully");
-  } catch (error) {
-    console.error("Error updating product offer:", error);
+  } catch (error: any) {
+    throw new Error(
+      error.message ? error.message : "Failed to update offer product"
+    );
   }
 };
 
@@ -88,7 +120,11 @@ export const fetchSortProducts = async (
   try {
     let sortCondition: any = {};
     let findCondition: any = {};
-    await connectToDatabase();
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
 
     // Setting sortCondition based on sortName
     if (sortName) {
@@ -126,8 +162,12 @@ export const fetchSortProducts = async (
 
     const products = await Product.find(findCondition).sort(sortCondition);
 
+    if (!products) {
+      throw new Error("Could not fetch products");
+    }
+
     return products;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };

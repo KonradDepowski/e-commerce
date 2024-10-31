@@ -88,7 +88,7 @@ const CartPage = () => {
   );
 
   return (
-    <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 max-w-[1400px] m-auto min-h-[40vh] md:min-h-[60vh]  ">
+    <section className=" pb-3 flex flex-col md:flex-row md:flex-wrap md:justify-between md:px-6 md:pt-3 md:pb-10 px-3 w-full max-w-[1400px] m-auto min-h-[40vh] md:min-h-[60vh]  ">
       <h2 className="text-center text-2xl md:text-3xl font-bold uppercase py-5 md:w-full">
         Your Cart
       </h2>

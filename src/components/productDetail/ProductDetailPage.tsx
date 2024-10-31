@@ -2,15 +2,19 @@ import React from "react";
 import { SizeForm } from "./SizeForm";
 import { fetchProduct } from "@/lib/actions/product";
 import EmblaCarousel from "../swiper/EmblaCarousel";
+import { notFound } from "next/navigation";
 
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
   const prodId = params.id.slice(12, params.id.length);
   const OPTIONS = {};
 
   const product = await fetchProduct(prodId);
-  let price = product.price;
 
-  if (product.offer) {
+  if (!product) {
+    return notFound();
+  }
+  let price = product.price;
+  if (product?.offer) {
     price = product.price * 0.8;
   }
 

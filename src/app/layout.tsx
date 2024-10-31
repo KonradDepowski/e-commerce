@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navigation/Navigation";
@@ -29,8 +28,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <CartContextProvider>
-        <html lang="en">
-          <body className={roboto.className}>
+        <html lang="en" className="h-full">
+          <body className={`flex flex-col min-h-screen ${roboto.className}`}>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -38,7 +37,9 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Navigation />
-              {children}
+              <main className=" flex flex-grow items-center justify-center">
+                {children}
+              </main>
               <Toaster position="top-right" />
               <Footer />
             </ThemeProvider>

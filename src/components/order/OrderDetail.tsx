@@ -13,7 +13,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const date = order[0].date;
 
   return (
-    <section className="p-3 max-w-[1500px] m-auto md:min-h-[60vh] ">
+    <section className="p-3 max-w-[1500px] m-auto md:min-h-[60vh] w-full ">
       <h2 className="text-xl py-2 font-bold md:text-2xl text-center xl:text-3xl xl:pb-8 ">
         Order Details
       </h2>
