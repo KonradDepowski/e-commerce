@@ -24,6 +24,7 @@
     --blue-hover: rgba(13, 64, 167, 0.838);
     --purple: #5a3dbb;
     --purple-hover: #493099;
+    --purple-disabled: #362278;
     --red-hover: rgb(196, 56, 43);
     --googleBtn: #dd5144;
     --fbBtn: #4267b2;
@@ -42,6 +43,7 @@
     --blue-hover: rgba(35, 59, 107, 0.8);
     --purple: #5a3dbb;
     --purple-hover: #493099;
+    --purple-disabled: #362278;
     --red-hover: rgba(171, 20, 6, 0.5);
     --green-main: #59ab6e;
     --green-main-hover: #26893e;

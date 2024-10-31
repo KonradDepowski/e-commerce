@@ -115,6 +115,8 @@ export const updateOfferProduct = async () => {
 
 export const fetchSortProducts = async (
   sortName: string,
+  limit = 12,
+  page: string | number,
   filterName: FilterProps
 ) => {
   try {
@@ -125,7 +127,7 @@ export const fetchSortProducts = async (
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-
+    const skipAmount = (Number(page) - 1) * limit;
     // Setting sortCondition based on sortName
     if (sortName) {
       if (sortName === "descending") {
@@ -160,13 +162,20 @@ export const fetchSortProducts = async (
       }
     }
 
-    const products = await Product.find(findCondition).sort(sortCondition);
+    const productCount = await Product.countDocuments();
+    const products = await Product.find(findCondition)
+      .sort(sortCondition)
+      .skip(skipAmount)
+      .limit(limit);
 
     if (!products) {
       throw new Error("Could not fetch products");
     }
 
-    return products;
+    return {
+      products,
+      totalPages: Math.ceil(productCount / limit),
+    };
   } catch (error: any) {
     throw new Error(error.message);
   }

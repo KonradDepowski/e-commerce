@@ -3,16 +3,12 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
 import { IoFilterSharp } from "react-icons/io5";
 import { filterTypeData } from "@/lib/data";
 import Filter from "./Filter";
-import Product from "../sneakers/Product";
-import { log } from "console";
-import { fetchSortProducts } from "@/lib/actions/product";
 import Sorting from "./Sorting";
 import ShopPorducts from "./ShopPorducts";
 import { Suspense } from "react";
@@ -27,6 +23,7 @@ const ShopPage = async ({
   let category = searchParams?.category || "";
   let sex = searchParams?.sex || "";
   let price = searchParams?.price || "";
+  let page = searchParams?.page || 1;
   let filterMode = { category, sex, price };
 
   return (
@@ -87,7 +84,11 @@ const ShopPage = async ({
             </div>
           </aside>
           <Suspense fallback={<Loader />}>
-            <ShopPorducts filterMode={filterMode} sortingMode={sortingMode} />
+            <ShopPorducts
+              filterMode={filterMode}
+              sortingMode={sortingMode}
+              page={page}
+            />
           </Suspense>
         </main>
       </div>
