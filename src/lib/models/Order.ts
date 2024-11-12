@@ -3,12 +3,13 @@ import mongoose from "mongoose";
 
 export type orderSchemaType = {
   _id?: string;
-  id: string;
+  id?: string;
   productsIds: Object;
   buyerId: string;
-  createdAt: Date;
+  createdAt?: Date;
   totalAmount: number;
   deliveryData: Object;
+  status?: string;
 };
 
 const orderSchema = new Schema({
@@ -31,6 +32,10 @@ const orderSchema = new Schema({
   },
   deliveryData: {
     type: Object,
+    required: true,
+  },
+  status: {
+    type: String,
     required: true,
   },
 });

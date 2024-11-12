@@ -6,11 +6,12 @@ import Order, { orderSchemaType } from "../models/Order";
 import { connectToDatabase } from "../database";
 import { fetchProduct } from "./product";
 
-export const checkoutOrder = async (order: any) => {
+export const checkoutOrder = async (order: orderSchemaType) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const totalAmount = order.totalAmount * 100;
+  let session;
   try {
-    const session = await stripe.checkout.sessions.create({
+    session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price_data: {
@@ -30,14 +31,16 @@ export const checkoutOrder = async (order: any) => {
         buyerId: order.buyerId,
         totalAmount: JSON.stringify(totalAmount / 100),
         deliveryData: JSON.stringify(order.deliveryData),
+        status: "paid",
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success?id=${order.buyerId}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
-    redirect(session.url!);
   } catch (error: any) {
     throw new Error(error.message);
+  } finally {
+    redirect(session!.url!);
   }
 };
 
@@ -57,7 +60,7 @@ export const createOrder = async (order: orderSchemaType) => {
       throw new Error("Could not create new order");
     }
 
-    return JSON.parse(JSON.stringify(newOrder));
+    return JSON.parse(JSON.stringify(order));
   } catch (error: any) {
     throw new Error(error.message);
   }
