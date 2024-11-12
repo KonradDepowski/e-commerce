@@ -45,7 +45,7 @@ const Profile = () => {
             <span className="w-1/2 font-bold">DATE</span>
           </li>
           {orders.map((order) => (
-            <OrderItem id={order._id!} date={order.createdAt} />
+            <OrderItem id={order._id!} date={order.createdAt!} />
           ))}
         </ul>
         <SignOutButton />
