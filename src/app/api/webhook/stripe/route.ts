@@ -36,6 +36,7 @@ export async function POST(request: Request) {
       totalAmount: Number(metadata?.totalAmount) || 0,
       deliveryData: JSON.parse(metadata?.deliveryData!) || {},
       createdAt: new Date(),
+      status: "paid",
     };
 
     const newOrder = await createOrder(order);

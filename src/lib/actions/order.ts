@@ -31,7 +31,7 @@ export const checkoutOrder = async (order: orderSchemaType) => {
         buyerId: order.buyerId,
         totalAmount: JSON.stringify(totalAmount / 100),
         deliveryData: JSON.stringify(order.deliveryData),
-        status: "paid",
+       
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success?id=${order.buyerId}`,
