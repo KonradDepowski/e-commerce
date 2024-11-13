@@ -11,7 +11,7 @@ import { slides } from "@/lib/data";
 const HomeSlider = () => {
   return (
     <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-primary ">
-      <Carousel className="w-full relative ">
+      <Carousel className="w-screen">
         <CarouselContent className="h-[500px] ">
           {slides.map((item) => (
             <CarouselItem className="flex flex-col " key={item.title}>
