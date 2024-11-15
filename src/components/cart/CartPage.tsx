@@ -5,7 +5,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import CartItem from "./CartItem";
 import { CartContext, CartItemProps } from "@/lib/store/CartContext";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { fetchUserCart, findDiscountCode } from "@/lib/actions/cart";
 import DeliveryForm from "./DeliveryForm";
 import Image from "next/image";
@@ -22,6 +22,7 @@ const CartPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { userId } = useAuth();
+  const { user } = useUser();
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cart");
@@ -159,6 +160,7 @@ const CartPage = () => {
             )}
           </form>
           <DeliveryForm
+            buyerAvatar={user?.imageUrl!}
             totalAmount={totalAmount!}
             cartItemsIds={cartItemsIds!}
             userId={userId!}

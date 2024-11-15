@@ -24,10 +24,12 @@ const DeliveryForm = ({
   totalAmount,
   cartItemsIds,
   userId,
+  buyerAvatar,
 }: {
   totalAmount: number;
   cartItemsIds: Object[];
   userId: string;
+  buyerAvatar: string;
 }) => {
   const {
     handleSubmit,
@@ -42,6 +44,7 @@ const DeliveryForm = ({
     const order = {
       productsIds: [...cartItemsIds],
       buyerId: userId,
+      buyerAvatar,
       totalAmount,
       deliveryData: data,
     };

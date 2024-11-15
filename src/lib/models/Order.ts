@@ -6,6 +6,7 @@ export type orderSchemaType = {
   id?: string;
   productsIds: Object;
   buyerId: string;
+  buyerAvatar: string;
   createdAt?: Date;
   totalAmount: number;
   deliveryData: Object;
@@ -21,6 +22,10 @@ const orderSchema = new Schema({
     required: true,
   },
   buyerId: {
+    type: String,
+    required: true,
+  },
+  buyerAvatar: {
     type: String,
     required: true,
   },
