@@ -33,6 +33,7 @@ export async function POST(request: Request) {
       id: id,
       productsIds: JSON.parse(metadata?.productsIds!) || [],
       buyerId: metadata?.buyerId || "",
+      buyerAvatar: metadata?.buyerAvatar || "",
       totalAmount: Number(metadata?.totalAmount) || 0,
       deliveryData: JSON.parse(metadata?.deliveryData!) || {},
       createdAt: new Date(),
