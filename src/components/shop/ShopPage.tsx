@@ -27,7 +27,7 @@ const ShopPage = async ({
   let filterMode = { category, sex, price };
 
   return (
-    <section className="p-3 max-w-[1500px] m-auto ">
+    <section className="p-3 max-w-[1500px] w-full m-auto">
       <h1
         style={{
           textShadow: "0.2px 0.2px 0.2px rgba(0,0,0,0.6)",
@@ -39,7 +39,7 @@ const ShopPage = async ({
       <p className="text-center uppercase font-thin text-[var(--dark-500)] [font-size:_clamp(12px,4vw,20px)]">
         Welcome to Maxer Shop
       </p>
-      <div className="flex flex-row flex-wrap justify-center gap-5 py-7  ">
+      <div className="h-full flex flex-col gap-5 ">
         <div className="lg:hidden flex items-center ">
           <Sheet>
             <SheetTrigger className="flex flex-row gap-1 items-center justify-center  p-[7px] px-3 rounded-md border border-input bg-transparent">
@@ -70,9 +70,14 @@ const ShopPage = async ({
         <div className="flex flex-row lg:w-full justify-end">
           <Sorting />
         </div>
-        <main className=" lg:flex w-full flex-row gap-16 py-10">
-          <aside className=" hidden lg:block basis-[30%] 2xl:basis-[20%]   pl-6 ">
-            <div className="rounded-lg flex flex-col  px-2">
+        <main className="flex flex-1 overflow-hidden gap-14">
+          <aside
+            className="hidden lg:block w-[300px] pl-6 flex-shrink-0"
+            style={{
+              alignSelf: "flex-start",
+            }}
+          >
+            <div className="rounded-lg flex flex-col px-2">
               {filterTypeData.map((item) => (
                 <Filter
                   cat={item.cat}
@@ -83,13 +88,15 @@ const ShopPage = async ({
               ))}
             </div>
           </aside>
-          <Suspense fallback={<Loader />}>
-            <ShopPorducts
-              filterMode={filterMode}
-              sortingMode={sortingMode}
-              page={page}
-            />
-          </Suspense>
+          <div className="flex-1 flex-grow">
+            <Suspense fallback={<Loader />}>
+              <ShopPorducts
+                filterMode={filterMode}
+                sortingMode={sortingMode}
+                page={page}
+              />
+            </Suspense>
+          </div>
         </main>
       </div>
     </section>

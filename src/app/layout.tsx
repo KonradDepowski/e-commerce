@@ -37,9 +37,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Navigation />
-              <main className=" flex flex-grow items-center justify-center">
-                {children}
-              </main>
+              <main className=" flex flex-grow ">{children}</main>
               <Toaster position="top-right" />
               <Footer />
             </ThemeProvider>

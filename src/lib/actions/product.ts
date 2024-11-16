@@ -36,7 +36,7 @@ export const fetchLastWeekProducts = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const products = Product.find().sort({ createdAt: -1 });
+    const products = Product.find().sort({ createdAt: -1 }).limit(5);
     if (!products) {
       throw new Error("Could not fetch last week prodcuts");
     }
