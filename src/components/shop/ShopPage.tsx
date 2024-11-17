@@ -40,35 +40,37 @@ const ShopPage = async ({
         Welcome to Maxer Shop
       </p>
       <div className="h-full flex flex-col gap-5 ">
-        <div className="lg:hidden flex items-center ">
-          <Sheet>
-            <SheetTrigger className="flex flex-row gap-1 items-center justify-center  p-[7px] px-3 rounded-md border border-input bg-transparent">
-              <IoFilterSharp className="text-sm" />
-              <span className="text-sm">Filter</span>
-            </SheetTrigger>
-            <SheetContent
-              className="bg-primary dark:bg-background
+        <div className="flex justify-center gap-3 py-5">
+          <div className="lg:hidden flex items-center ">
+            <Sheet>
+              <SheetTrigger className="flex flex-row gap-1 items-center justify-center  p-[7px] px-3 rounded-md border border-[var(--dark-500)] bg-transparent">
+                <IoFilterSharp className="text-sm" />
+                <span className="text-sm">Filter</span>
+              </SheetTrigger>
+              <SheetContent
+                className="bg-primary dark:bg-background
              border-none"
-              side="left"
-            >
-              <SheetHeader>
-                <SheetDescription>
-                  {filterTypeData.map((item) => (
-                    <Filter
-                      cat={item.cat}
-                      key={item.title}
-                      title={item.title}
-                      items={item.items}
-                    />
-                  ))}
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
-        </div>
+                side="left"
+              >
+                <SheetHeader>
+                  <SheetDescription>
+                    {filterTypeData.map((item) => (
+                      <Filter
+                        cat={item.cat}
+                        key={item.title}
+                        title={item.title}
+                        items={item.items}
+                      />
+                    ))}
+                  </SheetDescription>
+                </SheetHeader>
+              </SheetContent>
+            </Sheet>
+          </div>
 
-        <div className="flex flex-row lg:w-full justify-end">
-          <Sorting />
+          <div className="flex flex-row lg:w-full justify-end">
+            <Sorting />
+          </div>
         </div>
         <main className="flex flex-1 overflow-hidden gap-14">
           <aside

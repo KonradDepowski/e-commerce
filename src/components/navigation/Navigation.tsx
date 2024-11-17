@@ -19,6 +19,8 @@ const Navigation = () => {
   });
 
   useEffect(() => {
+    console.log("zmiana");
+
     const storedCartItems = localStorage.getItem("cart");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));

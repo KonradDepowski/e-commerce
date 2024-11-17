@@ -21,7 +21,8 @@ type CartContextType = {
   changeAmount: (item: CartItemProps, quantity: string) => void;
   removeFromCart: (id: string) => void;
   mergeCart: (dbItems: CartItemProps[], localItems: CartItemProps[]) => void;
-  clearCart: (id: string) => void;
+  clearUserCart: (id: string) => void;
+  clearCart: () => void;
 };
 
 type ProviderType = {
@@ -218,19 +219,19 @@ const CartContextProvider = ({ children }: ProviderType) => {
     }
   };
 
-  const clearCartHandler = (id: string) => {
-    console.log(id);
-
+  const clearUserCartHandler = (id: string) => {
     const clearUserCart = async () => {
-      console.log(id);
-
       await updateUserCart(id, []);
     };
     clearUserCart();
-    console.log("clear");
 
     localStorage.removeItem("cart");
     localStorage.removeItem("totalAmount");
+  };
+  const clearCartHandler = () => {
+    localStorage.removeItem("cart");
+    localStorage.removeItem("totalAmount");
+    setCartItems([]);
   };
   const value: CartContextType = {
     items: cartItems,
@@ -239,6 +240,7 @@ const CartContextProvider = ({ children }: ProviderType) => {
     changeAmount: changeAmountHandler,
     removeFromCart: removeFromCartHandler,
     mergeCart: mergeCartHandler,
+    clearUserCart: clearUserCartHandler,
     clearCart: clearCartHandler,
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

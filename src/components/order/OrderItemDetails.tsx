@@ -29,6 +29,7 @@ const OrderItemDetails = ({
             width={100}
             height={100}
             alt={name}
+            priority
             className="max-w-28 max-h-20 object-cover"
           />
         </div>

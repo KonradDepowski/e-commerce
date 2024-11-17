@@ -2,12 +2,14 @@
 import { fetchUserOrder } from "@/lib/actions/order";
 import { orderSchemaType } from "@/lib/models/Order";
 import { useAuth, UserProfile } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { SignOutButton } from "../buttons/SignOutButton";
 import OrderItem from "../order/OrderItem";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 import type { Theme } from "@clerk/types";
+import OrdersList from "../order/OrdersList";
+import Loader from "../Loader/Loader";
 
 const Profile = () => {
   const { userId } = useAuth();
@@ -44,9 +46,9 @@ const Profile = () => {
             <span className="w-1/2 font-bold">ORDER ID</span>
             <span className="w-1/2 font-bold">DATE</span>
           </li>
-          {orders.map((order) => (
-            <OrderItem id={order._id!} date={order.createdAt!} />
-          ))}
+          <Suspense fallback={<Loader />}>
+            <OrdersList orders={orders} />
+          </Suspense>
         </ul>
         <SignOutButton />
       </div>

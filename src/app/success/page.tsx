@@ -11,11 +11,11 @@ const Success = () => {
   const id = params.get("id");
   const router = useRouter();
   useEffect(() => {
-    cartCtx?.clearCart(id!);
+    cartCtx?.clearUserCart(id!);
     router.replace("/");
   }, []);
   return (
-    <div className="min-h-[100vh] flex justify-center items-center">
+    <div className="min-h-full flex justify-center items-center w-screen">
       <Loader />
     </div>
   );

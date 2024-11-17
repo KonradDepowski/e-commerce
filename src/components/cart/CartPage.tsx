@@ -11,6 +11,7 @@ import DeliveryForm from "./DeliveryForm";
 import Image from "next/image";
 import image from "../../../public/assets/cart.png";
 import Loader from "../Loader/Loader";
+import { toast } from "sonner";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
@@ -72,10 +73,11 @@ const CartPage = () => {
       const discount = await findDiscountCode(discountCode);
       if (discount) {
         const amount = discount.amount;
-
         const totalAmountAfterDisc =
           totalAmount! - (totalAmount! * +amount) / 100;
         setTotalAmount(totalAmountAfterDisc);
+      } else {
+        toast.error("Code not found");
       }
     } else {
       setDiscountCode("");
@@ -138,7 +140,7 @@ const CartPage = () => {
                 className="w-1/2 lg:p-5"
                 type="text"
                 placeholder="Enter a code"
-                onChange={(e) => setDiscountCode(e.target.value)}
+                onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
                 value={discountCode}
               />
               <Button
@@ -154,7 +156,7 @@ const CartPage = () => {
               </Button>
             </div>
             {bonusMode && discountCode == "" && (
-              <p className="text-red-600 font-bold text-md  p-3">
+              <p className="text-[var(--error)] font-bold text-md  p-3">
                 Code not found!
               </p>
             )}

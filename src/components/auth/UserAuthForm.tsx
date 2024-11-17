@@ -255,6 +255,9 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
       )}
       {pendingVerification && (
         <div className="flex flex-col w-[80%] m-auto max-w-[300px]">
+          <h3 className="text-[var(--dark-500)] text-center py-5 font-bold md:text-xl">
+            Enter Verification Code
+          </h3>
           <Input
             className="lg:p-6 lg:px-3 "
             id="code"
