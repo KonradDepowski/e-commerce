@@ -1,6 +1,9 @@
 import { fetchSingleOrder } from "@/lib/actions/order";
 import OrderItemDetails from "./OrderItemDetails";
 import GoBackButton from "../buttons/GoBackButton";
+import { Suspense } from "react";
+import OrderDetailList from "./OrderDetailList";
+import Loader from "../Loader/Loader";
 
 const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const orderId = params.orderId.slice(10, params.orderId.length);
@@ -57,18 +60,9 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
           <h3 className="text-lg font-bold py-1  text-[var(--green-main)] xl:text-2xl">
             Products Ordered
           </h3>
-          <ul className="py-4 flex flex-col justify-center items-center gap-3">
-            {orderProductInfo.map((order) => (
-              <OrderItemDetails
-                id={order._doc._id}
-                name={order._doc.name}
-                image={order._doc.images[0]}
-                size={order.size}
-                price={order._doc.price}
-                quantity={order.quantity}
-              />
-            ))}
-          </ul>
+          <Suspense fallback={<Loader />}>
+            <OrderDetailList orderProductInfo={orderProductInfo} />
+          </Suspense>
         </div>
       </div>
     </section>

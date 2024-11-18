@@ -14,14 +14,17 @@ import Loader from "../Loader/Loader";
 const Profile = () => {
   const { userId } = useAuth();
   const [orders, setOrders] = useState<orderSchemaType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const { theme } = useTheme();
 
   useEffect(() => {
     const fetchUserOrders = async () => {
+      setLoading(true);
       if (userId) {
         try {
           const fetchedOrders = await fetchUserOrder(userId);
           setOrders(fetchedOrders);
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching orders:", error);
         }
@@ -46,9 +49,8 @@ const Profile = () => {
             <span className="w-1/2 font-bold">ORDER ID</span>
             <span className="w-1/2 font-bold">DATE</span>
           </li>
-          <Suspense fallback={<Loader />}>
-            <OrdersList orders={orders} />
-          </Suspense>
+          {loading && <Loader />}
+          {!loading && <OrdersList orders={orders} />}
         </ul>
         <SignOutButton />
       </div>
