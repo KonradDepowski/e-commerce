@@ -13,57 +13,61 @@ type NarrowNavProps = {
 const NarrowNav = ({ userId }: NarrowNavProps) => {
   const [openSheet, setOpenSheet] = useState(false);
   const linkToProfile = userId ? "/profile" : "/login?mode=signup";
-  const toogleSheetHandler = () => {
+  const toggleSheetHandler = () => {
     setOpenSheet((prev) => !prev);
   };
   return (
-    <div className="flex items-center gap-3 md:hidden ">
+    <div className="flex items-center gap-3 md:hidden">
       <ThemeToggle />
-      <Sheet onOpenChange={toogleSheetHandler} open={openSheet}>
+      <Sheet onOpenChange={toggleSheetHandler} open={openSheet}>
         <SheetTrigger asChild>
           <RxHamburgerMenu size={24} />
         </SheetTrigger>
-        <SheetContent className="bg-primary p-4 flex-col justify-center pt-20 border-0">
-          <ul className="flex flex-col items-center gap-10 w-full text-[var(--color)]">
-            <li className=" w-full text-3xl text-center font-bold uppercase ">
-              <Link onClick={toogleSheetHandler} href="/">
+        <SheetContent className="bg-primary flex flex-col justify-center pt-5 border-0 h-full">
+          {/* Scrollable container */}
+          <ul
+            id="scroll"
+            className="flex flex-col items-center gap-10 w-full text-[var(--color)] overflow-y-auto px-4 pb-20 "
+          >
+            <li className="w-full text-3xl text-center font-bold uppercase">
+              <Link onClick={toggleSheetHandler} href="/">
                 Home
               </Link>
             </li>
-            <li className="  w-full text-3xl text-center font-bold uppercase ">
-              <Link onClick={toogleSheetHandler} href="/shop">
+            <li className="w-full text-3xl text-center font-bold uppercase">
+              <Link onClick={toggleSheetHandler} href="/shop">
                 Shop
               </Link>
             </li>
-
-            <li className=" flex justify-center w-full text-3xl text-center font-bold uppercase ">
+            <li className="flex justify-center w-full text-3xl text-center font-bold uppercase">
               <Link
-                onClick={toogleSheetHandler}
+                onClick={toggleSheetHandler}
                 href="/cart"
                 className="flex gap-1"
               >
                 Cart
               </Link>
             </li>
-            <li className=" flex justify-center w-full text-3xl text-center font-bold uppercase ">
-              <Link onClick={toogleSheetHandler} href={linkToProfile}>
+            <li className="flex justify-center w-full text-3xl text-center font-bold uppercase">
+              <Link onClick={toggleSheetHandler} href={linkToProfile}>
                 {userId ? "PROFILE" : "Login"}
               </Link>
             </li>
           </ul>
-          <div className="absolute bottom-0 left-0 w-full p-4 ">
-            <h2 className="text-xl mb-2 md:py-4 font-bold  text-[var(--green-main)] text-center">
+          {/* Footer */}
+          <div className="absolute bottom-0 left-0 w-full p-4 bg-primary">
+            <h2 className="text-xl mb-2 font-bold text-[var(--green-main)] text-center">
               Contact Us
             </h2>
             <div className="flex justify-center gap-5">
-              <div className="flex flex-row gap-2 py-1 items-center ">
-                <FaPhoneAlt className="text-[var(--dark-500)]  text-sm " />
+              <div className="flex flex-row gap-2 py-1 items-center">
+                <FaPhoneAlt className="text-[var(--dark-500)] text-sm" />
                 <span className="text-[var(--dark-500)] text-sm">
                   834352525
                 </span>
               </div>
-              <div className="flex flex-row gap-2 py-1 text-slate-300 items-center ">
-                <MdEmail className="text-sm text-[var(--dark-500)]  " />
+              <div className="flex flex-row gap-2 py-1 items-center">
+                <MdEmail className="text-[var(--dark-500)] text-sm" />
                 <span className="text-[var(--dark-500)] text-sm">
                   test@wp.pl
                 </span>

@@ -87,7 +87,12 @@ const CartPage = () => {
 
   const cartItemsIds: Object[] = [];
   cartCtx?.items.forEach((it) =>
-    cartItemsIds.push({ id: it.id, size: it.size, quantity: it.quantity })
+    cartItemsIds.push({
+      id: it.id,
+      size: it.size,
+      quantity: it.quantity,
+      price: it.price,
+    })
   );
 
   return (

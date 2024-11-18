@@ -4,6 +4,7 @@ import { CartContext } from "@/lib/store/CartContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import React, { useContext, useEffect } from "react";
+import { toast, Toaster } from "sonner";
 
 const Success = () => {
   const cartCtx = useContext(CartContext);
@@ -12,6 +13,7 @@ const Success = () => {
   const router = useRouter();
   useEffect(() => {
     cartCtx?.clearUserCart(id!);
+    toast.success("Successfully ordered ");
     router.replace("/");
   }, []);
   return (
