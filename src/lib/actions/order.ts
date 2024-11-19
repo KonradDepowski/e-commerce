@@ -113,6 +113,7 @@ export const fetchSingleOrder = async (orderId: string) => {
           ...productData,
           size: obj.size,
           quantity: obj.quantity,
+          price: obj.price,
         };
       })
     );
