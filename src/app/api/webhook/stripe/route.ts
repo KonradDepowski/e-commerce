@@ -23,7 +23,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-
+  
   const eventType = event.type;
 
   if (eventType === "checkout.session.completed") {
