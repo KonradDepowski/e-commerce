@@ -91,7 +91,6 @@ const CartPage = () => {
       id: it.id,
       size: it.size,
       quantity: it.quantity,
-      price: it.price,
     })
   );
 
