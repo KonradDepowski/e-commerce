@@ -35,7 +35,7 @@ export const checkoutOrder = async (order: orderSchemaType) => {
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success?id=${order.buyerId}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
   } catch (error: any) {
     throw new Error(error.message);
