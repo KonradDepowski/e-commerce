@@ -23,26 +23,35 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  
+
   const eventType = event.type;
 
   if (eventType === "checkout.session.completed") {
     const { id, metadata } = event.data.object;
+    try {
+      const order = {
+        id: id,
+        productsIds: metadata?.productsIds
+          ? JSON.parse(metadata.productsIds)
+          : [],
+        buyerId: metadata?.buyerId || "",
+        buyerAvatar: metadata?.buyerAvatar || "",
+        totalAmount: metadata?.totalAmount ? Number(metadata.totalAmount) : 0,
+        deliveryData: metadata?.deliveryData
+          ? JSON.parse(metadata.deliveryData)
+          : {},
+        createdAt: new Date(),
+        status: "paid",
+      };
+      await createOrder(order);
+    } catch (error: any) {
+      return NextResponse.json(
+        { message: "Invalid metadata in webhook event", error: error.message },
+        { status: 400 }
+      );
+    }
 
-    const order = {
-      id: id,
-      productsIds: JSON.parse(metadata?.productsIds!) || [],
-      buyerId: metadata?.buyerId || "",
-      buyerAvatar: metadata?.buyerAvatar || "",
-      totalAmount: Number(metadata?.totalAmount) || 0,
-      deliveryData: JSON.parse(metadata?.deliveryData!) || {},
-      createdAt: new Date(),
-      status: "paid",
-    };
-    console.log(order);
-
-    const newOrder = await createOrder(order);
-    return NextResponse.json({ message: "OK", order: newOrder });
+    return NextResponse.json({ message: "OK" });
   }
 
   return new Response("", { status: 200 });
