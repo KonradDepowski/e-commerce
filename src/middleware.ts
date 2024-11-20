@@ -4,10 +4,12 @@ export default authMiddleware({
   publicRoutes: [
     "/login",
     "/",
+    "/shop",
     "/api/webhook(.*)",
     "/api/webhook/stripe",
-    "/_next/static/chunks/app/page.js", // Add specific static assets here
-    "/favicon.ico", // Allow public access to favicon
+    "/_next/static/chunks/app/page.js",
+    "/favicon.ico",
+    "/:productId",
   ],
   ignoredRoutes: ["/no-auth-in-this-route"],
 });
@@ -18,5 +20,6 @@ export const config = {
     "/((?!.+\\.[\\w]+$|_next).*)",
     "/",
     "/(api|trpc)(.*)",
+    "/:productId",
   ],
 };

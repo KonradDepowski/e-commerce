@@ -20,6 +20,7 @@ const CartItem = ({
   price,
   quantity,
   image,
+  category,
 }: CartItemProps) => {
   const cartCtx = useContext(CartContext);
 
@@ -30,6 +31,7 @@ const CartItem = ({
     price,
     quantity,
     image,
+    category,
   };
 
   const changeAmountHandler = (value: string) => {
@@ -42,18 +44,18 @@ const CartItem = ({
       key={id}
       className="w-full flex flex-row items-center border-b border-slate-500 py-2"
     >
-      <div className="flex items-center justify-center mr-3 ">
+      <div className="flex items-center justify-center mr-3 w-[80px] h-[100px] ">
         <Image
           width={80}
           height={80}
           src={image[0]}
           alt={title}
-          className=" object-cover "
+          className="object-cover w-full h-full"
         />
       </div>
       <div className="w-3/5 ">
         <h4 className="text-lg">{title}</h4>
-        <p className="text-slate-500">Mens shoes</p>
+        <p className="text-slate-500 capitalize pb-1">{category} shoes</p>
         <div className="flex flex-row items-center gap-4">
           <p className="text-slate-500">Size: {size}</p>
           <Select onValueChange={changeAmountHandler}>

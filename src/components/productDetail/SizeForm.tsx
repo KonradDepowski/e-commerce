@@ -18,6 +18,7 @@ import { useParams } from "next/navigation";
 import { fetchProduct } from "@/lib/actions/product";
 import { useContext } from "react";
 import { CartContext } from "@/lib/store/CartContext";
+import { log } from "console";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
@@ -37,6 +38,8 @@ export function SizeForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const product = await fetchProduct(prodId as string);
+    console.log(product);
+
     let price = product.price;
     if (product.offer) {
       price = product.price * 0.8;
@@ -46,6 +49,7 @@ export function SizeForm() {
       title: product.name,
       price: price,
       size: data.type,
+      category: product.category,
       image: product.images,
       quantity: 1,
     };
