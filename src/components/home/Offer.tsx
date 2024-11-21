@@ -6,6 +6,7 @@ import { fetchOfferProduct, updateOfferProduct } from "@/lib/actions/product";
 import { productSchemaType } from "@/lib/models/Product";
 import Link from "next/link";
 import Loader from "../Loader/Loader";
+import CountDownOffer from "./CountDownOffer";
 
 const Offer = () => {
   const [data, setData] = useState<productSchemaType>();
@@ -95,26 +96,7 @@ const Offer = () => {
               <h2 className="[font-size:_clamp(16px,3vw,26px)] font-normal uppercase text-[var(--dark-500)] py-3 lg:mb-3">
                 Deal of the day
               </h2>
-              <div className="flex flex-row gap-4 w-full">
-                <div className="bg-[#fff] w-[30%] max-w-[180px] h-[90px] lg:h-[100px] rounded-xl flex flex-col justify-center gap-2 items-center">
-                  <span className="text-black text-2xl lg:text-3xl font-bold">
-                    {timeLeft.hours}
-                  </span>
-                  <span className="text-slate-600 lg:text-lg">Hours</span>
-                </div>
-                <div className="bg-[#fff] w-[30%] max-w-[180px] h-[90px] lg:h-[100px] rounded-xl flex flex-col justify-center gap-2 items-center">
-                  <span className="text-black text-2xl lg:text-3xl font-bold">
-                    {timeLeft.minutes}
-                  </span>
-                  <span className="text-slate-600 lg:text-lg">Minutes</span>
-                </div>
-                <div className="bg-[#fff] w-[30%] max-w-[180px] h-[90px] lg:h-[100px] rounded-xl flex flex-col justify-center gap-2 items-center">
-                  <span className="text-black text-2xl lg:text-3xl font-bold">
-                    {timeLeft.seconds}
-                  </span>
-                  <span className="text-slate-600 lg:text-lg">Seconds</span>
-                </div>
-              </div>
+              <CountDownOffer />
               <h3
                 style={{
                   textShadow: "0.2px 0.2px 0.2px rgba(0,0,0,0.6)",

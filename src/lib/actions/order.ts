@@ -18,7 +18,7 @@ export const checkoutOrder = async (order: orderSchemaType) => {
             currency: "usd",
             unit_amount: totalAmount,
             product_data: {
-              name: "Order",
+              name: "Products Cart",
             },
           },
 
