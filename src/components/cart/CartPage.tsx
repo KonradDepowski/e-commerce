@@ -74,7 +74,7 @@ const CartPage = () => {
       const discount = await findDiscountCode(discountCode);
       if (discount) {
         const amount = discount.amount;
-        setDiscountAmount(discount);
+        setDiscountAmount(amount);
         const totalAmountAfterDisc =
           totalAmount! - (totalAmount! * +amount) / 100;
         setTotalAmount(totalAmountAfterDisc);
