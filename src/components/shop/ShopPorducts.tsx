@@ -27,7 +27,7 @@ const ShopPorducts = async ({
   if (!products) throw new Error();
   return (
     <div className=" md:min-w-[50%]">
-      <ul className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start items-start flex-wrap gap-6 lg:pl-1">
+      <ul className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start items-start flex-wrap gap-6 lg:pl-1 xl:mb-10">
         {products?.length === 0 && (
           <p className="text-center w-full self-center text-lg text-[var(--dark-500)] xl:text-xl 2xl:text-3xl">
             No results match

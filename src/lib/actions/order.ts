@@ -126,6 +126,7 @@ export const fetchSingleOrder = async (orderId: string) => {
       products,
       deliveryData: order.deliveryData,
       totalAmount: order.totalAmount,
+      discount: order.discount,
       date: order.createdAt,
     });
 

@@ -45,9 +45,11 @@ const Profile = () => {
           My Orders
         </h2>
         <ul className="py-5 overflow-scroll  no-scrollbar">
-          <li className="flex w-full cursor-pointer">
-            <span className="w-1/2 font-bold">ORDER ID</span>
-            <span className="w-1/2 font-bold">DATE</span>
+          <li className="flex w-full">
+            <span className="w-1/2 font-bold text-[var(--dark-500)]">
+              ORDER ID
+            </span>
+            <span className="w-1/2 font-bold text-[var(--dark-500)]">DATE</span>
           </li>
           {loading && <Loader />}
           {!loading && <OrdersList orders={orders} />}

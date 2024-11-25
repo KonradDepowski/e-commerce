@@ -1,5 +1,4 @@
 import { fetchSingleOrder } from "@/lib/actions/order";
-import OrderItemDetails from "./OrderItemDetails";
 import GoBackButton from "../buttons/GoBackButton";
 import { Suspense } from "react";
 import OrderDetailList from "./OrderDetailList";
@@ -11,6 +10,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const order = await fetchSingleOrder(orderId);
 
   const orderProductInfo = order[0].products;
+  const discount = order[0].discount !== "" ? `${order[0].discount}%` : "0";
 
   const deliveryInfo = `${order[0].deliveryData.town} ${order[0].deliveryData.postalCode} ${order[0].deliveryData.street}`;
   const date = order[0].date;
@@ -22,7 +22,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
       </h2>
       <GoBackButton />
       <div className=" flex flex-col md:flex-row md:flex-wrap ">
-        <div className="py-2 md:w-1/2 md:py-0 ">
+        <div className="py-2 md:w-1/2 md:py-0  ">
           <h3 className="text-lg font-bold py-1  text-[var(--green-main)] md:w-full xl:text-2xl">
             Order Info
           </h3>
@@ -41,8 +41,14 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
             </span>
           </p>
           <p className="flex  gap-2">
+            <span className="text-[var(--dark-600)] md:text-lg font-bold">
+              Total Amount:
+            </span>
+            <span className="text-gray-600 md:text-lg">{discount}</span>
+          </p>
+          <p className="flex  gap-2">
             <span className="text-[var(--dark-600)]  md:text-lg font-bold">
-              Delivery info:
+              Delivery Info:
             </span>
             <span className="text-gray-600 md:text-lg">{deliveryInfo}</span>
           </p>

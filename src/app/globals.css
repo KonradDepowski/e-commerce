@@ -17,9 +17,10 @@
     --link-hover-gray: #818587;
     --dark-600: #000000;
     --dark-500: #222a36;
+    --dark-400: rgb(53, 53, 53);
     --dark-300: rgb(187, 187, 187);
-    --green-main: #18ad3d;
-    --green-main-hover: #26893e;
+    --green-main: #189437;
+    --green-main-hover: #13822f;
     --font-color: black;
     --blue-hover: rgba(13, 64, 167, 0.838);
     --purple: #5a3dbb;
@@ -40,6 +41,7 @@
     --accent: 216, 48%, 8%;
     --link-hover-gray: #94a3b8;
     --dark-600: #f1f5f9ae;
+    --dark-400: #e1e1e1ae;
     --dark-500: #f1f5f9ae;
     --dark-300: rgb(187, 187, 187);
     --font-color: white;

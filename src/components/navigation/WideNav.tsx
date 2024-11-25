@@ -15,15 +15,14 @@ const WideNav = ({ cartLength, userId, user }: WideNavProps) => {
   return (
     <ul className="flex-row justify-between items-center hidden md:flex w-[40%] max-w-[500px]">
       <ThemeToggle />
-      <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--link-hover-gray)] focus:text-[var( --link-hover-gray)]">
+      <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]">
         <Link href="/">Home</Link>
       </li>
-
-      <li className="md:text-lg xl:text-xl text-center  transition-all hover:text-[var(--link-hover-gray)] focus:text-[var( --link-hover-gray)]">
+      <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]">
         <Link href="/shop">Shop</Link>
       </li>
 
-      <li className="md:text-lg xl:text-xl text-center  transition-all hover:text-[var(--link-hover-gray)] focus:text-[var( --link-hover-gray)]">
+      <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]">
         <Link
           className=" flex flex-row justify-center items-center gap-1 "
           href="/cart"
@@ -33,7 +32,7 @@ const WideNav = ({ cartLength, userId, user }: WideNavProps) => {
         </Link>
       </li>
       {!userId && (
-        <li className="md:text-lg xl:text-xl text-center font-bold   transition-all hover:text-[var( --link-hover-gray)] focus:text-[var( --link-hover-gray)]">
+        <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]">
           <Link href="/login?mode=signup">
             <FaRegUser />
           </Link>
@@ -41,7 +40,7 @@ const WideNav = ({ cartLength, userId, user }: WideNavProps) => {
       )}
 
       {userId && (
-        <li className="md:text-lg xl:text-xl text-center hover:text-[var( --link-hover-gray)] focus:text-[var( --link-hover-gray)]">
+        <li className="md:text-lg xl:text-xl text-center transition-all hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]">
           <Link href="/profile">
             <Suspense fallback="Loading...">
               <Image

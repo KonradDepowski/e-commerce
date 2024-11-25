@@ -27,7 +27,7 @@ const ShopPage = async ({
   let filterMode = { category, sex, price };
 
   return (
-    <section className="p-3 max-w-[1500px] w-full m-auto">
+    <section className="p-3 max-w-[1500px] w-full m-auto ">
       <h1
         style={{
           textShadow: "0.2px 0.2px 0.2px rgba(0,0,0,0.6)",
@@ -79,7 +79,7 @@ const ShopPage = async ({
               alignSelf: "flex-start",
             }}
           >
-            <div className="rounded-lg flex flex-col px-2">
+            <div className="rounded-lg flex flex-col px-2 ">
               {filterTypeData.map((item) => (
                 <Filter
                   cat={item.cat}

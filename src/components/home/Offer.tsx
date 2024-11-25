@@ -13,33 +13,6 @@ const Offer = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const calculateTimeLeft = () => {
-    const now = new Date();
-    const targetTime = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1,
-      0,
-      0,
-      0
-    );
-    const timeDifference = targetTime.getTime() - now.getTime();
-
-    const hours = Math.floor(
-      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    const minutes = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
-    );
-    const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-    return {
-      hours: String(hours).padStart(2, "0"),
-      minutes: String(minutes).padStart(2, "0"),
-      seconds: String(seconds).padStart(2, "0"),
-    };
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -61,7 +34,7 @@ const Offer = () => {
             <div className="relative flex justify-center md:justify-end md:w-[50%]">
               <Image
                 className="w-[80%] md:w-[100%] max-w-[450px] md:max-w-[700px] max-h-[600px] object-cover"
-                src={data?.images[3]!}
+                src={data?.images[1]!}
                 alt="offer"
                 width={500}
                 height={500}
@@ -83,7 +56,7 @@ const Offer = () => {
                 {data?.name}
               </h3>
               <div className="py-1 pb-4 w-[150px] flex gap-x-4">
-                <span className="[font-size:_clamp(25px,4vw,35px)] text-[#a04b4b] font-bold">
+                <span className="[font-size:_clamp(25px,4vw,35px)] text-[var(--error)] font-bold">
                   ${data!?.price * 0.8}
                 </span>
                 <p className="[font-size:_clamp(20px,4vw,30px)] align-middle flex justify-center items-center text-slate-400 line-through">
@@ -92,7 +65,7 @@ const Offer = () => {
               </div>
               <Link
                 href={`productId=${data?._id}`}
-                className="bg-[var(--green-main)] hover:bg-[#2f6c3e] transition-all w-[150px] lg:w-[300px] p-3 lg:p-5 rounded-lg flex items-center justify-center gap-3 lg:gap-6"
+                className="bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] transition-all w-[150px] lg:w-[300px] p-3 lg:p-5 rounded-lg flex items-center justify-center gap-3 lg:gap-6"
               >
                 <BsCart3 className="text-md lg:text-3xl text-white" />
                 <p className="font-bold lg:text-2xl text-white">See Details</p>
