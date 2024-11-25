@@ -30,7 +30,7 @@ const Navigation = () => {
   }, [cartCtx]);
 
   return (
-    <nav className="py-3">
+    <nav className="py-3 ">
       <div className="w-full flex flex-row justify-between max-w-[1500px] p-3 items-center md:px-7 xl:px-10 md:py-4 m-auto">
         <Link
           className="font-bold text-[var(--green-main)] text-2xl transition-all hover:text-[#2f6c3e] "

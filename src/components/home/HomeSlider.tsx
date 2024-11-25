@@ -10,7 +10,7 @@ import { slides } from "@/lib/data";
 
 const HomeSlider = () => {
   return (
-    <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-primary ">
+    <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-[var(--color)] ">
       <Carousel className="w-screen md:w-full">
         <CarouselContent className="h-[500px] ">
           {slides.map((item) => (

@@ -34,6 +34,7 @@ export async function POST(request: Request) {
       buyerId: metadata?.buyerId || "",
       buyerAvatar: metadata?.buyerAvatar || "",
       totalAmount: Number(metadata?.totalAmount) || 0,
+      discount: metadata?.discount || "",
       deliveryData: JSON.parse(metadata?.deliveryData!) || {},
       createdAt: new Date(),
       status: "paid",

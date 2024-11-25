@@ -10,11 +10,7 @@ import CountDownOffer from "./CountDownOffer";
 
 const Offer = () => {
   const [data, setData] = useState<productSchemaType>();
-  const [timeLeft, setTimeLeft] = useState({
-    hours: "--",
-    minutes: "--",
-    seconds: "--",
-  });
+
   const [isLoading, setIsLoading] = useState(true);
 
   const calculateTimeLeft = () => {
@@ -54,27 +50,8 @@ const Offer = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(async () => {
-      const timeLeft = calculateTimeLeft();
-      setTimeLeft(timeLeft);
-
-      if (
-        timeLeft.hours === "00" &&
-        timeLeft.minutes === "00" &&
-        timeLeft.seconds === "00"
-      ) {
-        await updateOfferProduct();
-        const newData = await fetchOfferProduct();
-        setData(newData);
-      }
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <div className="bg-primary">
+    <div className="bg-[var(--color)] ">
       <div className="p-3 flex flex-col md:flex-row-reverse md:justify-around md:items-center overflow-hidden max-w-[1500px] m-auto">
         {isLoading ? (
           <Loader />

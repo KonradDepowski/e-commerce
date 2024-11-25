@@ -17,6 +17,7 @@ const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [discountCode, setDiscountCode] = useState<string>("");
+  const [discountAmount, setDiscountAmount] = useState<string>("");
   const [bonusMode, setBonusMode] = useState<boolean>(false);
   const [bonusAmount, setBonusAmount] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
@@ -73,6 +74,7 @@ const CartPage = () => {
       const discount = await findDiscountCode(discountCode);
       if (discount) {
         const amount = discount.amount;
+        setDiscountAmount(discount);
         const totalAmountAfterDisc =
           totalAmount! - (totalAmount! * +amount) / 100;
         setTotalAmount(totalAmountAfterDisc);
@@ -84,8 +86,6 @@ const CartPage = () => {
       setTotalAmount(bonusAmount);
     }
   };
-
-  console.log(cartItems);
 
   const cartItemsIds: Object[] = [];
   cartCtx?.items.forEach((it) =>
@@ -170,6 +170,7 @@ const CartPage = () => {
             )}
           </form>
           <DeliveryForm
+            discount={discountAmount}
             buyerAvatar={user?.imageUrl!}
             totalAmount={totalAmount!}
             cartItemsIds={cartItemsIds!}

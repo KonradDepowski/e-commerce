@@ -7,7 +7,7 @@ const Product = ({ id, name, price, images }: productSchemaType) => {
   return (
     <li
       key={id}
-      className="flex flex-col w-[200px] md:w-[250px] lg:w-[260px] bg-primary rounded-lg pb-1 h-auto  shadow-2xl relative h-auto"
+      className="flex flex-col w-[200px] md:w-[250px] lg:w-[260px] bg-primary rounded-lg pb-1 h-auto  shadow-2xl shadow-[var(--black)] relative border border-[var(--dark-300)]"
     >
       <div className="h-[120px] md:h-[170px] relative object-cover">
         <Image

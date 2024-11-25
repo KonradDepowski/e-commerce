@@ -31,6 +31,7 @@ export const checkoutOrder = async (order: orderSchemaType) => {
         buyerId: order.buyerId,
         buyerAvatar: order.buyerAvatar,
         totalAmount: JSON.stringify(totalAmount / 100),
+        dicount: order.discount,
         deliveryData: JSON.stringify(order.deliveryData),
       },
       mode: "payment",
