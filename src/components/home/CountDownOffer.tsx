@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { OfferContext } from "@/lib/store/OfferProductContext";
+import { useContext, useEffect, useState } from "react";
 
 const TARGET_TIME_KEY = "countdown_target_time";
 
 const CountDownOffer = () => {
+  const offerCtx = useContext(OfferContext);
   const [timeLeft, setTimeLeft] = useState({
     hours: "--",
     minutes: "--",
@@ -62,6 +64,16 @@ const CountDownOffer = () => {
     // Cleanup on unmount
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    if (
+      timeLeft.hours === "00" &&
+      timeLeft.minutes === "00" &&
+      timeLeft.seconds === "00"
+    ) {
+      offerCtx?.changeOfferStatus(true);
+    }
+  }, [timeLeft]);
 
   return (
     <div className="flex flex-row gap-4 w-full">

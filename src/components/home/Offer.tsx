@@ -1,17 +1,31 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { fetchOfferProduct, updateOfferProduct } from "@/lib/actions/product";
 import { productSchemaType } from "@/lib/models/Product";
 import Link from "next/link";
 import Loader from "../Loader/Loader";
 import CountDownOffer from "./CountDownOffer";
+import { OfferContext } from "@/lib/store/OfferProductContext";
 
 const Offer = () => {
   const [data, setData] = useState<productSchemaType>();
-
   const [isLoading, setIsLoading] = useState(true);
+  const offerCtx = useContext(OfferContext);
+
+  useEffect(() => {
+    if (offerCtx?.refetchOffer) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        const data = await fetchOfferProduct();
+        setData(data);
+        setIsLoading(false);
+        offerCtx.changeOfferStatus(false);
+      };
+      fetchData();
+    }
+  }, [offerCtx?.refetchOffer]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +44,6 @@ const Offer = () => {
           <Loader />
         ) : (
           <>
-            {" "}
             <div className="relative flex justify-center md:justify-end md:w-[50%]">
               <Image
                 className="w-[80%] md:w-[100%] max-w-[450px] md:max-w-[700px] max-h-[600px] object-cover"

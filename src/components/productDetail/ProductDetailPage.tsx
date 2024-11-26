@@ -20,7 +20,7 @@ const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="max-w-[1500px] m-auto ">
-      <div className="flex flex-col md:flex-row gap-4 ">
+      <div className="flex flex-col md:flex-row gap-14 ">
         <EmblaCarousel slides={product?.images} options={OPTIONS} />
         <div className="w-full p-3 md:py-0 mb-5 md:mb-0 md:w-[50%] h-[100%]  md:h-[700px]">
           <div className="md:h-[700px] flex flex-col justify-center ">

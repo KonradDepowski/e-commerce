@@ -24,10 +24,9 @@ const NarrowNav = ({ userId }: NarrowNavProps) => {
           <RxHamburgerMenu size={24} />
         </SheetTrigger>
         <SheetContent className="bg-primary flex flex-col justify-center pt-5 border-0 h-full">
-          {/* Scrollable container */}
           <ul
             id="scroll"
-            className="flex flex-col items-center gap-10 w-full text-[var(--color)] overflow-y-auto px-4 pb-20 "
+            className="flex flex-col items-center gap-10 w-full text-[var(--font-color)] overflow-y-auto px-4 pb-20  "
           >
             <li className="w-full text-3xl text-center font-bold uppercase">
               <Link onClick={toggleSheetHandler} href="/">

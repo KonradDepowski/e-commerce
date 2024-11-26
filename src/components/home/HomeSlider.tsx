@@ -12,7 +12,7 @@ const HomeSlider = () => {
   return (
     <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-[var(--color)] ">
       <Carousel className="w-screen md:w-full">
-        <CarouselContent className="h-[500px] ">
+        <CarouselContent className="h-[500px] select-none ">
           {slides.map((item) => (
             <CarouselItem className="flex flex-col " key={item.title}>
               <div className="max-w-[1400px] m-auto flex flex-col md:flex-row-reverse items-center justify-center py-8">

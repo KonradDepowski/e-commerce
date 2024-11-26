@@ -49,7 +49,6 @@ export default function ProductSlider({ images }) {
           ))}
         </Swiper>
 
-   
         <Swiper
           onSwiper={setThumbsSwiper}
           loop={true}
