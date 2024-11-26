@@ -10,7 +10,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
   const order = await fetchSingleOrder(orderId);
 
   const orderProductInfo = order[0].products;
-  const discount = order[0].discount !== "" ? `${order[0].discount}%` : "0";
+  const discount = order[0].discount !== "" ? `${order[0].discount}%` : "0%";
 
   const deliveryInfo = `${order[0].deliveryData.town} ${order[0].deliveryData.postalCode} ${order[0].deliveryData.street}`;
   const date = order[0].date;
@@ -42,7 +42,7 @@ const OrderDetail = async ({ params }: { params: { orderId: string } }) => {
           </p>
           <p className="flex  gap-2">
             <span className="text-[var(--dark-600)] md:text-lg font-bold">
-              Total Amount:
+              Discount:
             </span>
             <span className="text-gray-600 md:text-lg">{discount}</span>
           </p>
