@@ -1,7 +1,7 @@
+import { productSchemaType } from "@/lib/types/types";
 import Image from "next/image";
 
 import Link from "next/link";
-import { productSchemaType } from "@/lib/models/Product";
 
 const Product = ({ id, name, price, images }: productSchemaType) => {
   return (

@@ -1,15 +1,14 @@
 "use client";
 import { fetchUserOrder } from "@/lib/actions/order";
-import { orderSchemaType } from "@/lib/models/Order";
 import { useAuth, UserProfile } from "@clerk/nextjs";
-import { Suspense, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { SignOutButton } from "../buttons/SignOutButton";
-import OrderItem from "../order/OrderItem";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 import type { Theme } from "@clerk/types";
 import OrdersList from "../order/OrdersList";
 import Loader from "../Loader/Loader";
+import { orderSchemaType } from "@/lib/types/types";
 
 const Profile = () => {
   const { userId } = useAuth();
@@ -21,13 +20,9 @@ const Profile = () => {
     const fetchUserOrders = async () => {
       setLoading(true);
       if (userId) {
-        try {
-          const fetchedOrders = await fetchUserOrder(userId);
-          setOrders(fetchedOrders);
-          setLoading(false);
-        } catch (error) {
-          console.error("Error fetching orders:", error);
-        }
+        const fetchedOrders = await fetchUserOrder(userId);
+        setOrders(fetchedOrders);
+        setLoading(false);
       }
     };
 

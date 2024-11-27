@@ -1,37 +1,38 @@
 "use client";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { fetchOfferProduct, updateOfferProduct } from "@/lib/actions/product";
-import { productSchemaType } from "@/lib/models/Product";
 import Link from "next/link";
 import Loader from "../Loader/Loader";
 import CountDownOffer from "./CountDownOffer";
-import { OfferContext } from "@/lib/store/OfferProductContext";
+import { useOfferContext } from "@/lib/store/OfferProductContext";
+import { productSchemaType } from "@/lib/types/types";
 
 const Offer = () => {
   const [data, setData] = useState<productSchemaType>();
-  const [isLoading, setIsLoading] = useState(true);
-  const offerCtx = useContext(OfferContext);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const offerCtx = useOfferContext();
+  const updateOfferDataHnndler = async () => {
+    setIsLoading(true);
+    const data = await updateOfferProduct();
+    setData(data!);
+    setIsLoading(false);
+    localStorage.removeItem("countdown_target_time");
+    offerCtx.changeOfferStatus(false);
+  };
 
   useEffect(() => {
     if (offerCtx?.refetchOffer) {
-      const fetchData = async () => {
-        setIsLoading(true);
-        const data = await fetchOfferProduct();
-        setData(data);
-        setIsLoading(false);
-        offerCtx.changeOfferStatus(false);
-      };
-      fetchData();
+      updateOfferDataHnndler();
     }
-  }, [offerCtx?.refetchOffer]);
+  }, [offerCtx.refetchOffer]);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       const data = await fetchOfferProduct();
-      setData(data);
+      setData(data!);
       setIsLoading(false);
     };
     fetchData();

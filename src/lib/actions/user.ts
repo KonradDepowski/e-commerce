@@ -1,7 +1,8 @@
 "use server";
 
 import { connectToDatabase } from "../database";
-import User, { userSchemaType } from "../models/User";
+import User from "../models/db/User";
+import { userSchemaType } from "../types/types";
 
 export const createUser = async (user: userSchemaType) => {
   try {
@@ -11,13 +12,17 @@ export const createUser = async (user: userSchemaType) => {
       throw new Error("Failed to connect to the database");
     }
 
-    const newUser = await User.create(user);
+    const newUser: userSchemaType = await User.create(user);
     if (!newUser) {
       throw new Error("Could not create user");
     }
     return JSON.parse(JSON.stringify(newUser));
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -28,13 +33,20 @@ export const updateUser = async (id: string, user: userSchemaType) => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const newUser = await User.findOneAndUpdate({ clerkId: id }, { ...user });
+    const newUser: userSchemaType | null = await User.findOneAndUpdate(
+      { clerkId: id },
+      { ...user }
+    );
     if (!newUser) {
       throw new Error("Could not update user");
     }
     return JSON.parse(JSON.stringify(newUser));
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -45,12 +57,18 @@ export const deleteUser = async (id: string) => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const newUser = await User.findOneAndDelete({ clerkId: id });
+    const newUser: userSchemaType | null = await User.findOneAndDelete({
+      clerkId: id,
+    });
     if (!newUser) {
       throw new Error("Could not delete user");
     }
     return JSON.parse(JSON.stringify(newUser));
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };

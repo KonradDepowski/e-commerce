@@ -2,14 +2,9 @@
 
 import mongoose from "mongoose";
 import { connectToDatabase } from "../database";
-import Product from "../models/Product";
+import Product from "../models/db/Product";
 import { revalidatePath } from "next/cache";
-
-type FilterProps = {
-  category?: string | string[];
-  sex?: string | string[];
-  price?: string;
-};
+import { FilterProps, productSchemaType } from "../types/types";
 
 export const fetchAllProducts = async () => {
   try {
@@ -18,31 +13,42 @@ export const fetchAllProducts = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const products = Product.find();
+    const products = await Product.find().lean<productSchemaType[]>();
     if (!products) {
       throw new Error("Could not fetch all products");
     }
 
     return products;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
-export const fetchLastWeekProducts = async () => {
+export const fetchHighLigthsProducts = async () => {
   try {
     const dbConnection = await connectToDatabase();
 
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const products = Product.find().sort({ createdAt: -1 }).limit(5);
+    const products = Product.find()
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .lean<productSchemaType[]>();
     if (!products) {
       throw new Error("Could not fetch last week prodcuts");
     }
     return products;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -53,13 +59,19 @@ export const fetchProduct = async (id: string) => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-    const product = Product.findOne({ _id: new mongoose.Types.ObjectId(id) });
+    const product = await Product.findOne({
+      _id: id,
+    }).lean<productSchemaType>();
     if (!product) {
       throw new Error("Could not fetch product");
     }
     return product;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -70,13 +82,17 @@ export const fetchOfferProduct = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-    const product = Product.findOne({ offer: true });
+    const product = Product.findOne({ offer: true }).lean<productSchemaType>();
     if (!product) {
       throw new Error("Could not fetch offer product");
     }
     return product;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -100,16 +116,19 @@ export const updateOfferProduct = async () => {
     const randomIndex = Math.floor(Math.random() * (maxIndex + 1));
     const randomProductId = products![randomIndex]._id;
 
-    await Product.findOneAndUpdate(
+    const product: productSchemaType | null = await Product.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(randomProductId) },
       { offer: true }
-    );
+    ).lean<productSchemaType>();
 
     revalidatePath("/");
-  } catch (error: any) {
-    throw new Error(
-      error.message ? error.message : "Failed to update offer product"
-    );
+    return product;
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -128,7 +147,6 @@ export const fetchSortProducts = async (
       throw new Error("Failed to connect to the database.");
     }
     const skipAmount = (Number(page) - 1) * limit;
-    // Setting sortCondition based on sortName
     if (sortName) {
       if (sortName === "descending") {
         sortCondition = { price: -1 };
@@ -139,7 +157,6 @@ export const fetchSortProducts = async (
       }
     }
 
-    // Dynamically building findCondition based on filterName
     if (filterName) {
       if (filterName.category) {
         findCondition.category = filterName.category;
@@ -163,7 +180,7 @@ export const fetchSortProducts = async (
     }
 
     const productCount = await Product.countDocuments();
-    const products = await Product.find(findCondition)
+    const products: productSchemaType[] = await Product.find(findCondition)
       .sort(sortCondition)
       .skip(skipAmount)
       .limit(limit);
@@ -176,7 +193,11 @@ export const fetchSortProducts = async (
       products,
       totalPages: Math.ceil(productCount / limit),
     };
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };

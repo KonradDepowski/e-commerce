@@ -1,4 +1,4 @@
-import { orderSchemaType } from "@/lib/models/Order";
+import { orderSchemaType } from "@/lib/types/types";
 import OrderItem from "./OrderItem";
 
 const OrdersList = ({ orders }: { orders: orderSchemaType[] }) => {

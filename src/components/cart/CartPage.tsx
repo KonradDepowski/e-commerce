@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import CartItem from "./CartItem";
-import { CartContext, CartItemProps } from "@/lib/store/CartContext";
+import { CartContext } from "@/lib/store/CartContext";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { fetchUserCart, findDiscountCode } from "@/lib/actions/cart";
 import DeliveryForm from "./DeliveryForm";
@@ -12,16 +12,17 @@ import Image from "next/image";
 import image from "../../../public/assets/cart.png";
 import Loader from "../Loader/Loader";
 import { toast } from "sonner";
+import { CartItemProps, CartItemsIds } from "@/lib/types/types";
 
 const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [discountCode, setDiscountCode] = useState<string>("");
-  const [discountAmount, setDiscountAmount] = useState<string>("");
+  const [discountAmount, setDiscountAmount] = useState<string>('');
   const [bonusMode, setBonusMode] = useState<boolean>(false);
   const [bonusAmount, setBonusAmount] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { userId } = useAuth();
   const { user } = useUser();
@@ -53,8 +54,6 @@ const CartPage = () => {
         setIsLoading(true);
         const cart = await fetchCartHandler();
         if (cart) {
-          console.log(cart);
-          console.log(cartItems);
           cartCtx?.mergeCart(
             [...cart],
             JSON.parse(localStorage.getItem("cart")!) || []
@@ -87,12 +86,12 @@ const CartPage = () => {
     }
   };
 
-  const cartItemsIds: Object[] = [];
+  const cartItemsIds: CartItemsIds[] = [];
   cartCtx?.items.forEach((it) =>
     cartItemsIds.push({
       id: it.id,
       size: it.size,
-      quantity: it.quantity,
+      quantity: it.quantity!,
       price: it.price,
     })
   );

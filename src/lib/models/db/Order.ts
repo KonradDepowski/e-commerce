@@ -1,19 +1,6 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose";
 
-export type orderSchemaType = {
-  _id?: string;
-  id?: string;
-  productsIds: Object;
-  buyerId: string;
-  buyerAvatar: string;
-  createdAt?: Date;
-  totalAmount: number;
-  discount: string;
-  deliveryData: Object;
-  status?: string;
-};
-
 const orderSchema = new Schema({
   id: {
     type: String,

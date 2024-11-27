@@ -4,16 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { ReactNode, createContext, useState } from "react";
 import { updateUserCart } from "../actions/cart";
-
-export type CartItemProps = {
-  id: string;
-  title: string;
-  price: number;
-  size: string;
-  category: string;
-  quantity?: number;
-  image: string;
-};
+import { CartItemProps } from "../types/types";
 
 type CartContextType = {
   items: CartItemProps[];
@@ -26,28 +17,21 @@ type CartContextType = {
   clearCart: () => void;
 };
 
-type ProviderType = {
-  children: ReactNode;
-};
-
 export const CartContext = createContext<CartContextType | undefined>(
   undefined
 );
 
 const calculateTotalAmount = (items: CartItemProps[]) => {
   let totalAmount = 0;
-
   items.forEach((item) => {
-    // Multiply the quantity of each item by its price and add to the total amount
     totalAmount += (item.quantity || 1) * item.price;
   });
-
   return totalAmount;
 };
 
-const CartContextProvider = ({ children }: ProviderType) => {
+const CartContextProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
-  const [totalAmount, setTotalAmount] = useState(() => {
+  const [totalAmount, setTotalAmount] = useState<number>(() => {
     if (typeof window !== "undefined") {
       return parseInt(JSON.parse(localStorage.getItem("totalAmount")!) || 0);
     } else {
@@ -58,7 +42,6 @@ const CartContextProvider = ({ children }: ProviderType) => {
   const { userId } = useAuth();
 
   const addToCartHandler = (item: CartItemProps) => {
-    console.log("add");
     let items: CartItemProps[] = JSON.parse(localStorage.getItem("cart")!) || [
       ...cartItems,
     ];
@@ -93,7 +76,6 @@ const CartContextProvider = ({ children }: ProviderType) => {
   };
 
   const changeAmountHandler = (item: CartItemProps, quantity: string) => {
-    console.log("change");
     let items: CartItemProps[] = JSON.parse(localStorage.getItem("cart")!) || [
       ...cartItems,
     ];
@@ -105,15 +87,8 @@ const CartContextProvider = ({ children }: ProviderType) => {
     let newQunatity = +quantity;
     if (itemIndex >= 0) {
       let item: CartItemProps = items[itemIndex];
-      console.log(item);
-
       const newItem = { ...item, quantity: newQunatity };
-      console.log(newItem);
-
       items[itemIndex] = newItem;
-      console.log(newQunatity);
-      console.log(item.quantity);
-
       setCartItems(items);
     }
 
@@ -143,8 +118,6 @@ const CartContextProvider = ({ children }: ProviderType) => {
     let item: CartItemProps = items[itemIndex];
 
     if (item.quantity! > 1) {
-      console.log("jest");
-
       const newItem = { ...item, quantity: item?.quantity! - newQunatity };
       items[itemIndex] = newItem;
       setCartItems(items);
@@ -179,27 +152,18 @@ const CartContextProvider = ({ children }: ProviderType) => {
     dbItems: CartItemProps[],
     localItems: CartItemProps[]
   ) => {
-    console.log("merge");
-
-    // Iterate over localItems only if it's not empty
+ 
     if (localItems.length > 0) {
-      console.log("local");
-
-      // Iterate over each local item
       localItems.forEach((localItem) => {
-        // Find the index of the corresponding item in dbItems
         let itemIndex = dbItems.findIndex(
           (dbItem) =>
             dbItem.id === localItem.id &&
             dbItem.size === localItem.size &&
             dbItem.quantity === localItem.quantity
         );
-        // If item found in dbItems
         if (itemIndex >= 0) {
-          // Increment the quantity of the corresponding item in dbItems
           dbItems[itemIndex].quantity! = dbItems[itemIndex].quantity!;
         } else {
-          // If item not found in dbItems, add it to dbItems
           dbItems.push({ ...localItem, quantity: 1 });
         }
       });
@@ -211,7 +175,6 @@ const CartContextProvider = ({ children }: ProviderType) => {
       localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
       return;
     } else if (dbItems.length > 0 && localItems.length <= 0) {
-      console.log("db");
       setCartItems(dbItems);
       const totalAmount = calculateTotalAmount(dbItems);
       setTotalAmount(totalAmount);

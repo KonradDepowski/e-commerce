@@ -1,7 +1,6 @@
 import { fetchSortProducts } from "@/lib/actions/product";
-
 import React from "react";
-import Product from "../sneakers/Product";
+import Product from "../product/Product";
 import PaginationList from "../pagination/Pagination";
 
 const ShopPorducts = async ({
@@ -24,7 +23,6 @@ const ShopPorducts = async ({
     filterMode
   );
 
-  if (!products) throw new Error();
   return (
     <div className=" md:min-w-[50%]">
       <ul className="basis-[100%] lg:basis-[70%] 2xl:basis-[80%] flex flex-row justify-center lg:justify-start items-start flex-wrap gap-6 lg:pl-1 xl:mb-10">

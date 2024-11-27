@@ -16,34 +16,29 @@ const Filter = ({
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  // State to hold the selected checkbox values
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  // Initialize the state from the URL on component mount
   useEffect(() => {
     const currentParams = new URLSearchParams(searchParams.toString());
     const categoryValues = currentParams.getAll(cat) || [];
     setSelectedItems(categoryValues);
   }, [searchParams, cat]);
 
-  // Function to handle checkbox changes
+
   const changeValue = (item: string, checked: boolean) => {
     const currentParams = new URLSearchParams(searchParams.toString());
     let categoryValues = currentParams.getAll(cat);
 
     if (checked) {
-      // Add the item to selected items
+
       categoryValues.push(item);
     } else {
-      // Remove the item from selected items
+ 
       categoryValues = categoryValues.filter((i) => i !== item);
     }
 
-    // Clear and update URLSearchParams
     currentParams.delete(cat);
     categoryValues.forEach((i) => currentParams.append(cat, i));
-
-    // Update the state and URL
     setSelectedItems(categoryValues);
     router.push(`${pathname}?${currentParams.toString()}`);
   };

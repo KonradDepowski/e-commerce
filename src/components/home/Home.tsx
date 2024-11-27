@@ -6,7 +6,7 @@ import Loader from "../Loader/Loader";
 
 const HomePage = async () => {
   return (
-    <section className="  ">
+    <section>
       <HomeSlider />
       <div className=" p-10 ">
         <h2 className="text-[var(--green-main)] [font-size:_clamp(18px,4vw,30px)] font-bold  pb-10 max-w-[1500px] m-auto   ">
@@ -16,7 +16,6 @@ const HomePage = async () => {
           <HighLightsProducts />
         </Suspense>
       </div>
-
       <Offer />
     </section>
   );

@@ -13,13 +13,13 @@ import { useSignIn, useSignUp } from "@clerk/nextjs";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/lib/models/loginSchema";
+import { loginSchema } from "@/lib/models/form/loginSchema";
 import { toast } from "sonner";
 import { OAuthStrategy } from "@clerk/types";
-import { signupSchema } from "@/lib/models/signup";
+import { signupSchema } from "@/lib/models/form/signup";
+import { Catamaran } from "next/font/google";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-type Props = {
+type AuthProps = {
   mode: string;
 };
 
@@ -30,12 +30,13 @@ type FormValues = {
   lastName: string;
 };
 
-export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
+export function UserAuthForm({ ...props }: AuthProps) {
   const params = useSearchParams();
   const mode = params.get("mode");
   const { isLoaded, signUp, setActive } = useSignUp();
   const { signIn } = useSignIn();
-  const [pendingVerification, setPendingVerification] = useState(false);
+  const [pendingVerification, setPendingVerification] =
+    useState<boolean>(false);
   const [code, setCode] = useState("");
   const router = useRouter();
 
@@ -73,8 +74,20 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
         });
 
         setPendingVerification(true);
-      } catch (err: any) {
-        toast.error(err.errors[0].message);
+      } catch (error: unknown) {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "errors" in error &&
+          Array.isArray(error.errors)
+        ) {
+          const errorsArray = (error as { errors: { message: string }[] })
+            .errors;
+
+          if (errorsArray.length > 0) {
+            toast.error(errorsArray[0].message);
+          }
+        }
       }
     } else {
       try {
@@ -88,8 +101,20 @@ export function UserAuthForm({ ...props }: UserAuthFormProps | Props) {
           router.push("/");
           toast.success("Success. You logged in!");
         }
-      } catch (err: any) {
-        toast.error(err.errors[0].message);
+      } catch (error: unknown) {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "errors" in error &&
+          Array.isArray(error.errors)
+        ) {
+          const errorsArray = (error as { errors: { message: string }[] })
+            .errors;
+
+          if (errorsArray.length > 0) {
+            toast.error(errorsArray[0].message);
+          }
+        }
       }
     }
   };

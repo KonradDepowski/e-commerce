@@ -2,10 +2,11 @@
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { useAuth, useUser } from "@clerk/nextjs";
-import { CartContext, CartItemProps } from "@/lib/store/CartContext";
+import { CartContext } from "@/lib/store/CartContext";
 
 import NarrowNav from "./NarrowNav";
 import WideNav from "./WideNav";
+import { CartItemProps } from "@/lib/types/types";
 
 const Navigation = () => {
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
@@ -19,8 +20,6 @@ const Navigation = () => {
   });
 
   useEffect(() => {
-    console.log("zmiana");
-
     const storedCartItems = localStorage.getItem("cart");
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));

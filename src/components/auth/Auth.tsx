@@ -1,13 +1,6 @@
-import { Metadata } from "next";
-
 import Link from "next/link";
 
 import { UserAuthForm } from "@/components/auth/UserAuthForm";
-
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
 
 export default function AuthenticationPage({
   searchParams,
@@ -27,13 +20,13 @@ export default function AuthenticationPage({
                   ? "Create a new account"
                   : "Sign in to your account"}
               </h1>
-              <p className="text-sm text-muted-foreground lg:text-lg ">
+              <p className="text-sm lg:text-lg ">
                 {mode === "signup"
                   ? "Enter your email and password to create your account"
                   : "Enter your email and password to log in your account"}
               </p>
             </div>
-            <UserAuthForm />
+            <UserAuthForm mode={mode} />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

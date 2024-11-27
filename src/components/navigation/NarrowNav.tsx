@@ -11,7 +11,7 @@ type NarrowNavProps = {
   userId: string;
 };
 const NarrowNav = ({ userId }: NarrowNavProps) => {
-  const [openSheet, setOpenSheet] = useState(false);
+  const [openSheet, setOpenSheet] = useState<boolean>(false);
   const linkToProfile = userId ? "/profile" : "/login?mode=signup";
   const toggleSheetHandler = () => {
     setOpenSheet((prev) => !prev);

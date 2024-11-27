@@ -1,4 +1,5 @@
 "use client";
+import Loader from "@/components/Loader/Loader";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -9,7 +10,11 @@ const SignOut = () => {
     localStorage.removeItem("totalAmount");
     router.replace("/");
   }, []);
-  return <div>Loading...</div>;
+  return (
+    <div className="min-h-screen">
+      <Loader />
+    </div>
+  );
 };
 
 export default SignOut;

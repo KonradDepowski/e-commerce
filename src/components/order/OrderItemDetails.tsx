@@ -1,13 +1,5 @@
+import { OrderItemDetailsProps } from "@/lib/types/types";
 import Image from "next/image";
-
-type OrderItemDetailsProps = {
-  id: string;
-  image: string;
-  name: string;
-  size: string;
-  price: number;
-  quantity: number;
-};
 
 const OrderItemDetails = ({
   id,

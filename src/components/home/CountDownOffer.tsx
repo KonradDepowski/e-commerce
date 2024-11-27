@@ -1,12 +1,12 @@
 "use client";
 
-import { OfferContext } from "@/lib/store/OfferProductContext";
-import { useContext, useEffect, useState } from "react";
+import { useOfferContext } from "@/lib/store/OfferProductContext";
+import {  useEffect, useState } from "react";
 
 const TARGET_TIME_KEY = "countdown_target_time";
 
 const CountDownOffer = () => {
-  const offerCtx = useContext(OfferContext);
+  const offerCtx = useOfferContext();
   const [timeLeft, setTimeLeft] = useState({
     hours: "--",
     minutes: "--",
@@ -42,7 +42,7 @@ const CountDownOffer = () => {
   };
 
   useEffect(() => {
-    // On first load, set the target time if it doesn't exist
+  
     if (!localStorage.getItem(TARGET_TIME_KEY)) {
       const now = new Date();
       const tomorrow = new Date(
@@ -53,15 +53,14 @@ const CountDownOffer = () => {
       localStorage.setItem(TARGET_TIME_KEY, tomorrow.toISOString());
     }
 
-    // Set initial time left
+  
     setTimeLeft(calculateTimeLeft());
 
-    // Update the timer every second
+   
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
-    // Cleanup on unmount
     return () => clearInterval(timer);
   }, []);
 

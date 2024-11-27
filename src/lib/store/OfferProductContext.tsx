@@ -1,13 +1,12 @@
-import { createContext, ReactNode, useState } from "react";
+"use client";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 type OfferContextType = {
   refetchOffer: boolean;
   changeOfferStatus: (value: boolean) => void;
 };
 
-export const OfferContext = createContext<OfferContextType | undefined>(
-  undefined
-);
+const OfferContext = createContext<OfferContextType | undefined>(undefined);
 
 const OfferContextProvider = ({ children }: { children: ReactNode }) => {
   const [refetchOffer, setRefetchOffer] = useState<boolean>(false);
@@ -17,14 +16,26 @@ const OfferContextProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const offerContext = {
-    refetchOffer: refetchOffer,
+    refetchOffer,
     changeOfferStatus: changeOfferStatusHandler,
   };
+
   return (
     <OfferContext.Provider value={offerContext}>
       {children}
     </OfferContext.Provider>
   );
+};
+
+
+export const useOfferContext = () => {
+  const context = useContext(OfferContext);
+  if (!context) {
+    throw new Error(
+      "useOfferContext must be used within an OfferContextProvider"
+    );
+  }
+  return context;
 };
 
 export default OfferContextProvider;

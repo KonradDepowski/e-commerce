@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,7 +17,6 @@ import { useParams } from "next/navigation";
 import { fetchProduct } from "@/lib/actions/product";
 import { useContext } from "react";
 import { CartContext } from "@/lib/store/CartContext";
-import { log } from "console";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
@@ -38,7 +36,6 @@ export function SizeForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const product = await fetchProduct(prodId as string);
-    console.log(product);
 
     let price = product.price;
     if (product.offer) {
@@ -50,7 +47,7 @@ export function SizeForm() {
       price: price,
       size: data.type,
       category: product.category,
-      image: product.images,
+      image: product.images[0],
       quantity: 1,
     };
     cartCtx?.addToCart(cartItem);

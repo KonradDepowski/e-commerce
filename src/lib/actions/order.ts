@@ -2,9 +2,10 @@
 
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
-import Order, { orderSchemaType } from "../models/Order";
+import Order from "../models/db/Order";
 import { connectToDatabase } from "../database";
 import { fetchProduct } from "./product";
+import { orderSchemaType, productDataType } from "../types/types";
 
 export const checkoutOrder = async (order: orderSchemaType) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -36,10 +37,14 @@ export const checkoutOrder = async (order: orderSchemaType) => {
       },
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/success?id=${order.buyerId}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
+      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/reject`,
     });
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   } finally {
     redirect(session!.url!);
   }
@@ -53,7 +58,7 @@ export const createOrder = async (order: orderSchemaType) => {
       throw new Error("Failed to connect to the database");
     }
 
-    const newOrder = await Order.create({
+    const newOrder: orderSchemaType = await Order.create({
       ...order,
     });
 
@@ -62,8 +67,12 @@ export const createOrder = async (order: orderSchemaType) => {
     }
 
     return JSON.parse(JSON.stringify(order));
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -83,8 +92,12 @@ export const fetchUserOrder = async (userId: string) => {
     }
 
     return orders;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };
 
@@ -96,7 +109,7 @@ export const fetchSingleOrder = async (orderId: string) => {
       throw new Error("Failed to connect to the database");
     }
 
-    const order: any = await Order.findOne({ _id: orderId });
+    const order: orderSchemaType | null = await Order.findOne({ _id: orderId });
 
     if (!order) {
       throw new Error("Could not fetch order");
@@ -104,9 +117,8 @@ export const fetchSingleOrder = async (orderId: string) => {
 
     const productsIds = order.productsIds;
 
-    const productsData = [];
+    const productsData: productDataType[] = [];
 
-    // Using Promise.all to handle asynchronous operations inside map
     const products = await Promise.all(
       productsIds.map(async (obj: any) => {
         const productData = await fetchProduct(obj.id);
@@ -127,11 +139,15 @@ export const fetchSingleOrder = async (orderId: string) => {
       deliveryData: order.deliveryData,
       totalAmount: order.totalAmount,
       discount: order.discount,
-      date: order.createdAt,
+      date: order.createdAt!,
     });
 
     return productsData;
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
   }
 };

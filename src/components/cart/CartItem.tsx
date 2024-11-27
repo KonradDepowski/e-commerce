@@ -11,7 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CartContext, CartItemProps } from "@/lib/store/CartContext";
+import { CartContext } from "@/lib/store/CartContext";
+import { CartItemProps } from "@/lib/types/types";
 
 const CartItem = ({
   id,

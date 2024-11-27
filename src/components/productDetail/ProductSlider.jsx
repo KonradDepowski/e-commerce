@@ -13,7 +13,6 @@ import "swiper/css/thumbs";
 
 export default function ProductSlider({ images }) {
   const [thumbsSwiper, setThumbsSwiper] = useState();
-
   const imagesSlides = [
     { src: images[0], alt: "First" },
     { src: images[1], alt: "Second" },

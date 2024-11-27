@@ -4,9 +4,10 @@ import { Input } from "../ui/input";
 import CheckoutButton from "../checkout/CheckoutButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { deliveryDataSchema } from "@/lib/models/deliveryData";
+import { deliveryDataSchema } from "@/lib/models/form/deliveryData";
 import { checkoutOrder } from "@/lib/actions/order";
 import { loadStripe } from "@stripe/stripe-js";
+import { CartItemsIds } from "@/lib/types/types";
 
 export type FormValues = {
   country: string;
@@ -28,7 +29,7 @@ const DeliveryForm = ({
   discount,
 }: {
   totalAmount: number;
-  cartItemsIds: Object[];
+  cartItemsIds: CartItemsIds[];
   userId: string;
   buyerAvatar: string;
   discount: string;

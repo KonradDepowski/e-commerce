@@ -9,7 +9,6 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  console.log(error);
   return (
     <div className="flex flex-col justify-center items-center py-3">
       <Image className="w-[200px] xl:w-[300px]" src={errorimage} alt="error" />

@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
   const prodId = params.id.slice(12, params.id.length);
   const OPTIONS = {};
-
   const product = await fetchProduct(prodId);
 
   if (!product) {

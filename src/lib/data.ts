@@ -1,6 +1,6 @@
-import slide1 from "@/../public/hero_1.png";
-import slide2 from "@/../public/hero_2.png";
-import slide3 from "@/../public/hero_3.png";
+import slide1 from "@/../public/assets/hero_1.png";
+import slide2 from "@/../public/assets/hero_2.png";
+import slide3 from "@/../public/assets/hero_3.png";
 import { StaticImageData } from "next/image";
 
 export type filterDataType = {
