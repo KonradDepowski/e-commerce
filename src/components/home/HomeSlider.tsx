@@ -19,6 +19,7 @@ const HomeSlider = () => {
                 <Image
                   className="w-[80%] max-w-[380px] md:max-w-[600px] md:w-[50%]"
                   src={item.image}
+                  priority
                   alt="slide"
                 />
                 <div className="w-full md:w-[50%]">
