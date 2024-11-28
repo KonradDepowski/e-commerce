@@ -283,6 +283,9 @@ export function UserAuthForm({ ...props }: AuthProps) {
           <h3 className="text-[var(--dark-500)] text-center py-5 font-bold md:text-xl">
             Enter Verification Code
           </h3>
+          <p className="text-[var(--dark-500)] text-center py-1 text-xs xl:text-sm">
+            Check your inbox and find verification code
+          </p>
           <Input
             className="lg:p-6 lg:px-3 "
             id="code"

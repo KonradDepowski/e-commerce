@@ -34,6 +34,7 @@ const CartItem = ({
     image,
     category,
   };
+  console.log(image);
 
   const changeAmountHandler = (value: string) => {
     cartCtx?.changeAmount(item, value);
@@ -49,7 +50,7 @@ const CartItem = ({
         <Image
           width={80}
           height={80}
-          src={image[0]}
+          src={image}
           alt={title}
           className="object-cover w-full h-full"
         />
