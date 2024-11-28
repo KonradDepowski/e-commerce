@@ -35,14 +35,24 @@ export const fetchHighLigthsProducts = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const products = Product.find()
+    const products = await Product.find()
       .sort({ createdAt: -1 })
       .limit(5)
       .lean<productSchemaType[]>();
     if (!products) {
       throw new Error("Could not fetch last week prodcuts");
     }
-    return products;
+
+    const plainProducts: productSchemaType[] = [];
+
+    products.forEach((product) => {
+      plainProducts.push({
+        ...product,
+        _id: product._id?.toString(),
+      });
+    });
+
+    return plainProducts;
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);
@@ -65,7 +75,8 @@ export const fetchProduct = async (id: string) => {
     if (!product) {
       throw new Error("Could not fetch product");
     }
-    return product;
+
+    return { ...product, _id: product._id?.toString() };
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);
@@ -82,11 +93,13 @@ export const fetchOfferProduct = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-    const product = Product.findOne({ offer: true }).lean<productSchemaType>();
+    const product = await Product.findOne({
+      offer: true,
+    }).lean<productSchemaType>();
     if (!product) {
       throw new Error("Could not fetch offer product");
     }
-    return product;
+    return { ...product, _id: product._id?.toString() };
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);

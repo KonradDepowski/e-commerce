@@ -15,6 +15,7 @@ const Product = ({ id, name, price, images }: productSchemaType) => {
           src={images?.[0]}
           alt={name}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
       <h2 className="text-lg md:text-xl md:p-2 text-center p-1 ">{name}</h2>

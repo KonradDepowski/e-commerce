@@ -1,6 +1,5 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { fetchOfferProduct, updateOfferProduct } from "@/lib/actions/product";
 import Link from "next/link";
@@ -8,38 +7,42 @@ import Loader from "../Loader/Loader";
 import CountDownOffer from "./CountDownOffer";
 import { useOfferContext } from "@/lib/store/OfferProductContext";
 import { productSchemaType } from "@/lib/types/types";
+import Image from "next/image";
 
-const Offer = () => {
+const Offer = memo(() => {
   const [data, setData] = useState<productSchemaType>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const offerCtx = useOfferContext();
-  const updateOfferDataHnndler = async () => {
+
+  const updateOfferDataHnndler = useCallback(async () => {
     setIsLoading(true);
     const data = await updateOfferProduct();
     setData(data!);
     setIsLoading(false);
     localStorage.removeItem("countdown_target_time");
     offerCtx.changeOfferStatus(false);
-  };
+  }, [offerCtx]);
 
   useEffect(() => {
     if (offerCtx?.refetchOffer) {
       updateOfferDataHnndler();
     }
-  }, [offerCtx.refetchOffer]);
+  }, [offerCtx.refetchOffer, updateOfferDataHnndler]);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-      const data = await fetchOfferProduct();
-      setData(data!);
-      setIsLoading(false);
+      if (!data) {
+        setIsLoading(true);
+        const fetchedData = await fetchOfferProduct();
+        setData(fetchedData!);
+        setIsLoading(false);
+      }
     };
     fetchData();
-  }, []);
+  }, [data]);
 
   return (
-    <div className="bg-[var(--color)] ">
+    <div className="bg-[var(--color)]">
       <div className="p-3 flex flex-col md:flex-row-reverse md:justify-around md:items-center overflow-hidden max-w-[1500px] m-auto">
         {isLoading ? (
           <Loader />
@@ -52,9 +55,8 @@ const Offer = () => {
                 alt="offer"
                 width={500}
                 height={500}
+                priority
               />
-              <div className="absolute top-[-10px] md:top-[30%] left-[-10px] md:left-[25%] bg-blue-100 blur-3xl md:blur-[73px] w-[130px] h-[130px] rounded-full"></div>
-              <div className="absolute bottom-[-10px] md:bottom-[20%] right-[-10px] md:right-[20%] bg-blue-200 blur-3xl w-[100px] md:w-[130px] h-[100px] md:h-[130px] rounded-full"></div>
             </div>
             <div className="flex flex-col md:w-[50%] p-2">
               <h2 className="[font-size:_clamp(16px,3vw,26px)] font-normal uppercase text-[var(--dark-500)] py-3 lg:mb-3">
@@ -90,6 +92,6 @@ const Offer = () => {
       </div>
     </div>
   );
-};
+});
 
 export default Offer;
