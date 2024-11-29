@@ -5,6 +5,7 @@ import { connectToDatabase } from "../database";
 import Product from "../models/db/Product";
 import { revalidatePath } from "next/cache";
 import { FilterProps, productSchemaType } from "../types/types";
+import OfferExpiersDate from "../models/db/OfferExpiersDate";
 
 export const fetchAllProducts = async () => {
   try {
@@ -206,6 +207,60 @@ export const fetchSortProducts = async (
       products,
       totalPages: Math.ceil(productCount / limit),
     };
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
+  }
+};
+
+export const fetchOfferExpiresDate = async () => {
+  try {
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
+    const expiresDate = OfferExpiersDate.find().lean();
+    if (!expiresDate) {
+      throw new Error("Could not fetch expires offer date");
+    }
+    console.log(expiresDate);
+
+    return expiresDate;
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "message" in error) {
+      throw new Error(` ${error.message}`);
+    } else {
+      throw new Error("Internal Server Error");
+    }
+  }
+};
+
+export const updateOfferExpiresDate = async () => {
+  try {
+    const dbConnection = await connectToDatabase();
+
+    if (!dbConnection) {
+      throw new Error("Failed to connect to the database.");
+    }
+    const now = new Date();
+    const tomorrow = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1
+    );
+    const expiresDate = OfferExpiersDate.findOneAndUpdate({
+      _id: "6749a95236103ef09864c6f9",
+      date: tomorrow,
+    });
+    if (!expiresDate) {
+      throw new Error("Could not update offer data");
+    }
+
+    return expiresDate;
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);

@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState, useCallback, memo } from "react";
 import { BsCart3 } from "react-icons/bs";
-import { fetchOfferProduct, updateOfferProduct } from "@/lib/actions/product";
+import {
+  fetchOfferProduct,
+  updateOfferExpiresDate,
+  updateOfferProduct,
+} from "@/lib/actions/product";
 import Link from "next/link";
 import Loader from "../Loader/Loader";
 import CountDownOffer from "./CountDownOffer";
@@ -20,6 +24,7 @@ const Offer = memo(() => {
     setData(data!);
     setIsLoading(false);
     localStorage.removeItem("countdown_target_time");
+    await updateOfferExpiresDate();
     offerCtx.changeOfferStatus(false);
   }, [offerCtx]);
 

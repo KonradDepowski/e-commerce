@@ -1,29 +1,26 @@
 "use client";
 
+import { fetchOfferExpiresDate } from "@/lib/actions/product";
 import { useOfferContext } from "@/lib/store/OfferProductContext";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const TARGET_TIME_KEY = "countdown_target_time";
 
 const CountDownOffer = () => {
   const offerCtx = useOfferContext();
+  const [offerExpires, setOfferExpires] = useState<Date | null>(null);
   const [timeLeft, setTimeLeft] = useState({
     hours: "--",
     minutes: "--",
     seconds: "--",
   });
 
-  const calculateTimeLeft = () => {
+  const calculateTimeLeft = (targetTime: Date) => {
     const now = new Date();
-    const targetTime = new Date(localStorage.getItem(TARGET_TIME_KEY) || 0);
     const timeDifference = targetTime.getTime() - now.getTime();
 
     if (timeDifference <= 0) {
-      return {
-        hours: "00",
-        minutes: "00",
-        seconds: "00",
-      };
+      return { hours: "00", minutes: "00", seconds: "00" };
     }
 
     const hours = Math.floor(
@@ -42,27 +39,34 @@ const CountDownOffer = () => {
   };
 
   useEffect(() => {
-  
-    if (!localStorage.getItem(TARGET_TIME_KEY)) {
-      const now = new Date();
-      const tomorrow = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate() + 1
-      );
-      localStorage.setItem(TARGET_TIME_KEY, tomorrow.toISOString());
-    }
+    const fetchExpiresDate = async () => {
+      try {
+        const expiresDate = await fetchOfferExpiresDate();
+        const fetchedDate = new Date(expiresDate[0].date);
+        setOfferExpires(fetchedDate);
 
-  
-    setTimeLeft(calculateTimeLeft());
+        // Store in localStorage as a fallback
+        localStorage.setItem(TARGET_TIME_KEY, fetchedDate.toISOString());
+      } catch (error) {
+        console.error("Failed to fetch expiration date:", error);
+      }
+    };
 
-   
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
+    fetchExpiresDate();
+  }, []);
+
+  useEffect(() => {
+    if (!offerExpires) return;
+
+    const updateCountdown = () => {
+      setTimeLeft(calculateTimeLeft(offerExpires));
+    };
+
+    updateCountdown(); // Initial call
+    const timer = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [offerExpires]);
 
   useEffect(() => {
     if (
