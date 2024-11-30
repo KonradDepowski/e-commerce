@@ -114,3 +114,10 @@ export type userSchemaType = {
   photo: string;
   userCart?: Object;
 };
+
+// EXPIERS DATE
+
+export type ExpiredDateType = {
+  _id: string;
+  date: Date;
+};

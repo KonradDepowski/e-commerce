@@ -42,7 +42,7 @@ const CountDownOffer = () => {
     const fetchExpiresDate = async () => {
       try {
         const expiresDate = await fetchOfferExpiresDate();
-        const fetchedDate = new Date(expiresDate[0].date);
+        const fetchedDate = new Date(expiresDate.date);
         setOfferExpires(fetchedDate);
 
         // Store in localStorage as a fallback

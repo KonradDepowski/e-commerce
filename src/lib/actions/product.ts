@@ -4,7 +4,11 @@ import mongoose from "mongoose";
 import { connectToDatabase } from "../database";
 import Product from "../models/db/Product";
 import { revalidatePath } from "next/cache";
-import { FilterProps, productSchemaType } from "../types/types";
+import {
+  ExpiredDateType,
+  FilterProps,
+  productSchemaType,
+} from "../types/types";
 import OfferExpiersDate from "../models/db/OfferExpiersDate";
 
 export const fetchAllProducts = async () => {
@@ -223,11 +227,12 @@ export const fetchOfferExpiresDate = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-    const expiresDate = OfferExpiersDate.find().lean();
+    const expiresDate: ExpiredDateType | null = await OfferExpiersDate.findOne({
+      _id: "6749a95236103ef09864c6f9",
+    });
     if (!expiresDate) {
       throw new Error("Could not fetch expires offer date");
     }
-    console.log(expiresDate);
 
     return expiresDate;
   } catch (error: unknown) {
@@ -252,7 +257,7 @@ export const updateOfferExpiresDate = async () => {
       now.getMonth(),
       now.getDate() + 1
     );
-    const expiresDate = OfferExpiersDate.findOneAndUpdate({
+    const expiresDate = await OfferExpiersDate.findOneAndUpdate({
       _id: "6749a95236103ef09864c6f9",
       date: tomorrow,
     });
@@ -260,7 +265,7 @@ export const updateOfferExpiresDate = async () => {
       throw new Error("Could not update offer data");
     }
 
-    return expiresDate;
+    return { ...expiresDate, _id: expiresDate._id.toString() };
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);

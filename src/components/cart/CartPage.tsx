@@ -18,7 +18,9 @@ const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [discountCode, setDiscountCode] = useState<string>("");
-  const [discountAmount, setDiscountAmount] = useState<string>('');
+  const [discountAmount, setDiscountAmount] = useState<string | undefined>(
+    undefined
+  );
   const [bonusMode, setBonusMode] = useState<boolean>(false);
   const [bonusAmount, setBonusAmount] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
@@ -83,6 +85,7 @@ const CartPage = () => {
     } else {
       setDiscountCode("");
       setTotalAmount(bonusAmount);
+      setDiscountAmount(undefined);
     }
   };
 
@@ -167,9 +170,14 @@ const CartPage = () => {
                 Code not found!
               </p>
             )}
+            {discountAmount && (
+              <p className="font-bold text-md text-[var(--purple)] py-3">
+                Current Code: {discountAmount}%
+              </p>
+            )}
           </form>
           <DeliveryForm
-            discount={discountAmount}
+            discount={discountAmount!}
             buyerAvatar={user?.imageUrl!}
             totalAmount={totalAmount!}
             cartItemsIds={cartItemsIds!}
