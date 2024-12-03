@@ -227,14 +227,19 @@ export const fetchOfferExpiresDate = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
+
     const expiresDate: ExpiredDateType | null = await OfferExpiersDate.findOne({
       _id: "6749a95236103ef09864c6f9",
     });
+
     if (!expiresDate) {
       throw new Error("Could not fetch expires offer date");
     }
 
-    return expiresDate;
+    return {
+      date: expiresDate.date.toISOString(),
+      _id: expiresDate._id.toString(),
+    };
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);
@@ -251,6 +256,7 @@ export const updateOfferExpiresDate = async () => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
+
     const now = new Date();
     const tomorrow = new Date(
       now.getFullYear(),
@@ -265,7 +271,10 @@ export const updateOfferExpiresDate = async () => {
       throw new Error("Could not update offer data");
     }
 
-    return { ...expiresDate, _id: expiresDate._id.toString() };
+    return {
+      date: expiresDate.date.toISOString(),
+      _id: expiresDate._id.toString(),
+    };
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);

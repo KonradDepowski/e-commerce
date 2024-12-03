@@ -20,15 +20,17 @@ const Offer = memo(() => {
 
   const updateOfferDataHnndler = useCallback(async () => {
     setIsLoading(true);
+    offerCtx.changeOfferStatus(false);
     const data = await updateOfferProduct();
     setData(data!);
     setIsLoading(false);
     localStorage.removeItem("countdown_target_time");
     await updateOfferExpiresDate();
-    offerCtx.changeOfferStatus(false);
-  }, [offerCtx]);
+  }, []);
 
   useEffect(() => {
+    console.log(offerCtx.refetchOffer);
+
     if (offerCtx?.refetchOffer) {
       updateOfferDataHnndler();
     }

@@ -18,7 +18,7 @@ const CountDownOffer = () => {
   const calculateTimeLeft = (targetTime: Date) => {
     const now = new Date();
 
-    const timeDifference = (targetTime.getTime() - 3600000 ) - now.getTime();
+    const timeDifference = targetTime.getTime() - 360000 - now.getTime();
 
     if (timeDifference <= 0) {
       return { hours: "00", minutes: "00", seconds: "00" };
@@ -43,6 +43,7 @@ const CountDownOffer = () => {
     const fetchExpiresDate = async () => {
       try {
         const expiresDate = await fetchOfferExpiresDate();
+        console.log(expiresDate);
 
         // Parse the date directly without timezone adjustment
         const fetchedDate = new Date(expiresDate.date);
