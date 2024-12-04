@@ -31,20 +31,20 @@ export default function AuthenticationPage({
               By clicking continue, you agree to our{" "}
               <Link
                 href="/terms"
-                className="underline underline-offset-4 hover:text-primary hover:text-slate-600 "
+                className="underline underline-offset-4  hover:text-[var(--dark-400)] focus:text-[var(--dark-400)] "
               >
                 Terms of Service
               </Link>{" "}
               and{" "}
               <Link
                 href="/privacy"
-                className="underline underline-offset-4 hover:text-primary hover:text-slate-600 "
+                className="underline underline-offset-4 hover:text-[var(--dark-400)] focus:text-[var(--dark-400)] "
               >
                 Privacy Policy
               </Link>
             </p>
             <Link
-              className="text-center text-md text-[var(--font-color)] underline hover:text-slate-600 "
+              className="text-center text-md text-[var(--font-color)] underline hover:text-[var(--dark-400)] focus:text-[var(--dark-400)]"
               href={
                 mode === "signup" ? "/login?mode=login" : "/login?mode=signup"
               }
