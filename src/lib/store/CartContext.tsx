@@ -152,7 +152,6 @@ const CartContextProvider = ({ children }: { children: ReactNode }) => {
     dbItems: CartItemProps[],
     localItems: CartItemProps[]
   ) => {
- 
     if (localItems.length > 0) {
       localItems.forEach((localItem) => {
         let itemIndex = dbItems.findIndex(
