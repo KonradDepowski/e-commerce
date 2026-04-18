@@ -1,9 +1,9 @@
 "use client";
 import { fetchUserOrder } from "@/lib/actions/order";
 import { useAuth, UserProfile } from "@clerk/nextjs";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SignOutButton } from "../buttons/SignOutButton";
-import { dark } from "@clerk/themes";
+import { gdark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 import type { Theme } from "@clerk/types";
 import OrdersList from "../order/OrdersList";
@@ -30,7 +30,7 @@ const Profile = () => {
   }, [userId]);
 
   const appearanceConfig: Theme | undefined =
-    theme === "dark" ? { baseTheme: dark } : undefined;
+    theme === "dark" ? { baseTheme: gdark } : undefined;
 
   return (
     <section className="flex flex-row flex-wrap justify-center py-4 gap-5 w-full  ">

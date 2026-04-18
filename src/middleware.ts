@@ -7,7 +7,6 @@ export default authMiddleware({
     "/shop",
     "/api/webhook(.*)",
     "/api/webhook/stripe",
-    "/_next/static/chunks/app/page.js",
     "/favicon.ico",
     "/:productId",
   ],
@@ -16,7 +15,7 @@ export default authMiddleware({
 
 export const config = {
   matcher: [
-    "/api/webhooks(.*)",
+    "/api/webhook(.*)",
     "/((?!.+\\.[\\w]+$|_next).*)",
     "/",
     "/(api|trpc)(.*)",

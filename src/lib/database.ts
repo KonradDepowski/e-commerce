@@ -7,12 +7,18 @@ type CachedMongoose = {
 
 const MONGO_URI = process.env.MONGO_URI;
 
-const cached: CachedMongoose = (
-  globalThis as typeof globalThis & { mongoose?: CachedMongoose }
-).mongoose || {
-  conn: null,
-  promise: null,
+const globalMongoose = globalThis as typeof globalThis & {
+  mongoose?: CachedMongoose;
 };
+
+if (!globalMongoose.mongoose) {
+  globalMongoose.mongoose = {
+    conn: null,
+    promise: null,
+  };
+}
+
+const cached: CachedMongoose = globalMongoose.mongoose;
 
 export const connectToDatabase = async () => {
   if (cached.conn) return cached.conn;

@@ -26,11 +26,9 @@ const Offer = memo(() => {
     setIsLoading(false);
     localStorage.removeItem("countdown_target_time");
     await updateOfferExpiresDate();
-  }, []);
+  }, [offerCtx]);
 
   useEffect(() => {
-    console.log(offerCtx.refetchOffer);
-
     if (offerCtx?.refetchOffer) {
       updateOfferDataHnndler();
     }
@@ -38,15 +36,14 @@ const Offer = memo(() => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!data) {
-        setIsLoading(true);
-        const fetchedData = await fetchOfferProduct();
-        setData(fetchedData!);
-        setIsLoading(false);
-      }
+      setIsLoading(true);
+      const fetchedData = await fetchOfferProduct();
+      setData(fetchedData!);
+      setIsLoading(false);
     };
+
     fetchData();
-  }, [data]);
+  }, []);
 
   return (
     <div className="bg-[var(--color)]">
@@ -62,7 +59,8 @@ const Offer = memo(() => {
                 alt="offer"
                 width={500}
                 height={500}
-                priority
+                loading="lazy"
+                sizes="(max-width: 768px) 80vw, 50vw"
               />
             </div>
             <div className="flex flex-col md:w-[50%] p-2">
@@ -87,7 +85,7 @@ const Offer = memo(() => {
                 </p>
               </div>
               <Link
-                href={`productId=${data?._id}`}
+                href={`/${data?._id}`}
                 className="bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] transition-all w-[150px] lg:w-[300px] p-3 lg:p-5 rounded-lg flex items-center justify-center gap-3 lg:gap-6"
               >
                 <BsCart3 className="text-md lg:text-3xl text-white" />
@@ -100,5 +98,7 @@ const Offer = memo(() => {
     </div>
   );
 });
+
+Offer.displayName = "Offer";
 
 export default Offer;

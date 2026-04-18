@@ -11,6 +11,7 @@ const OrderDetailList = ({
     <ul className="py-4 flex flex-col justify-center items-center gap-3">
       {orderProductInfo.map((order) => (
         <OrderItemDetails
+          key={order._id}
           id={order._id!}
           name={order.name}
           image={order.images![0]}

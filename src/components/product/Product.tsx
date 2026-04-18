@@ -23,7 +23,7 @@ const Product = ({ id, name, price, images }: productSchemaType) => {
 
       <Link
         className="p-2 bg-[var(--green-main)] hover:bg-[var(--green-main-hover)] text-center text-white m-2 rounded-lg md:p-3 md:text-lg  transition-all"
-        href={`/productId=${id}`}
+        href={`/${id}`}
       >
         See Details
       </Link>

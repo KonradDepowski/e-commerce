@@ -13,13 +13,14 @@ const HomeSlider = () => {
     <div className="flex flex-col  pb-7 justify-center items-center m-auto bg-[var(--color)] ">
       <Carousel className="w-screen md:w-full">
         <CarouselContent className="h-[500px] select-none ">
-          {slides.map((item) => (
+          {slides.map((item, index) => (
             <CarouselItem className="flex flex-col " key={item.title}>
               <div className="max-w-[1400px] m-auto flex flex-col md:flex-row-reverse items-center justify-center py-8">
                 <Image
                   className="w-[80%] max-w-[380px] md:max-w-[600px] md:w-[50%]"
                   src={item.image}
-                  priority
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 80vw, 50vw"
                   alt="slide"
                 />
                 <div className="w-full md:w-[50%]">

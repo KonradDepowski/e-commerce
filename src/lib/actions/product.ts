@@ -3,7 +3,7 @@
 import mongoose from "mongoose";
 import { connectToDatabase } from "../database";
 import Product from "../models/db/Product";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import {
   ExpiredDateType,
   FilterProps,
@@ -33,7 +33,7 @@ export const fetchAllProducts = async () => {
   }
 };
 
-export const fetchHighLigthsProducts = async () => {
+const fetchHighLightsProductsQuery = async () => {
   try {
     const dbConnection = await connectToDatabase();
 
@@ -67,6 +67,15 @@ export const fetchHighLigthsProducts = async () => {
   }
 };
 
+export const fetchHighLigthsProducts = unstable_cache(
+  fetchHighLightsProductsQuery,
+  ["highlights-products"],
+  {
+    revalidate: 120,
+    tags: ["highlights-products"],
+  },
+);
+
 export const fetchProduct = async (id: string) => {
   try {
     const dbConnection = await connectToDatabase();
@@ -91,7 +100,7 @@ export const fetchProduct = async (id: string) => {
   }
 };
 
-export const fetchOfferProduct = async () => {
+const fetchOfferProductQuery = async () => {
   try {
     const dbConnection = await connectToDatabase();
 
@@ -114,6 +123,15 @@ export const fetchOfferProduct = async () => {
   }
 };
 
+export const fetchOfferProduct = unstable_cache(
+  fetchOfferProductQuery,
+  ["offer-product"],
+  {
+    revalidate: 120,
+    tags: ["offer-product"],
+  },
+);
+
 export const updateOfferProduct = async () => {
   try {
     const dbConnection = await connectToDatabase();
@@ -125,7 +143,7 @@ export const updateOfferProduct = async () => {
     if (currentOfferProduct) {
       await Product.findOneAndUpdate(
         { _id: currentOfferProduct._id },
-        { offer: false }
+        { offer: false },
       );
     }
 
@@ -136,10 +154,11 @@ export const updateOfferProduct = async () => {
 
     const product: productSchemaType | null = await Product.findOneAndUpdate(
       { _id: new mongoose.Types.ObjectId(randomProductId) },
-      { offer: true }
+      { offer: true },
     ).lean<productSchemaType>();
 
     revalidatePath("/");
+    revalidateTag("offer-product");
     return product;
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
@@ -154,7 +173,7 @@ export const fetchSortProducts = async (
   sortName: string,
   limit = 12,
   page: string | number,
-  filterName: FilterProps
+  filterName: FilterProps,
 ) => {
   try {
     let sortCondition: any = {};
@@ -197,11 +216,14 @@ export const fetchSortProducts = async (
       }
     }
 
-    const productCount = await Product.countDocuments();
-    const products: productSchemaType[] = await Product.find(findCondition)
-      .sort(sortCondition)
-      .skip(skipAmount)
-      .limit(limit);
+    const [productCount, products] = await Promise.all([
+      Product.countDocuments(findCondition),
+      Product.find(findCondition)
+        .sort(sortCondition)
+        .skip(skipAmount)
+        .limit(limit)
+        .lean<productSchemaType[]>(),
+    ]);
 
     if (!products) {
       throw new Error("Could not fetch products");
@@ -261,7 +283,7 @@ export const updateOfferExpiresDate = async () => {
     const tomorrow = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
+      now.getDate() + 1,
     );
     const expiresDate = await OfferExpiersDate.findOneAndUpdate({
       _id: "6749a95236103ef09864c6f9",
