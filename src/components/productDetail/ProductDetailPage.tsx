@@ -3,9 +3,15 @@ import { SizeForm } from "./SizeForm";
 import { fetchProduct } from "@/lib/actions/product";
 import EmblaCarousel from "../swiper/EmblaCarousel";
 import { notFound } from "next/navigation";
+import { isValidObjectId } from "@/lib/utils";
 
 const ProductDetailPage = async ({ params }: { params: { id: string } }) => {
-  const prodId = params.id.slice(12, params.id.length);
+  const prodId = params.id;
+
+  if (!isValidObjectId(prodId)) {
+    return notFound();
+  }
+
   const OPTIONS = {};
   const product = await fetchProduct(prodId);
 

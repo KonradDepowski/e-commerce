@@ -17,6 +17,7 @@ import { useParams } from "next/navigation";
 import { fetchProduct } from "@/lib/actions/product";
 import { useContext } from "react";
 import { CartContext } from "@/lib/store/CartContext";
+import { isValidObjectId } from "@/lib/utils";
 
 const FormSchema = z.object({
   type: z.enum(["6.5", "7", "7.5", "8", "8.5", "9", "9.5", "10"], {
@@ -32,9 +33,13 @@ export function SizeForm() {
   const params = useParams();
   const cartCtx = useContext(CartContext);
 
-  const prodId = params.id.slice(12, params.id.length) as string;
+  const prodId = params.id as string;
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    if (!isValidObjectId(prodId)) {
+      return;
+    }
+
     const product = await fetchProduct(prodId as string);
 
     let price = product.price;

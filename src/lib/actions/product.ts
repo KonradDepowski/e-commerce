@@ -10,6 +10,7 @@ import {
   productSchemaType,
 } from "../types/types";
 import OfferExpiersDate from "../models/db/OfferExpiersDate";
+import { isValidObjectId } from "../utils";
 
 export const fetchAllProducts = async () => {
   try {
@@ -78,14 +79,16 @@ export const fetchHighLigthsProducts = unstable_cache(
 
 export const fetchProduct = async (id: string) => {
   try {
+    if (!isValidObjectId(id)) {
+      throw new Error("Invalid product id");
+    }
+
     const dbConnection = await connectToDatabase();
 
     if (!dbConnection) {
       throw new Error("Failed to connect to the database.");
     }
-    const product = await Product.findOne({
-      _id: id,
-    }).lean<productSchemaType>();
+    const product = await Product.findById(id).lean<productSchemaType>();
     if (!product) {
       throw new Error("Could not fetch product");
     }
