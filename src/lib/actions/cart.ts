@@ -3,7 +3,11 @@
 import { connectToDatabase } from "../database";
 import Discount from "../models/db/Discount";
 import User from "../models/db/User";
-import { CartItemProps, discountSchemaType, userSchemaType } from "../types/types";
+import {
+  CartItemProps,
+  discountSchemaType,
+  userSchemaType,
+} from "../types/types";
 
 export const updateUserCart = async (id: string, cart: CartItemProps[]) => {
   try {
@@ -15,7 +19,7 @@ export const updateUserCart = async (id: string, cart: CartItemProps[]) => {
 
     const newUser: userSchemaType | null = await User.findOneAndUpdate(
       { clerkId: id },
-      { userCart: cart }
+      { userCart: cart },
     );
     if (!newUser) {
       throw new Error("Colud not update user data");
@@ -42,7 +46,7 @@ export const fetchUserCart = async (id: string) => {
     if (!user) {
       throw new Error("Could not fetch user cart");
     }
-    return user.userCart as CartItemProps[];
+    return JSON.parse(JSON.stringify(user.userCart as CartItemProps[]));
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);
@@ -59,10 +63,17 @@ export const findDiscountCode = async (codeT: string) => {
     if (!dbConnection) {
       throw new Error("Failed to connect to the database");
     }
-    const discount: discountSchemaType | null = await Discount.findOne({
-      code: codeT,
-    });
-    return discount;
+    const normalizedCode = (codeT || "").trim();
+    if (!normalizedCode) return null;
+
+    const escaped = normalizedCode.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const discount = await Discount.findOne({
+      code: { $regex: new RegExp(`^${escaped}$`, "i") },
+    }).lean();
+
+    return discount
+      ? (JSON.parse(JSON.stringify(discount)) as discountSchemaType)
+      : null;
   } catch (error: unknown) {
     if (typeof error === "object" && error !== null && "message" in error) {
       throw new Error(` ${error.message}`);

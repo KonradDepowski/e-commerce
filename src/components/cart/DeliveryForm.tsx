@@ -26,13 +26,13 @@ const DeliveryForm = ({
   cartItemsIds,
   userId,
   buyerAvatar,
-  discount,
+  discount = "",
 }: {
   totalAmount: number;
   cartItemsIds: CartItemsIds[];
   userId: string;
   buyerAvatar: string;
-  discount: string;
+  discount?: string;
 }) => {
   const {
     handleSubmit,
@@ -50,7 +50,7 @@ const DeliveryForm = ({
       buyerAvatar,
       totalAmount,
       deliveryData: data,
-      discount,
+      discount: (discount || "").toString(),
     };
 
     checkoutOrder(order);

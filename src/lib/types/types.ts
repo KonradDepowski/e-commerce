@@ -101,7 +101,7 @@ export type FilterProps = {
 
 export type discountSchemaType = {
   code: string;
-  amount: string;
+  amount: number;
 };
 
 //USER

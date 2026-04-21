@@ -18,11 +18,12 @@ const CartPage = () => {
   const cartCtx = useContext(CartContext);
   const [cartItems, setCartItems] = useState<CartItemProps[]>([]);
   const [discountCode, setDiscountCode] = useState<string>("");
-  const [discountAmount, setDiscountAmount] = useState<string | undefined>(
-    undefined
+  const [discountAmount, setDiscountAmount] = useState<number | undefined>(
+    undefined,
   );
   const [bonusMode, setBonusMode] = useState<boolean>(false);
-  const [bonusAmount, setBonusAmount] = useState<number>(0);
+  const [bonusAmount, setBonusAmount] = useState<number | undefined>(undefined);
+  const [discountError, setDiscountError] = useState<string | null>(null);
   const [totalAmount, setTotalAmount] = useState<number | undefined>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -39,9 +40,12 @@ const CartPage = () => {
 
     const storedTotalAmount = localStorage.getItem("totalAmount");
     if (storedTotalAmount) {
-      setTotalAmount(JSON.parse(storedTotalAmount));
+      const parsed = JSON.parse(storedTotalAmount);
+      setTotalAmount(parsed);
+      setBonusAmount(parsed);
     } else {
       setTotalAmount(cartCtx?.totalAmount);
+      setBonusAmount(cartCtx?.totalAmount);
     }
     setIsLoading(false);
   }, [cartCtx, userId]);
@@ -58,7 +62,7 @@ const CartPage = () => {
         if (cart) {
           cartCtx?.mergeCart(
             [...cart],
-            JSON.parse(localStorage.getItem("cart")!) || []
+            JSON.parse(localStorage.getItem("cart")!) || [],
           );
         }
         setIsLoading(false);
@@ -69,24 +73,40 @@ const CartPage = () => {
   }, [userId]);
 
   const checkDiscountCodeHandler = async () => {
-    setBonusMode((prev) => !prev);
-    setBonusAmount(totalAmount!);
-    if (!bonusMode) {
-      const discount = await findDiscountCode(discountCode);
-      if (discount) {
-        const amount = discount.amount;
-        setDiscountAmount(amount);
-        const totalAmountAfterDisc =
-          totalAmount! - (totalAmount! * +amount) / 100;
-        setTotalAmount(totalAmountAfterDisc);
-      } else {
-        toast.error("Code not found");
-      }
-    } else {
-      setDiscountCode("");
-      setTotalAmount(bonusAmount);
-      setDiscountAmount(undefined);
+    setDiscountError(null);
+
+    if (!totalAmount && totalAmount !== 0) {
+      toast.error("Total amount not ready yet");
+      return;
     }
+
+    if (bonusMode) {
+      setBonusMode(false);
+      setDiscountCode("");
+      setDiscountAmount(undefined);
+      setTotalAmount(bonusAmount ?? totalAmount);
+      return;
+    }
+
+    const normalizedCode = discountCode.trim().toUpperCase();
+    if (!normalizedCode) {
+      setDiscountError("Enter a code");
+      return;
+    }
+
+    setBonusAmount(totalAmount);
+    const discount = await findDiscountCode(normalizedCode);
+    if (!discount) {
+      setDiscountError("Code not found!");
+      toast.error("Code not found");
+      return;
+    }
+
+    const amount = discount.amount;
+    setDiscountAmount(amount);
+    const totalAmountAfterDisc = totalAmount - (totalAmount * amount) / 100;
+    setTotalAmount(totalAmountAfterDisc);
+    setBonusMode(true);
   };
 
   const cartItemsIds: CartItemsIds[] = [];
@@ -96,7 +116,7 @@ const CartPage = () => {
       size: it.size,
       quantity: it.quantity!,
       price: it.price,
-    })
+    }),
   );
 
   return (
@@ -165,19 +185,21 @@ const CartPage = () => {
                 {bonusMode ? "Remove" : "Add"}
               </Button>
             </div>
-            {bonusMode && discountCode == "" && (
+            {discountError && (
               <p className="text-[var(--error)] font-bold text-md  p-3">
-                Code not found!
+                {discountError}
               </p>
             )}
-            {discountAmount && (
+            {discountAmount !== undefined && (
               <p className="font-bold text-md text-[var(--purple)] py-3">
                 Current Code: {discountAmount}%
               </p>
             )}
           </form>
           <DeliveryForm
-            discount={discountAmount!}
+            discount={
+              discountAmount !== undefined ? String(discountAmount) : ""
+            }
             buyerAvatar={user?.imageUrl!}
             totalAmount={totalAmount!}
             cartItemsIds={cartItemsIds!}
